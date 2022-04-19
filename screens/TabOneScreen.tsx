@@ -31,10 +31,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
   },
-  headerAppended: {
-    position: "absolute",
-    top: 0,
-  },
   box: {
     flex: 1,
     alignItems: "center",

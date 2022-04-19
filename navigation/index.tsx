@@ -88,25 +88,10 @@ function BottomTabNavigator() {
         },
         tabBarActiveTintColor: Colors[colorScheme].tint,
         tabBarInactiveTintColor: Colors[colorScheme].tabIconInactive,
-        headerStatusBarHeight: 35,
-        headerBackground: () => {
-          return (
-            <WavyHeader
-              customStyles={{
-                position: "absolute",
-                width: Dimensions.get("window").width,
-              }}
-              customHeight={60}
-              customTop={22}
-              customBgColor={Colors[colorScheme].header}
-              customWavePattern="M0,192L80,186.7C160,181,320,171,480,186.7C640,203,800,245,960,240C1120,235,1280,181,1360,154.7L1440,128L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"
-            />
-          );
-        },
         headerStyle: {
-          height: 60,
           backgroundColor: Colors[colorScheme].header,
         },
+        headerTitleAlign: "center",
       }}
     >
       <BottomTab.Screen
@@ -114,14 +99,12 @@ function BottomTabNavigator() {
         component={TabOneScreen}
         options={({ navigation }: RootTabScreenProps<"TabOne">) => ({
           headerTitleStyle: {
-            fontFamily: "Inter",
             fontWeight: "600",
             fontStyle: "normal",
             fontSize: 30,
             color: Colors[colorScheme].text2,
-            position: "absolute",
-            top: 0,
-            left: -27,
+            display: "flex",
+            justifyContent: "center",
           },
           title: "frigo",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
