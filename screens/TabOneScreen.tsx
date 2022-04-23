@@ -1,4 +1,7 @@
-import { StyleSheet } from "react-native";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import React from "react";
+import { Pressable, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
@@ -11,17 +14,11 @@ export default function TabOneScreen({
 }: RootTabScreenProps<"TabOne">) {
   const colorScheme = useColorScheme();
   return (
-    <View style={styles.container}>
-      <View
-        style={[
-          styles.box,
-          { backgroundColor: Colors[colorScheme].background2 },
-        ]}
-      >
-        <Text style={styles.title}>Tab One</Text>
-        <View style={styles.separator} lightColor="#000" darkColor="#000" />
-      </View>
-    </View>
+    <SafeAreaView style ={{flex: 1, flexDirection: 'column-reverse'}}>
+      <Pressable style = {{alignSelf: 'flex-end', paddingBottom: 10, paddingRight: 10}} onPress = {() => navigation.navigate("AddModal")}>
+        <Ionicons name="add-circle" size={40} color="#5000ca"/>
+      </Pressable>
+    </SafeAreaView>
   );
 }
 
