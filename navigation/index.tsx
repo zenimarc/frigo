@@ -39,7 +39,6 @@ export default function Navigation({
   );
 }
 
-
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
@@ -56,7 +55,11 @@ function RootNavigator() {
         options={{ title: "Oops!" }}
       />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
-        <Stack.Screen name="Modal" component={ModalScreen} options={{title: "Add food"}} />
+        <Stack.Screen
+          name="addFoodModal"
+          component={ModalScreen}
+          options={{ title: "Add food" }}
+        />
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -98,7 +101,7 @@ function BottomTabNavigator() {
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
             <Pressable
-              onPress={() => navigation.navigate("Modal")}
+              onPress={() => navigation.navigate("addFoodModal")}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}
