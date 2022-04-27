@@ -9,16 +9,13 @@ import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import { RootTabScreenProps } from "../types";
 
-export default function TabOneScreen({
-  navigation,
-}: RootTabScreenProps<"TabOne">) {
+export default function TabOneScreen({ navigation }: RootTabScreenProps<"TabOne">) {
   const colorScheme = useColorScheme();
   return (
     <SafeAreaView style={{ flex: 1, flexDirection: "column-reverse" }}>
       <Pressable
         style={{ alignSelf: "flex-end", paddingBottom: 10, paddingRight: 10 }}
-        onPress={() => navigation.navigate("addFoodModal")}
-      >
+        onPress={() => navigation.navigate("addFoodModal")}>
         <Ionicons name="add-circle" size={40} color="#5000ca" />
       </Pressable>
     </SafeAreaView>
