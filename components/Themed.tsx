@@ -3,7 +3,8 @@
  * https://docs.expo.io/guides/color-schemes/
  */
 
-import { Text as DefaultText, View as DefaultView } from "react-native";
+import { Text as DefaultText, View as DefaultView, Pressable, PressableProps } from "react-native";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
@@ -42,4 +43,16 @@ export function View(props: ViewProps) {
   const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, "background");
 
   return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
+}
+
+export type AddButtonProps = ThemeProps & PressableProps & { size: number };
+export function AddButton(props: AddButtonProps) {
+  const { size, style, lightColor, darkColor, ...otherProps } = props;
+  const theme = useColorScheme();
+
+  return (
+    <Pressable style={style} {...otherProps}>
+      <Ionicons name="add-circle" size={size} color={Colors[theme].tint} />
+    </Pressable>
+  );
 }

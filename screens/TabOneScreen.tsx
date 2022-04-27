@@ -4,7 +4,7 @@ import { Pressable, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import EditScreenInfo from "../components/EditScreenInfo";
-import { Text, View } from "../components/Themed";
+import { AddButton, Text, View } from "../components/Themed";
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import { RootTabScreenProps } from "../types";
@@ -13,9 +13,11 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<"TabOne"
   const colorScheme = useColorScheme();
   return (
     <SafeAreaView style={{ flex: 1, flexDirection: "column-reverse" }}>
-      <Pressable style={styles.buttonAdd} onPress={() => navigation.navigate("addFoodModal")}>
-        <Ionicons name="add-circle" size={80} color="#5000ca" />
-      </Pressable>
+      <AddButton
+        size={80}
+        style={styles.buttonAdd}
+        onPress={() => navigation.navigate("addFoodModal")}
+      />
     </SafeAreaView>
   );
 }
