@@ -13,10 +13,8 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<"TabOne"
   const colorScheme = useColorScheme();
   return (
     <SafeAreaView style={{ flex: 1, flexDirection: "column-reverse" }}>
-      <Pressable
-        style={{ alignSelf: "flex-end", paddingBottom: 10, paddingRight: 10 }}
-        onPress={() => navigation.navigate("addFoodModal")}>
-        <Ionicons name="add-circle" size={40} color="#5000ca" />
+      <Pressable style={styles.buttonAdd} onPress={() => navigation.navigate("addFoodModal")}>
+        <Ionicons name="add-circle" size={80} color="#5000ca" />
       </Pressable>
     </SafeAreaView>
   );
@@ -44,5 +42,10 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     height: 1,
     width: "80%",
+  },
+  buttonAdd: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
   },
 });
