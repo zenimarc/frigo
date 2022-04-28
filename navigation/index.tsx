@@ -58,7 +58,7 @@ function RootNavigator() {
         <Stack.Screen
           name="addFoodModal"
           component={ModalScreen}
-          options={{ title: "Add food" }}
+          options={{title: "Add Food"}}
         />
       </Stack.Group>
     </Stack.Navigator>
