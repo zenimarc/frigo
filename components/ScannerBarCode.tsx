@@ -31,8 +31,8 @@ export default function ScannerBarCode() {
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
-      {scanned && <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />}
       <BarCodeOverlay />
+      {scanned && <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />}
     </View>
   );
 }
