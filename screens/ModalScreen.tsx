@@ -13,13 +13,23 @@ import {
   StyleSheet,
   TextStyle,
   TouchableOpacity,
+  View,
+  Text,
 } from "react-native";
 
 import EditScreenInfo from "../components/EditScreenInfo";
-import { View, Text } from "react-native";
+import ScannerBarCode from "../components/ScannerBarCode";
 import useColorScheme from "../hooks/useColorScheme";
 
 export default function ModalScreen(theme: Theme) {
+  // Per un utilizzo più immediato farei partire direttamente la scansione con in overlay le interazioni
+  // come per esempio, il bottone per inserire manualmente il prodotto
+  // modifichiamo direttamente tutto dentro nel ScannerBarCode component
+  // (Ho spostato tutto il codice precendete in ModalContent qui sotto per riutilizzare eventualmente.)
+  return <ScannerBarCode />;
+}
+
+const ModalContnet = (theme: Theme) => {
   const chosenStyle = theme !== DarkTheme ? stylesLight : stylesDark;
   return (
     <SafeAreaView style={chosenStyle.container}>
@@ -36,7 +46,7 @@ export default function ModalScreen(theme: Theme) {
       </View>
     </SafeAreaView>
   );
-}
+};
 
 const Form = () => {
   const colorScheme = useColorScheme();
