@@ -1,8 +1,5 @@
-import { DarkTheme, Theme } from "@react-navigation/native";
-import { setStatusBarBackgroundColor, StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 import {
   Button,
   Falsy,
@@ -47,10 +44,19 @@ export default function ModalScreen() {
 const Form = () => {
   const colorScheme = useColorScheme();
   const chosenStyle = colorScheme === "light" ? stylesLight : stylesDark;
-  const [name, setName] = React.useState<string | undefined>();
-  const [quantity, setQuantity] = React.useState<string | undefined>();
-  const [date, setDate] = React.useState(new Date(Date.now()));
-  const [showPicker, setShowPicker] = React.useState(false);
+  const [name, setName] = useState<string | undefined>();
+  const [quantity, setQuantity] = useState<string | undefined>();
+  const [date, setDate] = useState<Date>(new Date(Date.now()));
+  const [showPicker, setShowPicker] = useState(false);
+  const [mode, setMode] = useState("date");
+
+ const showMode = () => {setShowPicker(true); setMode("date");};
+ const onChange = (event, selectedDate) => {
+   const currentDate = selectedDate || date;
+   setShowPicker(false);
+   setDate(currentDate);
+ }
+
   return (
     <View>
       <Text style={chosenStyle.rectangleText}>Name of food</Text>
@@ -81,22 +87,25 @@ const Form = () => {
         <View style={{ flexDirection: "row", flex: 4}}>
           <Text style={chosenStyle.text}>Exp. Date</Text>
           
-          <Pressable style={chosenStyle.pickerButton} onPress={() => setShowPicker(true)}>
+          <Pressable style={chosenStyle.pickerButton} onPress={() => showMode()}>
             <Text style={chosenStyle.buttonText}>{date.toLocaleDateString("en-US", {year: "numeric", month: "short"})}</Text>
           </Pressable>
-          <DateTimePickerModal
-            isVisible={showPicker}
-            mode="date"
-            onConfirm={(value) => {setDate(value)}}
-            onCancel={() => setShowPicker(false)}  
-          />
+          {showPicker && 
+            <DateTimePicker
+              style={{width: "100%", height: "100%"}} 
+              value={date}
+              onChange={onChange} 
+              display="default"
+              minimumDate={new Date(Date.now())}
+              />
+          }
         </View>
       </View>
       
-      <Pressable onPress={() => {}} style={chosenStyle.submitButton}>
+      {/*<Pressable onPress={() => {}} style={chosenStyle.submitButton}>
         <Text style={chosenStyle.buttonText}>Submit</Text>
       </Pressable>
-    
+      */}
     </View>
   );
 };
