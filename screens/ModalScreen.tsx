@@ -27,19 +27,19 @@ export default function ModalScreen() {
   const colorScheme = useColorScheme();
   const chosenStyle = colorScheme === "light" ? stylesLight : stylesDark;
   return (
-    <SafeAreaView style={chosenStyle.container}>
+    <View style={chosenStyle.container}>
       <View style={chosenStyle.container2}>
-        <SafeAreaView style={chosenStyle.container3}>
+        <View style={chosenStyle.container3}>
           <Text style={chosenStyle.text}>Scan the barcode or insert your food data below</Text>
           <Pressable onPress={() => {}} style={chosenStyle.button}>
             <Text style={chosenStyle.buttonText}>Scan</Text>
           </Pressable>
-        </SafeAreaView>
+        </View>
       </View>
       <View style={chosenStyle.rectangle1}>
         <Form />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -48,7 +48,7 @@ const Form = () => {
   const chosenStyle = colorScheme === "light" ? stylesLight : stylesDark;
   const [name, setName] = React.useState<string | undefined>();
   const [quantity, setQuantity] = React.useState<string | undefined>();
-  const [date, setDate] = React.useState(new Date());
+  const [date, setDate] = React.useState<Date>(new Date());
   return (
     <View>
       <Text style={chosenStyle.rectangleText}>Name of food</Text>
@@ -72,12 +72,19 @@ const Form = () => {
             placeholder="0"
             value={quantity}
             onChangeText={(n) => setQuantity(n)}
-            keyboardType="number-pad"></TextInput>
+            keyboardType="number-pad"
+          />
         </View>
         <View style={{ flex: 1 }} />
-        <View style={{ flexDirection: "row", flex: 1 }}>
+        <View style={{ flexDirection: "column", flex: 1 }}>
           <Text style={chosenStyle.text}>Exp. Date</Text>
-          <DateTimePicker value={date} onChange={(d) => setDate(d)} />
+          <DateTimePicker
+            themeVariant={colorScheme}
+            value={date}
+            onChange={(event: any, date: any) => {
+              if (date) setDate(date);
+            }}
+          />
         </View>
       </View>
     </View>
