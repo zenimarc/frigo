@@ -2,6 +2,7 @@ import { DarkTheme, Theme } from "@react-navigation/native";
 import { setStatusBarBackgroundColor, StatusBar } from "expo-status-bar";
 import React from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import {
   Button,
   Falsy,
@@ -48,7 +49,8 @@ const Form = () => {
   const chosenStyle = colorScheme === "light" ? stylesLight : stylesDark;
   const [name, setName] = React.useState<string | undefined>();
   const [quantity, setQuantity] = React.useState<string | undefined>();
-  const [date, setDate] = React.useState<Date>(new Date());
+  const [date, setDate] = React.useState(new Date(Date.now()));
+  const [showPicker, setShowPicker] = React.useState(false);
   return (
     <View>
       <Text style={chosenStyle.rectangleText}>Name of food</Text>
@@ -65,7 +67,7 @@ const Form = () => {
           marginTop: 20,
           marginHorizontal: 5,
         }}>
-        <View style={{ flexDirection: "row", flex: 1 }}>
+        <View style={{ flexDirection: "row", flex: 2}}>
           <Text style={chosenStyle.text}>Quantity</Text>
           <TextInput
             style={chosenStyle.textInput2}
@@ -75,18 +77,26 @@ const Form = () => {
             keyboardType="number-pad"
           />
         </View>
-        <View style={{ flex: 1 }} />
-        <View style={{ flexDirection: "column", flex: 1 }}>
+        <View style={{flexDirection: "row", flex: 1}}/>
+        <View style={{ flexDirection: "row", flex: 4}}>
           <Text style={chosenStyle.text}>Exp. Date</Text>
-          <DateTimePicker
-            themeVariant={colorScheme}
-            value={date}
-            onChange={(event: any, date: any) => {
-              if (date) setDate(date);
-            }}
+          
+          <Pressable style={chosenStyle.pickerButton} onPress={() => setShowPicker(true)}>
+            <Text style={chosenStyle.buttonText}>{date.toLocaleDateString("en-US", {year: "numeric", month: "short"})}</Text>
+          </Pressable>
+          <DateTimePickerModal
+            isVisible={showPicker}
+            mode="date"
+            onConfirm={(value) => {setDate(value)}}
+            onCancel={() => setShowPicker(false)}  
           />
         </View>
       </View>
+      
+      <Pressable onPress={() => {}} style={chosenStyle.submitButton}>
+        <Text style={chosenStyle.buttonText}>Submit</Text>
+      </Pressable>
+    
     </View>
   );
 };
@@ -132,6 +142,9 @@ const stylesLight = StyleSheet.create({
     borderRadius: 5,
     marginHorizontal: 5,
     backgroundColor: "#eee",
+    width: 50,
+    maxWidth: 100,
+    textAlign: "center"
   },
   rectangle1: {
     backgroundColor: "#fff",
@@ -155,6 +168,16 @@ const stylesLight = StyleSheet.create({
     color: "#fff",
     fontSize: 12,
   },
+  pickerButton:{
+
+  },
+  datePicker: {
+    width: 320,
+    height: 260,
+  },
+  submitButton: {
+
+  }
 });
 
 const stylesDark = StyleSheet.create({
@@ -200,7 +223,9 @@ const stylesDark = StyleSheet.create({
     borderRadius: 5,
     marginHorizontal: 5,
     backgroundColor: "#111",
-    flex: 1,
+    width: 50,
+    maxWidth: 100,
+    textAlign: "center"
   },
   rectangle1: {
     backgroundColor: "#000",
@@ -224,4 +249,26 @@ const stylesDark = StyleSheet.create({
     color: "#fff",
     fontSize: 12,
   },
+  pickerButton:{
+    marginHorizontal: 5,
+    flexDirection: "row-reverse",
+    backgroundColor: "#555",
+    borderRadius: 2,
+    justifyContent: "center",
+    alignSelf: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  datePicker: {
+    width: 320,
+    height: 260,
+  },
+  submitButton: {
+    alignSelf: "flex-end",
+    backgroundColor: "#007AFF",
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 2,
+    marginRight: 10
+  }
 });
