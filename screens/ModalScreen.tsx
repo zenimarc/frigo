@@ -54,56 +54,68 @@ const Form = () => {
   };
 
   return (
-    <View>
-      <Text style={chosenStyle.rectangleText}>Name of food</Text>
-      <TextInput
-        style={chosenStyle.textInput}
-        placeholder="Insert name"
-        value={name}
-        onChangeText={(text) => setName(text)}
-      />
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          marginTop: 20,
-          marginHorizontal: 5,
-        }}>
-        <View style={{ flexDirection: "row", flex: 2 }}>
-          <Text style={chosenStyle.text}>Quantity</Text>
-          <TextInput
-            style={chosenStyle.textInput2}
-            placeholder="0"
-            value={quantity}
-            onChangeText={(n) => setQuantity(n)}
-            keyboardType="number-pad"
-          />
-        </View>
-        <View style={{ flexDirection: "row", flex: 1 }} />
-        <View style={{ flexDirection: "row", flex: 4 }}>
-          <Text style={chosenStyle.text}>Exp. Date</Text>
-
-          <Pressable style={chosenStyle.pickerButton} onPress={() => showMode()}>
-            <Text style={chosenStyle.buttonText}>
-              {date.toLocaleDateString("en-US", { year: "numeric", month: "short" })}
-            </Text>
+    <View style={chosenStyle.container}>
+      <View style={chosenStyle.container2}>
+        <View style={chosenStyle.container3}>
+          <Text style={chosenStyle.text}>Scan the barcode or insert your food data below</Text>
+          <Pressable onPress={() => {}} style={chosenStyle.button}>
+            <Text style={chosenStyle.buttonText}>Scan</Text>
           </Pressable>
-          {showPicker && (
-            <DateTimePicker
-              style={{ width: "100%", height: "100%" }}
-              value={date}
-              onChange={onChange}
-              display="default"
-              minimumDate={new Date(Date.now())}
-            />
-          )}
         </View>
       </View>
+      <View style={chosenStyle.rectangle1}>
+        <View>
+          <Text style={chosenStyle.rectangleText}>Name of food</Text>
+          <TextInput
+            style={chosenStyle.textInput}
+            placeholder="Insert name"
+            value={name}
+            onChangeText={(text) => setName(text)}
+          />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginTop: 20,
+              marginHorizontal: 5,
+            }}>
+            <View style={{ flexDirection: "row", flex: 2 }}>
+              <Text style={chosenStyle.text}>Quantity</Text>
+              <TextInput
+                style={chosenStyle.textInput2}
+                placeholder="0"
+                value={quantity}
+                onChangeText={(n) => setQuantity(n)}
+                keyboardType="number-pad"
+              />
+            </View>
+            <View style={{ flexDirection: "row", flex: 1 }} />
+            <View style={{ flexDirection: "row", flex: 4 }}>
+              <Text style={chosenStyle.text}>Exp. Date</Text>
+              {/* TODO: still don't work on iOS, i'll check it later */}
+              <Pressable style={chosenStyle.pickerButton} onPress={() => showMode()}>
+                <Text style={chosenStyle.buttonText}>
+                  {date.toLocaleDateString("en-US", { year: "numeric", month: "short" })}
+                </Text>
+              </Pressable>
+              {showPicker && (
+                <DateTimePicker
+                  style={{ width: "100%", height: "100%" }}
+                  value={date}
+                  onChange={onChange}
+                  display="default"
+                  minimumDate={new Date(Date.now())}
+                />
+              )}
+            </View>
+          </View>
 
-      {/*<Pressable onPress={() => {}} style={chosenStyle.submitButton}>
+          {/*<Pressable onPress={() => {}} style={chosenStyle.submitButton}>
         <Text style={chosenStyle.buttonText}>Submit</Text>
       </Pressable>
       */}
+        </View>
+      </View>
     </View>
   );
 };
