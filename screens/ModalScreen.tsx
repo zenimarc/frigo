@@ -57,10 +57,14 @@ const Form = () => {
     <View style={chosenStyle.container}>
       <View style={chosenStyle.container2}>
         <View style={chosenStyle.container3}>
-          <Text style={chosenStyle.text}>Scan the barcode or insert your food data below</Text>
-          <Pressable onPress={() => {}} style={chosenStyle.button}>
-            <Text style={chosenStyle.buttonText}>Scan</Text>
-          </Pressable>
+          <View style={{flex: 2}}>
+            <Text style={chosenStyle.text}>Scan the barcode or insert your food data below</Text>
+          </View>
+          <View style={{flex: 1}}>
+            <Pressable onPress={() => {}} style={chosenStyle.button}>
+              <Text style={chosenStyle.buttonText}>Scan</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
       <View style={chosenStyle.rectangle1}>
@@ -69,32 +73,34 @@ const Form = () => {
           <TextInput
             style={chosenStyle.textInput}
             placeholder="Insert name"
+            placeholderTextColor={"#aaa"}
             value={name}
             onChangeText={(text) => setName(text)}
           />
           <View
             style={{
               flexDirection: "row",
-              justifyContent: "space-between",
+              justifyContent: "space-evenly",
               marginTop: 20,
               marginHorizontal: 5,
             }}>
-            <View style={{ flexDirection: "row", flex: 2 }}>
+            <View style={{ flexDirection: "row"}}>
               <Text style={chosenStyle.text}>Quantity</Text>
               <TextInput
                 style={chosenStyle.textInput2}
                 placeholder="0"
+                placeholderTextColor={"#aaa"}
                 value={quantity}
                 onChangeText={(n) => setQuantity(n)}
                 keyboardType="number-pad"
               />
             </View>
-            <View style={{ flexDirection: "row", flex: 1 }} />
-            <View style={{ flexDirection: "row", flex: 4 }}>
+            {/*<View style={{ flexDirection: "row", flex: 1 }} />*/}
+            <View style={{ flexDirection: "row"}}>
               <Text style={chosenStyle.text}>Exp. Date</Text>
               {/* TODO: still don't work on iOS, i'll check it later */}
               <Pressable style={chosenStyle.pickerButton} onPress={() => showMode()}>
-                <Text style={chosenStyle.buttonText}>
+                <Text style={chosenStyle.pickerButtonText}>
                   {date.toLocaleDateString("en-US", { year: "numeric", month: "short" })}
                 </Text>
               </Pressable>
@@ -109,11 +115,12 @@ const Form = () => {
               )}
             </View>
           </View>
+        </View>
 
-          {/*<Pressable onPress={() => {}} style={chosenStyle.submitButton}>
-        <Text style={chosenStyle.buttonText}>Submit</Text>
-      </Pressable>
-      */}
+        <View style={{flex: 1, justifyContent: "flex-end", marginBottom: 10, marginHorizontal: 10}}>
+          <Pressable onPress={() => {}} style={chosenStyle.submitButton}>
+            <Text style={chosenStyle.buttonText}>Submit</Text>
+          </Pressable>
         </View>
       </View>
     </View>
@@ -133,7 +140,6 @@ const stylesLight = StyleSheet.create({
   },
   container3: {
     flexDirection: "row",
-    justifyContent: "space-between",
   },
   text: {
     fontSize: 16,
@@ -156,7 +162,7 @@ const stylesLight = StyleSheet.create({
   },
   textInput2: {
     fontSize: 16,
-    color: "#000",
+    color: "#fff",
     borderColor: "#111",
     borderRadius: 5,
     marginHorizontal: 5,
@@ -180,12 +186,17 @@ const stylesLight = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: 5,
     paddingHorizontal: 10,
-    borderRadius: 2,
+    borderRadius: 10,
     marginLeft: 30,
   },
   buttonText: {
     color: "#fff",
     fontSize: 12,
+  },
+  pickerButtonText: {
+    color: "#000",
+    fontSize: 14,
+    paddingVertical: 1,
   },
   pickerButton: {},
   datePicker: {
@@ -208,7 +219,7 @@ const stylesDark = StyleSheet.create({
   },
   container3: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    alignItems: "center"
   },
   text: {
     fontSize: 16,
@@ -232,13 +243,13 @@ const stylesDark = StyleSheet.create({
     backgroundColor: "#111",
   },
   textInput2: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#aaa",
     borderColor: "#fff",
     borderRadius: 5,
     marginHorizontal: 5,
-    backgroundColor: "#111",
-    width: 50,
+    backgroundColor: "#333",
+    paddingHorizontal: 15,
     maxWidth: 100,
     textAlign: "center",
   },
@@ -251,24 +262,28 @@ const stylesDark = StyleSheet.create({
     borderRadius: 5,
   },
   button: {
-    flexDirection: "row-reverse",
     backgroundColor: "#007AFF",
-    alignSelf: "center",
+    alignItems: "center",
     justifyContent: "center",
     paddingVertical: 5,
     paddingHorizontal: 10,
-    borderRadius: 2,
-    marginLeft: 30,
+    borderRadius: 15,
   },
   buttonText: {
     color: "#fff",
-    fontSize: 12,
+    fontSize: 14,
+    //paddingVertical: 2
+  },
+  pickerButtonText: {
+    color: "#fff",
+    fontSize: 14,
+    paddingVertical: 2,
   },
   pickerButton: {
     marginHorizontal: 5,
     flexDirection: "row-reverse",
-    backgroundColor: "#555",
-    borderRadius: 2,
+    backgroundColor: "#333",
+    borderRadius: 5,
     justifyContent: "center",
     alignSelf: "center",
     paddingHorizontal: 10,
@@ -279,11 +294,12 @@ const stylesDark = StyleSheet.create({
     height: 260,
   },
   submitButton: {
-    alignSelf: "flex-end",
+    height: "8%",
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "#007AFF",
     paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 2,
-    marginRight: 10,
+    borderRadius: 20,
+    paddingHorizontal: 10
   },
 });
