@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
+import { Text, View, StyleSheet, Button, Pressable } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
+import useColorScheme from "../hooks/useColorScheme";
+import { ColorfulText, View as ThemedView, Text as ThemedText } from "./Themed";
+import { mainColor1, mainColor2 } from "../constants/Colors";
 
-export default function ScannerBarCode() {
+export default function ScannerBarCode({
+  onSuccess,
+  onFail,
+}: {
+  onSuccess: Function;
+  onFail: Function;
+}) {
   const [hasPermission, setHasPermission] = useState<null | boolean>(null);
   const [scanned, setScanned] = useState(false);
 
@@ -33,6 +42,18 @@ export default function ScannerBarCode() {
       />
       <BarCodeOverlay />
       {scanned && <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />}
+      {!scanned && (
+        <View style={styles.manualDataButton}>
+          <Pressable onPress={() => onFail()}>
+            <ThemedView
+              lightColor={mainColor1}
+              darkColor={mainColor2}
+              style={{ padding: 15, borderRadius: 15 }}>
+              <ColorfulText>Insert data manually</ColorfulText>
+            </ThemedView>
+          </Pressable>
+        </View>
+      )}
     </View>
   );
 }
@@ -75,5 +96,11 @@ const styles = StyleSheet.create({
   },
   focusedContainer: {
     flex: 6,
+  },
+  manualDataButton: {
+    flex: 1,
+    flexDirection: "column-reverse",
+    alignItems: "center",
+    marginBottom: 100,
   },
 });

@@ -1,28 +1,33 @@
-const tintColorLight = "#5000ca";
+export const mainColor2 = "#5000ca";
 const tintColorDark = "#fff";
+export const mainColor1 = "#FFC90B";
 
 const themes = {
   light: {
     text: "#000",
     text2: "#fff",
-    background: "#FFC90B",
+    textColorful: "#000",
+    colorful: mainColor1,
+    background: mainColor1,
     background2: "#fff",
-    tint: tintColorLight,
+    tint: mainColor2,
     tabIconDefault: "#ccc",
-    tabIconSelected: tintColorLight,
+    tabIconSelected: mainColor2,
     tabIconInactive: "grey",
-    header: "#5000ca",
+    header: mainColor2,
   },
   dark: {
     text: "#000",
     text2: "#fff",
+    textColorful: "#fff",
+    colorful: mainColor2,
     background: "#000",
     background2: "#fff",
     tint: tintColorDark,
     tabIconDefault: "#ccc",
     tabIconSelected: tintColorDark,
     tabIconInactive: "grey",
-    header: "#5000ca",
+    header: mainColor2,
   },
 };
 
