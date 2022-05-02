@@ -1,4 +1,4 @@
-export const mainColor2 = "#5000ca";
+export const mainColor2 = "#007AFF";
 const tintColorDark = "#fff";
 export const mainColor1 = "#FFC90B";
 
@@ -27,7 +27,7 @@ const themes = {
     tabIconDefault: "#ccc",
     tabIconSelected: tintColorDark,
     tabIconInactive: "grey",
-    header: mainColor2,
+    header: "#5000ca",
   },
 };
 

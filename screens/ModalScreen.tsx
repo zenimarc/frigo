@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import {
   Button,
@@ -15,8 +15,10 @@ import {
   TouchableOpacity,
   View,
   Text,
+  Alert,
 } from "react-native";
 
+import  AsyncStorage from "@react-native-async-storage/async-storage"
 import EditScreenInfo from "../components/EditScreenInfo";
 import ScannerBarCode from "../components/ScannerBarCode";
 import useColorScheme from "../hooks/useColorScheme";
@@ -29,12 +31,12 @@ export default function ModalScreen({ navigation }: RootTabScreenProps<"TabOne">
   return (
     <>
       {showScanner && <ScannerBarCode onSuccess={() => {}} onFail={() => setShowScanner(false)} />}
-      {!showScanner && <Form />}
+      {!showScanner && <Form setScanner={setShowScanner}/>}
     </>
   );
 }
 
-const Form = () => {
+const Form = ({setScanner}: {setScanner: Function}) => {
   const colorScheme = useColorScheme();
   const chosenStyle = colorScheme === "light" ? stylesLight : stylesDark;
   const [name, setName] = useState<string | undefined>();
@@ -53,6 +55,22 @@ const Form = () => {
     setDate(currentDate);
   };
 
+  const storeData = async () => {
+    try {
+      const val= await AsyncStorage.getItem(name + "date");
+      if(val === null){
+        await AsyncStorage.setItem(name + "date", date.toLocaleDateString("en-US", { year: "numeric", month: "short" }));
+        await AsyncStorage.setItem(name + "quantity", quantity.toString());
+        Alert.alert("Insert", "Product inserted succesfully", [{text: "OK"}]);
+      }else{
+        Alert.alert("Error", "Product already inserted", [
+          {text: "OK"}]);
+      }
+    }catch{
+      console.log("Error getting data:" + name);
+    }
+  }
+
   return (
     <View style={chosenStyle.container}>
       <View style={chosenStyle.container2}>
@@ -61,7 +79,7 @@ const Form = () => {
             <Text style={chosenStyle.text}>Scan the barcode or insert your food data below</Text>
           </View>
           <View style={{flex: 1}}>
-            <Pressable onPress={() => {}} style={chosenStyle.button}>
+            <Pressable onPress={() => {setScanner(true)}} style={chosenStyle.button}>
               <Text style={chosenStyle.buttonText}>Scan</Text>
             </Pressable>
           </View>
@@ -118,7 +136,7 @@ const Form = () => {
         </View>
 
         <View style={{flex: 1, justifyContent: "flex-end", marginBottom: 10, marginHorizontal: 10}}>
-          <Pressable onPress={() => {}} style={chosenStyle.submitButton}>
+          <Pressable onPress={() => {storeData()}} style={chosenStyle.submitButton}>
             <Text style={chosenStyle.buttonText}>Submit</Text>
           </Pressable>
         </View>
@@ -272,7 +290,6 @@ const stylesDark = StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontSize: 14,
-    //paddingVertical: 2
   },
   pickerButtonText: {
     color: "#fff",
