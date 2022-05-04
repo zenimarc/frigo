@@ -40,6 +40,7 @@ export default function ModalScreen({ navigation }: RootTabScreenProps<"TabOne">
 
 const Form = ({ setScanner }: { setScanner: Function }) => {
   const colorScheme = useColorScheme();
+  const styles = themedStyles();
   const [name, setName] = useState<string | undefined>();
   const [quantity, setQuantity] = useState(1);
   const [date, setDate] = useState<Date>(new Date(Date.now()));
@@ -75,28 +76,28 @@ const Form = ({ setScanner }: { setScanner: Function }) => {
   };
 
   return (
-    <View style={themedStyles().container}>
-      <View style={themedStyles().container2}>
-        <View style={themedStyles().container3}>
+    <View style={styles.container}>
+      <View style={styles.container2}>
+        <View style={styles.container3}>
           <View style={{ flex: 3 }}>
-            <Text style={themedStyles().text}>Scan the barcode or insert your food data below</Text>
+            <Text style={styles.text}>Scan the barcode or insert your food data below</Text>
           </View>
           <View style={{ flex: 1, paddingLeft: 20 }}>
             <Pressable
               onPress={() => {
                 setScanner(true);
               }}
-              style={themedStyles().button}>
-              <Text style={themedStyles().buttonText}>Scan</Text>
+              style={styles.button}>
+              <Text style={styles.buttonText}>Scan</Text>
             </Pressable>
           </View>
         </View>
       </View>
-      <View style={themedStyles().rectangle1}>
+      <View style={styles.rectangle1}>
         <View>
-          <Text style={themedStyles().rectangleText}>Name of food</Text>
+          <Text style={styles.rectangleText}>Name of food</Text>
           <TextInput
-            style={themedStyles().textInput}
+            style={styles.textInput}
             placeholder="Insert name"
             placeholderTextColor={"#aaa"}
             value={name}
@@ -110,18 +111,18 @@ const Form = ({ setScanner }: { setScanner: Function }) => {
               marginTop: 20,
             }}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text style={[themedStyles().text, { marginRight: 10 }]}>Quantity</Text>
+              <Text style={[styles.text, { marginRight: 10 }]}>Quantity</Text>
               <WheelPicker
                 selectedIndex={quantity}
                 options={new Array(99).fill(0).map((_, index) => String(index))}
                 onChange={(index) => setQuantity(index)}
-                itemTextStyle={themedStyles().wheelItemText}
-                selectedIndicatorStyle={themedStyles().selectedWheelItem}
+                itemTextStyle={styles.wheelItemText}
+                selectedIndicatorStyle={styles.selectedWheelItem}
                 visibleRest={1}
               />
               {/* (
                 <TextInput
-                  style={ThemedStyles().textInput2}
+                  style={styles.textInput2}
                   placeholder="0"
                   placeholderTextColor={"#aaa"}
                   value={quantity}
@@ -132,10 +133,10 @@ const Form = ({ setScanner }: { setScanner: Function }) => {
             </View>
             {/*<View style={{ flexDirection: "row", flex: 1 }} />*/}
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text style={themedStyles().text}>Exp. Date</Text>
+              <Text style={styles.text}>Exp. Date</Text>
               {Platform.OS !== "ios" && (
-                <Pressable style={themedStyles().pickerButton} onPress={() => showMode()}>
-                  <Text style={themedStyles().pickerButtonText}>
+                <Pressable style={styles.pickerButton} onPress={() => showMode()}>
+                  <Text style={styles.pickerButtonText}>
                     {date.toLocaleDateString("en-US", { year: "numeric", month: "short" })}
                   </Text>
                 </Pressable>
@@ -164,8 +165,8 @@ const Form = ({ setScanner }: { setScanner: Function }) => {
             onPress={() => {
               storeData();
             }}
-            style={themedStyles().submitButton}>
-            <Text style={themedStyles().buttonText}>Submit</Text>
+            style={styles.submitButton}>
+            <Text style={styles.buttonText}>Submit</Text>
           </Pressable>
         </View>
       </View>
