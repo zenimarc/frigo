@@ -68,7 +68,7 @@ function BottomTabNavigator() {
             fontWeight: "600",
             fontStyle: "normal",
             fontSize: 30,
-            color: Colors[colorScheme].text2,
+            color: "white",
             display: "flex",
             justifyContent: "center",
           },

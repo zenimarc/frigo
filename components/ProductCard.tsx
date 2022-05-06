@@ -1,21 +1,35 @@
-import { StyleSheet, View } from "react-native";
-import { mainColor1 } from "../constants/Colors";
+import { Image, StyleSheet, View } from "react-native";
+
+import useColorScheme from "../hooks/useColorScheme";
+import Colors from "../constants/Colors";
 
 import { Text, View as ThemedView } from "./Themed";
+import useCachedResources from "../hooks/useCachedResources";
 
 type ProductCardProps = { name: string; expDate: string; quantity: number; photo: string };
 
 const ProductCard = ({ name, expDate, quantity, photo }: ProductCardProps) => {
+  const colorScheme = useColorScheme();
+  useCachedResources();
   return (
-    <ThemedView darkColor={mainColor1} style={styles.cardContentWrapper}>
-      <Text style={styles.title}>{name}</Text>
-    </ThemedView>
+    <View style={styles.container}>
+      <ThemedView
+        style={[styles.cardContentWrapper, { borderBottomColor: Colors[colorScheme].text }]}
+        lightColor={Colors[colorScheme].backgroundNeutral}>
+        <View style={{ width: "60%" }}>
+          <Image source={{ uri: photo, height: 100 }} style={styles.image} />
+        </View>
+        <Text style={styles.title}>{name}</Text>
+      </ThemedView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  cardContentWrapper: { margin: 5 },
-  title: { padding: 20 },
+  container: { flex: 1, marginBottom: 25, height: 150 },
+  cardContentWrapper: { margin: 5, alignItems: "center", justifyContent: "flex-end" },
+  title: { fontSize: 15, fontWeight: "400", fontFamily: "lato-regular" },
+  image: { resizeMode: "contain" },
 });
 
 export default ProductCard;
