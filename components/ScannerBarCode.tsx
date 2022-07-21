@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button, Pressable } from "react-native";
+import { Text, View, StyleSheet, Button, Pressable, Image } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import useColorScheme from "../hooks/useColorScheme";
 import { ColorfulText, View as ThemedView, Text as ThemedText } from "./Themed";
@@ -68,6 +68,12 @@ const BarCodeOverlay = () => {
         <View style={styles.unfocusedContainer} />
         <View style={styles.focusedContainer} />
         <View style={styles.unfocusedContainer} />
+        <View style={styles.barcodeOverlay}>
+          <Image
+            source={require("../assets/images/barcode-overlay.png")}
+            style={{ width: 250, height: 170, opacity: 0.2 }}
+          />
+        </View>
       </View>
       <View style={styles.unfocusedContainer} />
     </View>
@@ -84,6 +90,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  barcodeOverlay: {
+    position: "absolute",
+    top: "25%",
+    left: "18%",
     right: 0,
     bottom: 0,
   },

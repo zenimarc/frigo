@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
-import { Animated, ColorSchemeName, Dimensions, Pressable } from "react-native";
+import { Animated, ColorSchemeName, Dimensions, Pressable, Image } from "react-native";
 import ScannerBarCode from "../components/ScannerBarCode";
 import { View } from "../components/Themed";
 import WavyHeader from "../components/WavyHeader";
@@ -59,6 +59,7 @@ function BottomTabNavigator() {
           backgroundColor: Colors[colorScheme].header,
         },
         headerTitleAlign: "center",
+        tabBarShowLabel: false,
       }}>
       <BottomTab.Screen
         name="TabOne"
@@ -73,7 +74,12 @@ function BottomTabNavigator() {
             justifyContent: "center",
           },
           title: "frigo",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <Image
+              source={require("../assets/images/refrigerator-icon.png")}
+              style={{ width: 20, height: 35, tintColor: color }}
+            />
+          ),
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate("addFoodModal")}
@@ -95,7 +101,12 @@ function BottomTabNavigator() {
         component={TabTwoScreen}
         options={{
           title: "Tab Two",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <Image
+              source={require("../assets/images/recipes2-icon.png")}
+              style={{ width: 28, height: 37, tintColor: color }}
+            />
+          ),
         }}
       />
     </BottomTab.Navigator>

@@ -50,9 +50,9 @@ const getRenderItemFuncGivenLayoutColumns = ({ columns }: { columns: number }) =
 };
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<"TabOne">) {
-  {
-    /* da decidere: Magari dare la possibilità di avere 2 viste, una tipo questa più semplice con magari pallini colorati per indicare in scadenza e un'altra più dettagliata dove ogni elemento è una riga */
-  }
+  /* da decidere: Magari dare la possibilità di avere 2 viste, 
+una tipo questa più semplice con magari pallini colorati per indicare in scadenza 
+e un'altra più dettagliata dove ogni elemento è una riga */
   const layoutColumns = 3;
   return (
     <View lightColor="white" darkColor="black" style={styles.container}>
