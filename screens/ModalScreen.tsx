@@ -18,7 +18,7 @@ export default function ModalScreen({ navigation }: RootTabScreenProps<"TabOne">
         headers: {
           Accept: "Application/json",
           "Content-Type": "Application/json",
-          UserAgent: "Frigo -" + Platform.OS === "ios" ? "ios" : "android" + "- 1.0",
+          UserAgent: "Frigo -" + (Platform.OS === "ios" ? "ios" : "android") + " - Version - 1.0",
         },
       });
 
@@ -27,7 +27,11 @@ export default function ModalScreen({ navigation }: RootTabScreenProps<"TabOne">
         Alert.alert("Error", "The product does not exists", [{ text: "OK" }]);
       } else {
         //Alert.alert("Success", "Product", [{text: "OK"}]);
-        console.log(product);
+        const productName = product.product.product_name || product.product.product_name_it;
+        const imageUrl = product.product.image_url;
+        const imageUrlSmall = product.product.image_url_small;
+        console.log(productName, imageUrl, imageUrlSmall);
+        //console.log(product);
       }
     } catch (error) {
       console.log(error);
