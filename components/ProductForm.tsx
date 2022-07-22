@@ -17,6 +17,7 @@ import {
   View,
   Text,
   Alert,
+  Image,
 } from "react-native";
 import WheelPicker from "react-native-wheely";
 
@@ -26,13 +27,37 @@ import { mainColor1 } from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import { RootTabScreenProps } from "../types";
 
-const Form = ({ setScanner }: { setScanner: Function }) => {
+const Form = ({
+  setScanner,
+  productName,
+  productImage,
+  productBarCode = undefined,
+}: {
+  setScanner: Function;
+  productName: string | undefined;
+  productImage: string | undefined;
+  productBarCode: number | undefined;
+}) => {
   const styles = themedStyles();
-  const [name, setName] = useState<string | undefined>();
+  const [name, setName] = useState(productName);
+  const [barCode, setBarCode] = useState(productBarCode);
+  const [image, setImage] = useState<string | undefined>();
   const [quantity, setQuantity] = useState(1);
   const [date, setDate] = useState<Date>(new Date(Date.now()));
   const [showPicker, setShowPicker] = useState(false);
   const [mode, setMode] = useState("date");
+
+  console.log("immaghiubne: ", image);
+
+  React.useEffect(() => {
+    setName(productName);
+  }, [productName]);
+  React.useEffect(() => {
+    setBarCode(productBarCode);
+  }, [productBarCode]);
+  React.useEffect(() => {
+    setImage(productImage);
+  }, [productImage]);
 
   const showMode = () => {
     setShowPicker(true);
@@ -64,8 +89,8 @@ const Form = ({ setScanner }: { setScanner: Function }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.container2}>
-        <View style={styles.container3}>
+      <View style={styles.scanContainer}>
+        <View style={styles.scanContainerWrapper}>
           <View style={{ flex: 3 }}>
             <Text style={styles.text}>Scan the barcode or insert your food data below</Text>
           </View>
@@ -80,34 +105,33 @@ const Form = ({ setScanner }: { setScanner: Function }) => {
           </View>
         </View>
       </View>
-      <View style={styles.rectangle1}>
-        <View>
-          <Text style={styles.rectangleText}>Name of food</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Insert name"
-            placeholderTextColor="#aaa"
-            value={name}
-            onChangeText={(text) => setName(text)}
-          />
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-around",
-              alignItems: "center",
-              marginTop: 20,
-            }}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text style={[styles.text, { marginRight: 10 }]}>Quantity</Text>
-              <WheelPicker
-                selectedIndex={quantity}
-                options={new Array(99).fill(0).map((_, index) => String(index))}
-                onChange={(index: number) => setQuantity(index)}
-                itemTextStyle={styles.wheelItemText}
-                selectedIndicatorStyle={styles.selectedWheelItem}
-                visibleRest={1}
-              />
-              {/* (
+      <View style={styles.formContainer}>
+        <Text style={styles.nameInputLabel}>Name of food</Text>
+        <TextInput
+          style={styles.nameTextInput}
+          placeholder="Insert name"
+          placeholderTextColor="#aaa"
+          value={name}
+          onChangeText={(text) => setName(text)}
+        />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+            alignItems: "center",
+            marginTop: 20,
+          }}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text style={[styles.text, { marginRight: 10 }]}>Quantity</Text>
+            <WheelPicker
+              selectedIndex={quantity}
+              options={new Array(99).fill(0).map((_, index) => String(index))}
+              onChange={(index: number) => setQuantity(index)}
+              itemTextStyle={styles.wheelItemText}
+              selectedIndicatorStyle={styles.selectedWheelItem}
+              visibleRest={1}
+            />
+            {/* (
                   <TextInput
                     style={styles.textInput2}
                     placeholder="0"
@@ -117,34 +141,39 @@ const Form = ({ setScanner }: { setScanner: Function }) => {
                     keyboardType="number-pad"
                   />
                 )*/}
-            </View>
-            {/*<View style={{ flexDirection: "row", flex: 1 }} />*/}
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text style={styles.text}>Exp. Date</Text>
-              {Platform.OS !== "ios" && (
-                <Pressable style={styles.pickerButton} onPress={() => showMode()}>
-                  <Text style={styles.pickerButtonText}>
-                    {date.toLocaleDateString("en-US", { year: "numeric", month: "short" })}
-                  </Text>
-                </Pressable>
-              )}
-              {showPicker && Platform.OS !== "ios" && (
-                <DateTimePicker
-                  style={{ width: "100%", height: "100%" }}
-                  value={date}
-                  onChange={onChange}
-                  display="default"
-                  minimumDate={new Date(Date.now())}
-                />
-              )}
-              {Platform.OS === "ios" && (
-                <View style={{ width: 100 }}>
-                  <DateTimePicker value={date} onChange={onChange} minimumDate={new Date()} />
-                </View>
-              )}
-            </View>
+          </View>
+          {/*<View style={{ flexDirection: "row", flex: 1 }} />*/}
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text style={styles.text}>Exp. Date</Text>
+            {Platform.OS !== "ios" && (
+              <Pressable style={styles.pickerButton} onPress={() => showMode()}>
+                <Text style={styles.pickerButtonText}>
+                  {date.toLocaleDateString("en-US", { year: "numeric", month: "short" })}
+                </Text>
+              </Pressable>
+            )}
+            {showPicker && Platform.OS !== "ios" && (
+              <DateTimePicker
+                style={{ width: "100%", height: "100%" }}
+                value={date}
+                onChange={onChange}
+                display="default"
+                minimumDate={new Date(Date.now())}
+              />
+            )}
+            {Platform.OS === "ios" && (
+              <View style={{ width: 100 }}>
+                <DateTimePicker value={date} onChange={onChange} minimumDate={new Date()} />
+              </View>
+            )}
           </View>
         </View>
+
+        {image && (
+          <View style={styles.imageWrapper}>
+            <Image resizeMode="contain" style={{ height: "100%" }} source={{ uri: image }} />
+          </View>
+        )}
 
         <View
           style={{ flex: 1, justifyContent: "flex-end", marginBottom: 10, marginHorizontal: 10 }}>
@@ -170,12 +199,12 @@ const themedStyles = () => {
       flex: 1,
       flexDirection: "column",
     },
-    container2: {
+    scanContainer: {
       backgroundColor: colorScheme === "dark" ? "#111" : "#eee",
       flexDirection: "column",
       margin: 40,
     },
-    container3: {
+    scanContainerWrapper: {
       flexDirection: "row",
       alignItems: "center",
     },
@@ -184,13 +213,13 @@ const themedStyles = () => {
       color: colorScheme === "dark" ? "#fff" : "#000",
       marginVertical: 5,
     },
-    rectangleText: {
+    nameInputLabel: {
       fontSize: 16,
       color: colorScheme === "dark" ? "#fff" : "#000",
       marginVertical: 5,
       marginLeft: 5,
     },
-    textInput: {
+    nameTextInput: {
       fontSize: 16,
       color: colorScheme === "dark" ? "#fff" : "#000",
       borderColor: colorScheme === "dark" ? "#fff" : "#111",
@@ -211,7 +240,7 @@ const themedStyles = () => {
       maxWidth: 100,
       textAlign: "center",
     },
-    rectangle1: {
+    formContainer: {
       backgroundColor: colorScheme === "dark" ? "#000" : "#fff",
       flex: 1,
       marginTop: 5,
@@ -265,6 +294,10 @@ const themedStyles = () => {
     },
     selectedWheelItem: {
       backgroundColor: colorScheme === "dark" ? "#222" : "#eee",
+    },
+    imageWrapper: {
+      height: 250,
+      marginTop: 20,
     },
   });
 };
