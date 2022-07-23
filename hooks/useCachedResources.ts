@@ -2,6 +2,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
+import { initAsyncStorage } from "../helper_functions";
 
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -19,6 +20,10 @@ export default function useCachedResources() {
           "lato-regular": require("../assets/fonts/Lato-Regular.ttf"),
           "lato-light": require("../assets/fonts/Lato-Light.ttf"),
         });
+
+        //load asyncstorage
+        await initAsyncStorage();
+        console.log("cached Chiamato");
       } catch (e) {
         // We might want to provide this error information to an error reporting service
         console.warn(e);

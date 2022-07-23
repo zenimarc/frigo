@@ -1,5 +1,5 @@
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FlatList, Pressable, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -10,14 +10,13 @@ import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import { RootTabScreenProps } from "../types";
 
-type productsProps = {
-  name: string;
-  exp_date: string;
-  quantity: number;
-  barCode: string;
-  photo: string;
-};
-const mocked_data = [
+import { storedProductData } from "../components/ProductForm";
+
+import { getData as getStoredItems } from "../components/ProductForm";
+import { AppContext } from "../context";
+import { convertObjToArray } from "../helper_functions";
+
+const mocked_data_old = [
   { name: "apple", exp_date: "25/05/2022", quantity: 1, barCode: "209238832", photo: "" },
   { name: "meat", exp_date: "10/05/2022", quantity: 1, barCode: "209256632", photo: "" },
   {
@@ -39,11 +38,17 @@ const mocked_data = [
 ];
 
 const getRenderItemFuncGivenLayoutColumns = ({ columns }: { columns: number }) => {
-  return ({ item }: { item: productsProps }) => {
-    const { name, barCode, exp_date, photo, quantity } = item;
+  return ({ item }: { item: storedProductData }) => {
+    const { expDate, productBarCode, productImage, productName, quantity } = item;
     return (
       <View lightColor="white" darkColor="black" style={{ flex: 1 / columns }}>
-        <ProductCard expDate={exp_date} name={name} photo={photo} quantity={quantity} />
+        <ProductCard
+          expDate={expDate}
+          productBarCode={productBarCode}
+          productImage={productImage}
+          productName={productName}
+          quantity={quantity}
+        />
       </View>
     );
   };
@@ -53,13 +58,22 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<"TabOne"
   /* da decidere: Magari dare la possibilità di avere 2 viste, 
 una tipo questa più semplice con magari pallini colorati per indicare in scadenza 
 e un'altra più dettagliata dove ogni elemento è una riga */
+  const [items, setItems] = useContext(AppContext); //TODO: capire come risolvere errore typescript qui
+  useEffect(() => {
+    (async () => {
+      const data = await getStoredItems();
+      setItems(convertObjToArray(data));
+      console.log("\nuseEffect della flatlist");
+    })();
+  }, []);
+
   const layoutColumns = 3;
   return (
     <View lightColor="white" darkColor="black" style={styles.container}>
       <FlatList
-        data={mocked_data}
+        data={items}
         renderItem={getRenderItemFuncGivenLayoutColumns({ columns: layoutColumns })}
-        keyExtractor={(item) => item.name}
+        keyExtractor={(item) => item.productBarCode || String(item.productName + item.expDate)}
         numColumns={layoutColumns}
         horizontal={false}
       />

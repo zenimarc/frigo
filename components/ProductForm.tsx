@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useContext, useState } from "react";
 import {
   Button,
   Falsy,
@@ -20,32 +20,46 @@ import {
   Image,
 } from "react-native";
 import WheelPicker from "react-native-wheely";
+import { AppContext } from "../context";
+import { convertObjToArray } from "../helper_functions";
 
-import EditScreenInfo from "../components/EditScreenInfo";
-import ScannerBarCode from "../components/ScannerBarCode";
-import { mainColor1 } from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
-import { RootTabScreenProps } from "../types";
 
-const Form = ({
-  setScanner,
-  productName,
-  productImage,
-  productBarCode = undefined,
-}: {
-  setScanner: Function;
+interface productData {
   productName: string | undefined;
   productImage: string | undefined;
   productBarCode: number | undefined;
-}) => {
+}
+
+interface formProps extends productData {
+  setScanner: Function;
+}
+
+export interface storedProductData extends productData {
+  productName: string;
+  expDate: Date;
+  quantity: number;
+}
+
+export const getData = async () => {
+  try {
+    const jsonValue = await AsyncStorage.getItem("@storedItems");
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch (e) {
+    // error reading value
+  }
+};
+
+const Form = ({ setScanner, productName, productImage, productBarCode = undefined }: formProps) => {
   const styles = themedStyles();
   const [name, setName] = useState(productName);
   const [barCode, setBarCode] = useState(productBarCode);
   const [image, setImage] = useState<string | undefined>();
   const [quantity, setQuantity] = useState(1);
-  const [date, setDate] = useState<Date>(new Date(Date.now()));
+  const [expDate, setExpDate] = useState<Date>(new Date(Date.now()));
   const [showPicker, setShowPicker] = useState(false);
   const [mode, setMode] = useState("date");
+  const [_, setItems] = useContext(AppContext);
 
   console.log("immaghiubne: ", image);
 
@@ -64,21 +78,38 @@ const Form = ({
     setMode("date");
   };
   const onChange = (event: any, selectedDate: any) => {
-    const currentDate = selectedDate || date;
+    const currentDate = selectedDate || expDate;
     if (Platform.OS !== "ios") setShowPicker(false);
-    setDate(currentDate);
+    setExpDate(currentDate);
+  };
+
+  const clearData = () => {
+    setBarCode(undefined);
+    setName(undefined);
+    setImage(undefined);
+    setScanner(true);
   };
 
   const storeData = async () => {
+    const key = String(barCode || name + "-" + expDate);
     try {
-      const val = await AsyncStorage.getItem(name + "date");
-      if (val === null) {
-        await AsyncStorage.setItem(
-          name + "date",
-          date.toLocaleDateString("en-US", { year: "numeric", month: "short" })
-        );
-        await AsyncStorage.setItem(name + "quantity", quantity.toString());
+      const storedItems = await getData();
+      const val = storedItems[key];
+      if (!val) {
+        const newItem: storedProductData = {
+          productBarCode,
+          productImage,
+          productName: productName || "undefined",
+          expDate,
+          quantity,
+        };
+        storedItems[key] = newItem;
+        await AsyncStorage.setItem("@storedItems", JSON.stringify(storedItems));
+        console.log("fatto asyncstorage");
+        setItems(convertObjToArray(storedItems));
+        console.log("fatto setItems del context");
         Alert.alert("Insert", "Product inserted succesfully", [{ text: "OK" }]);
+        clearData();
       } else {
         Alert.alert("Error", "Product already inserted", [{ text: "OK" }]);
       }
@@ -148,14 +179,14 @@ const Form = ({
             {Platform.OS !== "ios" && (
               <Pressable style={styles.pickerButton} onPress={() => showMode()}>
                 <Text style={styles.pickerButtonText}>
-                  {date.toLocaleDateString("en-US", { year: "numeric", month: "short" })}
+                  {expDate.toLocaleDateString("en-US", { year: "numeric", month: "short" })}
                 </Text>
               </Pressable>
             )}
             {showPicker && Platform.OS !== "ios" && (
               <DateTimePicker
                 style={{ width: "100%", height: "100%" }}
-                value={date}
+                value={expDate}
                 onChange={onChange}
                 display="default"
                 minimumDate={new Date(Date.now())}
@@ -163,7 +194,7 @@ const Form = ({
             )}
             {Platform.OS === "ios" && (
               <View style={{ width: 100 }}>
-                <DateTimePicker value={date} onChange={onChange} minimumDate={new Date()} />
+                <DateTimePicker value={expDate} onChange={onChange} minimumDate={new Date()} />
               </View>
             )}
           </View>

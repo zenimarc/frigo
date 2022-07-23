@@ -4,22 +4,26 @@ import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 
 import { Text, View as ThemedView } from "./Themed";
-import useCachedResources from "../hooks/useCachedResources";
 
-type ProductCardProps = { name: string; expDate: string; quantity: number; photo: string };
+import { storedProductData } from "./ProductForm";
 
-const ProductCard = ({ name, expDate, quantity, photo }: ProductCardProps) => {
+const ProductCard = ({
+  expDate,
+  productBarCode,
+  productImage,
+  productName,
+  quantity,
+}: storedProductData) => {
   const colorScheme = useColorScheme();
-  useCachedResources();
   return (
     <View style={styles.container}>
       <ThemedView
         style={[styles.cardContentWrapper, { borderBottomColor: Colors[colorScheme].text }]}
         lightColor={Colors[colorScheme].backgroundNeutral}>
         <View style={{ width: "60%" }}>
-          <Image source={{ uri: photo, height: 100 }} style={styles.image} />
+          <Image source={{ uri: productImage, height: 100 }} style={styles.image} />
         </View>
-        <Text style={styles.title}>{name}</Text>
+        <Text style={styles.title}>{productName}</Text>
       </ThemedView>
     </View>
   );
