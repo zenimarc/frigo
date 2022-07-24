@@ -5,16 +5,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import EditScreenInfo from "../components/EditScreenInfo";
 import ProductCard from "../components/ProductCard";
+import { storedProductData, getData as getStoredItems } from "../components/ProductForm";
 import { AddButton, Text, View } from "../components/Themed";
 import Colors from "../constants/Colors";
-import useColorScheme from "../hooks/useColorScheme";
-import { RootTabScreenProps } from "../types";
-
-import { storedProductData } from "../components/ProductForm";
-
-import { getData as getStoredItems } from "../components/ProductForm";
 import { AppContext } from "../context";
 import { convertObjToArray } from "../helper_functions";
+import useColorScheme from "../hooks/useColorScheme";
+import { RootTabScreenProps } from "../types";
 
 const mocked_data_old = [
   { name: "apple", exp_date: "25/05/2022", quantity: 1, barCode: "209238832", photo: "" },
@@ -67,13 +64,15 @@ e un'altra più dettagliata dove ogni elemento è una riga */
     })();
   }, []);
 
-  const layoutColumns = 3;
+  const layoutColumns = 2;
   return (
     <View lightColor="white" darkColor="black" style={styles.container}>
       <FlatList
         data={items}
         renderItem={getRenderItemFuncGivenLayoutColumns({ columns: layoutColumns })}
-        keyExtractor={(item) => item.productBarCode || String(item.productName + item.expDate)}
+        keyExtractor={(item) =>
+          String(item.productBarCode) || String(item.productName + item.expDate)
+        }
         numColumns={layoutColumns}
         horizontal={false}
       />
