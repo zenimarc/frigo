@@ -1,28 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import React, { Dispatch, SetStateAction, useContext, useState } from "react";
-import {
-  Button,
-  Falsy,
-  Platform,
-  Pressable,
-  RecursiveArray,
-  RegisteredStyle,
-  SafeAreaView,
-  StyleProp,
-  StyleSheet,
-  TextInput,
-  TextStyle,
-  TouchableOpacity,
-  View,
-  Text,
-  Alert,
-  Image,
-} from "react-native";
+import React, { useContext, useState } from "react";
+import { Platform, Pressable, StyleSheet, TextInput, View, Text, Alert, Image } from "react-native";
 import WheelPicker from "react-native-wheely";
+
 import { AppContext } from "../context";
 import { convertObjToArray } from "../helper_functions";
-
 import useColorScheme from "../hooks/useColorScheme";
 
 interface productData {
@@ -58,8 +41,8 @@ const Form = ({ setScanner, productName, productImage, productBarCode = undefine
   const [quantity, setQuantity] = useState(1);
   const [expDate, setExpDate] = useState<Date>(new Date(Date.now()));
   const [showPicker, setShowPicker] = useState(false);
-  const [mode, setMode] = useState("date");
-  const [_, setItems] = useContext(AppContext);
+  const [, setMode] = useState("date");
+  const [, setItems] = useContext(AppContext);
 
   console.log("immaghiubne: ", image);
 

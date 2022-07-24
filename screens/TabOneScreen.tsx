@@ -1,38 +1,12 @@
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import React, { useContext, useEffect, useState } from "react";
-import { FlatList, Pressable, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useContext, useEffect } from "react";
+import { FlatList, StyleSheet } from "react-native";
 
-import EditScreenInfo from "../components/EditScreenInfo";
 import ProductCard from "../components/ProductCard";
 import { storedProductData, getData as getStoredItems } from "../components/ProductForm";
-import { AddButton, Text, View } from "../components/Themed";
-import Colors from "../constants/Colors";
+import { AddButton, View } from "../components/Themed";
 import { AppContext } from "../context";
 import { convertObjToArray } from "../helper_functions";
-import useColorScheme from "../hooks/useColorScheme";
 import { RootTabScreenProps } from "../types";
-
-const mocked_data_old = [
-  { name: "apple", exp_date: "25/05/2022", quantity: 1, barCode: "209238832", photo: "" },
-  { name: "meat", exp_date: "10/05/2022", quantity: 1, barCode: "209256632", photo: "" },
-  {
-    name: "milk",
-    exp_date: "7/05/2022",
-    quantity: 1,
-    barCode: "202338832",
-    photo: "https://it.openfoodfacts.org/images/products/800/272/400/2966/front_it.42.400.jpg",
-  },
-  { name: "banana", exp_date: "7/05/2022", quantity: 1, barCode: "202338832", photo: "" },
-  {
-    name: "yogurt",
-    exp_date: "7/05/2022",
-    quantity: 1,
-    barCode: "202338832",
-    photo: "https://it.openfoodfacts.org/images/products/800/233/013/4341/front_it.20.400.jpg",
-  },
-  { name: "cheese", exp_date: "7/05/2022", quantity: 1, barCode: "202338832", photo: "" },
-];
 
 const getRenderItemFuncGivenLayoutColumns = ({ columns }: { columns: number }) => {
   return ({ item }: { item: storedProductData }) => {
