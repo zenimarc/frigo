@@ -11,7 +11,7 @@ import useColorScheme from "../hooks/useColorScheme";
 interface productData {
   productName: string | undefined;
   productImage: string | undefined;
-  productBarCode: number | undefined;
+  productBarCode: string | undefined;
 }
 
 interface formProps extends productData {

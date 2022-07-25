@@ -9,8 +9,8 @@ export default function ScannerBarCode({
   onSuccess,
   onFail,
 }: {
-  onSuccess: Function;
-  onFail: Function;
+  onSuccess: (code: string) => any;
+  onFail: () => any;
 }) {
   const [hasPermission, setHasPermission] = useState<null | boolean>(null);
   const [scanned, setScanned] = useState(false);
