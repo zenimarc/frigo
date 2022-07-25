@@ -1,4 +1,5 @@
-import { createContext, useState } from "react";
+import React, { createContext, useState } from "react";
+
 import { storedProductData } from "./components/ProductForm";
 
 export const AppContext = createContext<

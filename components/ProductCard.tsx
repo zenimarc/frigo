@@ -1,11 +1,10 @@
+import React from "react";
 import { Image, StyleSheet, View } from "react-native";
 
-import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
-
-import { Text, View as ThemedView } from "./Themed";
-
+import useColorScheme from "../hooks/useColorScheme";
 import { storedProductData } from "./ProductForm";
+import { Text, View as ThemedView } from "./Themed";
 
 const ProductCard = ({
   expDate,
