@@ -8,6 +8,7 @@ import { FontAwesome, Ionicons } from "@expo/vector-icons";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
+import React from "react";
 
 export function useThemeColor(
   props: { light?: string; dark?: string },
