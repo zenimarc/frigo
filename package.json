@@ -20,7 +20,7 @@
       "tsx",
       "js"
     ],
-    "collectCoverage": true,
+    "collectCoverage": false,
     "collectCoverageFrom": [
       "**/*.{js,jsx}",
       "!**/coverage/**",
