@@ -1,12 +1,12 @@
 import React, { createContext, useState } from "react";
 
-import { storedProductData } from "./components/ProductForm";
+import { ProductDataToBeStored } from "./components/ProductForm";
 
 export const AppContext = createContext<
-  [storedProductData[], React.Dispatch<React.SetStateAction<storedProductData[]>>]
+  [ProductDataToBeStored[], React.Dispatch<React.SetStateAction<ProductDataToBeStored[]>>]
 >([[], (x) => x]);
 
 export const AppProvider: React.FC = (props) => {
-  const [items, setItems] = useState<storedProductData[]>([]);
+  const [items, setItems] = useState<ProductDataToBeStored[]>([]);
   return <AppContext.Provider value={[items, setItems]}>{props.children}</AppContext.Provider>;
 };

@@ -3,7 +3,7 @@ import { Image, StyleSheet, View } from "react-native";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
-import { storedProductData } from "./ProductForm";
+import { ProductDataToBeStored } from "./ProductForm";
 import { Text, View as ThemedView } from "./Themed";
 
 const ProductCard = ({
@@ -12,7 +12,7 @@ const ProductCard = ({
   productImage,
   productName,
   quantity,
-}: storedProductData) => {
+}: ProductDataToBeStored) => {
   const colorScheme = useColorScheme();
   return (
     <View style={styles.container}>
@@ -23,6 +23,7 @@ const ProductCard = ({
           <Image source={{ uri: productImage, height: 100 }} style={styles.image} />
         </View>
         <Text style={styles.title}>{productName}</Text>
+        <Text>scad: {expDate.toLocaleDateString()}</Text>
       </ThemedView>
     </View>
   );

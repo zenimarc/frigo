@@ -2,14 +2,18 @@ import React, { useContext, useEffect } from "react";
 import { FlatList, StyleSheet } from "react-native";
 
 import ProductCard from "../components/ProductCard";
-import { storedProductData, getData as getStoredItems } from "../components/ProductForm";
+import {
+  ProductDataToBeStored,
+  getData as getStoredItems,
+  StoredProductData,
+} from "../components/ProductForm";
 import { AddButton, View } from "../components/Themed";
 import { AppContext } from "../context";
 import { convertObjToArray } from "../helper_functions";
 import { RootTabScreenProps } from "../types";
 
 const getRenderItemFuncGivenLayoutColumns = ({ columns }: { columns: number }) => {
-  return ({ item }: { item: storedProductData }) => {
+  return ({ item }: { item: ProductDataToBeStored }) => {
     const { expDate, productBarCode, productImage, productName, quantity } = item;
     return (
       <View lightColor="white" darkColor="black" style={{ flex: 1 / columns }}>
@@ -32,7 +36,7 @@ e un'altra più dettagliata dove ogni elemento è una riga */
   const [items, setItems] = useContext(AppContext);
   useEffect(() => {
     (async () => {
-      const data = await getStoredItems();
+      const data: StoredProductData = await getStoredItems(); // for now we get data from asyncStorage at every refresh
       setItems(convertObjToArray(data));
       console.log("\nuseEffect della flatlist");
     })();

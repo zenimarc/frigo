@@ -11,17 +11,22 @@ import useColorScheme from "../hooks/useColorScheme";
 interface productData {
   productName: string | undefined;
   productImage: string | undefined;
-  productBarCode: string | undefined;
+  productBarCode: string | null;
 }
 
-interface formProps extends productData {
+interface formProps extends Omit<productData, "productBarCode"> {
   setScanner: Function;
+  productBarCode: string | null | undefined;
 }
 
-export interface storedProductData extends productData {
+export interface ProductDataToBeStored extends productData {
   productName: string;
   expDate: Date;
   quantity: number;
+}
+
+export interface StoredProductData extends Omit<ProductDataToBeStored, "expDate"> {
+  expDate: string; //once stored in asyncstorage the expDate is serialized into a string
 }
 
 export const getData = async () => {
@@ -33,7 +38,7 @@ export const getData = async () => {
   }
 };
 
-const Form = ({ setScanner, productName, productImage, productBarCode = undefined }: formProps) => {
+const Form = ({ setScanner, productName, productImage, productBarCode = null }: formProps) => {
   const styles = themedStyles();
   const [name, setName] = useState(productName);
   const [barCode, setBarCode] = useState(productBarCode);
@@ -67,7 +72,7 @@ const Form = ({ setScanner, productName, productImage, productBarCode = undefine
   };
 
   const clearData = () => {
-    setBarCode(undefined);
+    setBarCode(null);
     setName(undefined);
     setImage(undefined);
     setScanner(true);
@@ -79,10 +84,10 @@ const Form = ({ setScanner, productName, productImage, productBarCode = undefine
       const storedItems = await getData();
       const val = storedItems[key];
       if (!val) {
-        const newItem: storedProductData = {
-          productBarCode,
-          productImage,
-          productName: productName || "undefined",
+        const newItem: ProductDataToBeStored = {
+          productBarCode: barCode || null,
+          productImage: image,
+          productName: name || "undefined",
           expDate,
           quantity,
         };
