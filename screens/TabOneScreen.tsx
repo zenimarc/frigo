@@ -14,10 +14,11 @@ import { RootTabScreenProps } from "../types";
 
 const getRenderItemFuncGivenLayoutColumns = ({ columns }: { columns: number }) => {
   return ({ item }: { item: ProductDataToBeStored }) => {
-    const { expDate, productBarCode, productImage, productName, quantity } = item;
+    const { expDate, productBarCode, productImage, productName, quantity, addedDate } = item;
     return (
       <View lightColor="white" darkColor="black" style={{ flex: 1 / columns }}>
         <ProductCard
+          addedDate={addedDate}
           expDate={expDate}
           productBarCode={productBarCode}
           productImage={productImage}
@@ -36,7 +37,7 @@ e un'altra più dettagliata dove ogni elemento è una riga */
   const [items, setItems] = useContext(AppContext);
   useEffect(() => {
     (async () => {
-      const data: StoredProductData = await getStoredItems(); // for now we get data from asyncStorage at every refresh
+      const data = await getStoredItems(); // for now we get data from asyncStorage at every refresh
       setItems(convertObjToArray(data));
       console.log("\nuseEffect della flatlist");
     })();

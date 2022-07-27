@@ -5,7 +5,7 @@ import { Platform, Pressable, StyleSheet, TextInput, View, Text, Alert, Image } 
 import WheelPicker from "react-native-wheely";
 
 import { AppContext } from "../context";
-import { convertObjToArray } from "../helper_functions";
+import { convertObjToArray, deleteTimeFromDate, StoredProductsDictData } from "../helper_functions";
 import useColorScheme from "../hooks/useColorScheme";
 
 interface productData {
@@ -22,20 +22,18 @@ interface formProps extends Omit<productData, "productBarCode"> {
 export interface ProductDataToBeStored extends productData {
   productName: string;
   expDate: Date;
+  addedDate: Date;
   quantity: number;
 }
 
-export interface StoredProductData extends Omit<ProductDataToBeStored, "expDate"> {
-  expDate: string; //once stored in asyncstorage the expDate is serialized into a string
+export interface StoredProductData extends Omit<ProductDataToBeStored, "expDate" | "addedDate"> {
+  expDate: string; //once stored in asyncstorage the Date is serialized into a string
+  addedDate: string;
 }
 
-export const getData = async () => {
-  try {
-    const jsonValue = await AsyncStorage.getItem("@storedItems");
-    return jsonValue != null ? JSON.parse(jsonValue) : null;
-  } catch (e) {
-    // error reading value
-  }
+export const getData = async (): Promise<StoredProductsDictData> => {
+  const jsonValue = await AsyncStorage.getItem("@storedItems");
+  return jsonValue != null ? JSON.parse(jsonValue) : {};
 };
 
 const Form = ({ setScanner, productName, productImage, productBarCode = null }: formProps) => {
@@ -84,11 +82,12 @@ const Form = ({ setScanner, productName, productImage, productBarCode = null }: 
       const storedItems = await getData();
       const val = storedItems[key];
       if (!val) {
-        const newItem: ProductDataToBeStored = {
+        const newItem: StoredProductData = {
           productBarCode: barCode || null,
           productImage: image,
           productName: name || "undefined",
-          expDate,
+          expDate: JSON.stringify(deleteTimeFromDate(expDate)),
+          addedDate: JSON.stringify(deleteTimeFromDate(new Date())),
           quantity,
         };
         storedItems[key] = newItem;
