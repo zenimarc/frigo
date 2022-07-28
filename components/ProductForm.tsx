@@ -5,7 +5,7 @@ import { Platform, Pressable, StyleSheet, TextInput, View, Text, Alert, Image } 
 import WheelPicker from "react-native-wheely";
 
 import { AppContext } from "../context";
-import { convertObjToArray, deleteTimeFromDate, StoredProductsDictData } from "../helper_functions";
+import { convertObjToArray, removeTimeFromDate, StoredProductsDictData } from "../helper_functions";
 import useColorScheme from "../hooks/useColorScheme";
 
 interface productData {
@@ -86,8 +86,8 @@ const Form = ({ setScanner, productName, productImage, productBarCode = null }: 
           productBarCode: barCode || null,
           productImage: image,
           productName: name || "undefined",
-          expDate: JSON.stringify(deleteTimeFromDate(expDate)),
-          addedDate: JSON.stringify(deleteTimeFromDate(new Date())),
+          expDate: removeTimeFromDate(expDate).toISOString(),
+          addedDate: removeTimeFromDate(new Date()).toISOString(),
           quantity,
         };
         storedItems[key] = newItem;

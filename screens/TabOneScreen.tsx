@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext, useEffect } from "react";
 import { FlatList, StyleSheet } from "react-native";
 
@@ -59,6 +60,11 @@ e un'altra più dettagliata dove ogni elemento è una riga */
         size={80}
         style={styles.buttonAdd}
         onPress={() => navigation.navigate("addFoodModal")}
+      />
+      <AddButton
+        size={80}
+        style={[styles.buttonAdd, { right: 200 }]}
+        onPress={async () => await AsyncStorage.setItem("@storedItems", "{}")}
       />
     </View>
   );

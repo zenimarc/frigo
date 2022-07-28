@@ -3,6 +3,7 @@ import { Image, StyleSheet, View } from "react-native";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
+import ExpireIndicator from "./ExpireIndicator";
 import { ProductDataToBeStored } from "./ProductForm";
 import { Text, View as ThemedView } from "./Themed";
 
@@ -12,6 +13,7 @@ const ProductCard = ({
   productImage,
   productName,
   quantity,
+  addedDate,
 }: ProductDataToBeStored) => {
   const colorScheme = useColorScheme();
   return (
@@ -24,6 +26,7 @@ const ProductCard = ({
         </View>
         <Text style={styles.title}>{productName}</Text>
         <Text>scad: {expDate.toLocaleDateString()}</Text>
+        <ExpireIndicator insertionDate={addedDate} expDate={expDate} />
       </ThemedView>
     </View>
   );

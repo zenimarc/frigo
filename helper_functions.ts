@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import moment from "moment";
 import { ProductDataToBeStored, StoredProductData } from "./components/ProductForm";
 
 export const initAsyncStorage = async () => {
@@ -19,6 +20,11 @@ export const convertObjToArray = (obj: StoredProductsDictData): ProductDataToBeS
   });
 };
 
-export const deleteTimeFromDate = (date: Date) => {
-  new Date(date.setHours(0, 0, 0, 0));
+export const removeTimeFromDate = (date: Date) => {
+  return moment.utc(date).startOf("day").toDate();
+  //return new Date(date.toDateString());
+};
+
+export const daysBetweenTwoDates = (startDate: Date, endDate: Date) => {
+  return moment(endDate).diff(moment(startDate), "days");
 };

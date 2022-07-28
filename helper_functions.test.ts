@@ -1,5 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { convertObjToArray, initAsyncStorage } from "./helper_functions";
+import {
+  convertObjToArray,
+  daysBetweenTwoDates,
+  removeTimeFromDate,
+  initAsyncStorage,
+} from "./helper_functions";
 
 describe("helper functions", () => {
   it("convertObjToArray", () => {
@@ -49,5 +54,23 @@ describe("helper functions", () => {
   test("init asyncStorage starts with empty {}", async () => {
     await initAsyncStorage();
     expect(await AsyncStorage.getItem("@storedItems")).toEqual("{}");
+  });
+
+  test("if count days between two dates correctly", () => {
+    const startDate = new Date("2022-01-01");
+    const expDate = new Date("2022-01-03");
+    expect(daysBetweenTwoDates(startDate, expDate)).toBe(2);
+  });
+
+  test("if dates are truncated correctly (remove time)", () => {
+    expect(removeTimeFromDate(new Date("2022-07-23T01:58:06.155Z")).toISOString()).toEqual(
+      new Date("2022-07-23").toISOString()
+    );
+  });
+
+  test("if truncate and calculate days remaining", () => {
+    const startDate = removeTimeFromDate(new Date("2022-07-23T01:58:06.155Z"));
+    const expDate = removeTimeFromDate(new Date("2022-07-25T02:58:06.155Z"));
+    expect(daysBetweenTwoDates(startDate, expDate)).toBe(2);
   });
 });
