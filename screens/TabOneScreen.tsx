@@ -51,7 +51,9 @@ e un'altra più dettagliata dove ogni elemento è una riga */
         data={items}
         renderItem={getRenderItemFuncGivenLayoutColumns({ columns: layoutColumns })}
         keyExtractor={(item) =>
-          String(item.productBarCode) || String(item.productName + item.expDate)
+          item.productBarCode
+            ? String(item.productBarCode) + item.expDate
+            : String(item.productName + item.expDate)
         }
         numColumns={layoutColumns}
         horizontal={false}

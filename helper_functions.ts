@@ -4,6 +4,7 @@ import { ProductDataToBeStored, StoredProductData } from "./components/ProductFo
 
 export const initAsyncStorage = async () => {
   const stored = await AsyncStorage.getItem("@storedItems");
+  console.log(stored);
   if (!stored) {
     await AsyncStorage.setItem("@storedItems", "{}");
   }
@@ -21,8 +22,8 @@ export const convertObjToArray = (obj: StoredProductsDictData): ProductDataToBeS
 };
 
 export const removeTimeFromDate = (date: Date) => {
-  return moment.utc(date).startOf("day").toDate();
-  //return new Date(date.toDateString());
+  //return moment.utc(date).startOf("day").toDate();
+  return new Date(date.toDateString());
 };
 
 export const daysBetweenTwoDates = (startDate: Date, endDate: Date) => {

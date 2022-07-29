@@ -63,8 +63,8 @@ describe("helper functions", () => {
   });
 
   test("if dates are truncated correctly (remove time)", () => {
-    expect(removeTimeFromDate(new Date("2022-07-23T01:58:06.155Z")).toISOString()).toEqual(
-      new Date("2022-07-23").toISOString()
+    expect(removeTimeFromDate(new Date("2022-07-23T01:58:06.155Z")).toString()).toEqual(
+      "Sat Jul 23 2022 00:00:00 GMT+0200 (Ora legale dell’Europa centrale)"
     );
   });
 

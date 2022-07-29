@@ -42,12 +42,16 @@ const Form = ({ setScanner, productName, productImage, productBarCode = null }: 
   const [barCode, setBarCode] = useState(productBarCode);
   const [image, setImage] = useState<string | undefined>();
   const [quantity, setQuantity] = useState(1);
-  const [expDate, setExpDate] = useState<Date>(new Date(Date.now()));
+  const [expDate, setExpDate] = useState<Date>(removeTimeFromDate(new Date()));
   const [showPicker, setShowPicker] = useState(false);
   const [, setMode] = useState("date");
   const [, setItems] = useContext(AppContext);
 
   console.log("immaghiubne: ", image);
+
+  const removeTimeAndSetExpDate = (date: Date) => {
+    setExpDate(removeTimeFromDate(date));
+  };
 
   React.useEffect(() => {
     setName(productName);
@@ -66,7 +70,7 @@ const Form = ({ setScanner, productName, productImage, productBarCode = null }: 
   const onChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate || expDate;
     if (Platform.OS !== "ios") setShowPicker(false);
-    setExpDate(currentDate);
+    removeTimeAndSetExpDate(currentDate);
   };
 
   const clearData = () => {
@@ -77,7 +81,7 @@ const Form = ({ setScanner, productName, productImage, productBarCode = null }: 
   };
 
   const storeData = async () => {
-    const key = String(barCode || name + "-" + expDate);
+    const key = barCode ? String(barCode + "-" + expDate) : name + "-" + expDate;
     try {
       const storedItems = await getData();
       const val = storedItems[key];
@@ -86,8 +90,8 @@ const Form = ({ setScanner, productName, productImage, productBarCode = null }: 
           productBarCode: barCode || null,
           productImage: image,
           productName: name || "undefined",
-          expDate: removeTimeFromDate(expDate).toISOString(),
-          addedDate: removeTimeFromDate(new Date()).toISOString(),
+          expDate: expDate.toISOString(),
+          addedDate: new Date().toISOString(),
           quantity,
         };
         storedItems[key] = newItem;

@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { daysBetweenTwoDates } from "../helper_functions";
+import { daysBetweenTwoDates, removeTimeFromDate } from "../helper_functions";
 import { View, Text } from "./Themed";
 
 const mapDaysLeftToColors = (daysLeft: number) => {
@@ -17,7 +17,8 @@ const mapDaysLeftToColors = (daysLeft: number) => {
 };
 
 const ExpireIndicator = ({ expDate, insertionDate }: { expDate: Date; insertionDate: Date }) => {
-  const daysLeft = daysBetweenTwoDates(insertionDate, expDate);
+  const currentDate = removeTimeFromDate(new Date());
+  const daysLeft = daysBetweenTwoDates(currentDate, expDate);
   console.log(daysLeft);
   const color = mapDaysLeftToColors(daysLeft);
   return <View style={[styles.coloredDot, { backgroundColor: color }]} />;
