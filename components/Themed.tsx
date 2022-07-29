@@ -9,6 +9,7 @@ import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import React from "react";
+import { RootTabScreenProps } from "../types";
 
 export function useThemeColor(
   props: { light?: string; dark?: string },
@@ -53,7 +54,7 @@ export function View(props: ViewProps) {
   return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
 }
 
-export type AddButtonProps = ThemeProps & PressableProps & { size: number };
+export type AddButtonProps = ThemeProps & PressableProps & { size: number};
 export function AddButton(props: AddButtonProps) {
   const { size, style, lightColor, darkColor, ...otherProps } = props;
   const theme = useColorScheme();

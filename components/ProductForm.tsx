@@ -7,6 +7,8 @@ import WheelPicker from "react-native-wheely";
 import { AppContext } from "../context";
 import { convertObjToArray, removeTimeFromDate, StoredProductsDictData } from "../helper_functions";
 import useColorScheme from "../hooks/useColorScheme";
+import Navigation from "../navigation";
+import { RootTabScreenProps } from "../types";
 
 interface productData {
   productName: string | undefined;
@@ -17,6 +19,7 @@ interface productData {
 interface formProps extends Omit<productData, "productBarCode"> {
   setScanner: Function;
   productBarCode: string | null | undefined;
+  navigation: Function;
 }
 
 export interface ProductDataToBeStored extends productData {
@@ -36,7 +39,7 @@ export const getData = async (): Promise<StoredProductsDictData> => {
   return jsonValue != null ? JSON.parse(jsonValue) : {};
 };
 
-const Form = ({ setScanner, productName, productImage, productBarCode = null }: formProps) => {
+const Form = ({ setScanner, productName, productImage, productBarCode = null, navigation }: formProps) => {
   const styles = themedStyles();
   const [name, setName] = useState(productName);
   const [barCode, setBarCode] = useState(productBarCode);
@@ -46,6 +49,7 @@ const Form = ({ setScanner, productName, productImage, productBarCode = null }: 
   const [showPicker, setShowPicker] = useState(false);
   const [, setMode] = useState("date");
   const [, setItems] = useContext(AppContext);
+  var [nav, setNav] = useState<Boolean>(false);
 
   console.log("immaghiubne: ", image);
 
@@ -77,10 +81,9 @@ const Form = ({ setScanner, productName, productImage, productBarCode = null }: 
     setBarCode(null);
     setName(undefined);
     setImage(undefined);
-    setScanner(true);
   };
 
-  const storeData = async () => {
+  const storeData = async (nav: Boolean) => {
     const key = barCode ? String(barCode + "-" + expDate) : name + "-" + expDate;
     try {
       const storedItems = await getData();
@@ -94,6 +97,7 @@ const Form = ({ setScanner, productName, productImage, productBarCode = null }: 
           addedDate: new Date().toISOString(),
           quantity,
         };
+        console.log("Value: " + val);
         storedItems[key] = newItem;
         await AsyncStorage.setItem("@storedItems", JSON.stringify(storedItems));
         console.log("fatto asyncstorage");
@@ -101,6 +105,7 @@ const Form = ({ setScanner, productName, productImage, productBarCode = null }: 
         console.log("fatto setItems del context");
         Alert.alert("Insert", "Product inserted succesfully", [{ text: "OK" }]);
         clearData();
+        nav ? setScanner(true) : navigation();
       } else {
         Alert.alert("Error", "Product already inserted", [{ text: "OK" }]);
       }
@@ -198,14 +203,26 @@ const Form = ({ setScanner, productName, productImage, productBarCode = null }: 
         )}
 
         <View
-          style={{ flex: 1, justifyContent: "flex-end", marginBottom: 10, marginHorizontal: 10 }}>
-          <Pressable
-            onPress={() => {
-              storeData();
-            }}
-            style={styles.submitButton}>
-            <Text style={styles.buttonText}>Submit</Text>
-          </Pressable>
+          style={{ flex: 1, justifyContent: "flex-end", marginBottom: 10, marginHorizontal: 10}}>         
+          <View
+            style={{flexDirection: "row", justifyContent: "space-around"}}>
+            <Pressable
+              onPress = {() => {
+                storeData(true);
+              }}
+              style={styles.submitButton}>
+              <Text style={styles.buttonText}>Add another</Text>
+            </Pressable>
+            
+            <Pressable
+              onPress={() => {
+                setNav(false);
+                storeData(false);
+              }}
+              style={styles.submitButton}>
+              <Text style={styles.buttonText}>Submit</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </View>
@@ -272,12 +289,13 @@ const themedStyles = () => {
       borderRadius: 20,
     },
     button: {
+      height: 50,
       backgroundColor: colorScheme === "dark" ? "#007AFF" : "#007AFF",
       alignItems: "center",
       justifyContent: "center",
       paddingVertical: 5,
       paddingHorizontal: 10,
-      borderRadius: 15,
+      borderRadius: 25,
     },
     buttonText: {
       color: colorScheme === "dark" ? "#fff" : "#fff",
@@ -304,11 +322,12 @@ const themedStyles = () => {
     },
     submitButton: {
       height: 50,
+      minWidth: 100,
       alignItems: "center",
       justifyContent: "center",
       backgroundColor: colorScheme === "dark" ? "#007AFF" : "#007AFF",
       paddingVertical: 5,
-      borderRadius: 20,
+      borderRadius: 25,
       paddingHorizontal: 10,
     },
     wheelItemText: {
