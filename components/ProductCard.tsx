@@ -46,7 +46,7 @@ export const ProductTile = ({
     <View style={[styles.containerTile, {backgroundColor: Colors[colorScheme].backgroundNeutral}]}>
         {productImage ?
           <Image source={{uri: productImage}} style={styles.imageTile}/>:
-          <Image source={require('../assets/images/no-food-icon.png')} style={styles.imageTile} resizeMode="contain"/>
+          <Image source={require('../assets/images/no-picture.png')} style={styles.imageTile} resizeMode="contain"/>
         }
         <View style={{flex: 1}}/>
         <View style={{flexDirection: "column", flex: 10}}>
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
       height: undefined,
       width: undefined,
       flex: 3,
-      backgroundColor: "#fff",
+      //backgroundColor: "#fff",
       borderRadius: 30
   }
 });

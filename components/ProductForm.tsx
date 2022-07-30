@@ -202,6 +202,14 @@ const Form = ({
           </View>
         )}
 
+        {!image && <Pressable
+          style={styles.imageWrapper}
+          onPress={() => {}}>
+          <View style={{backgroundColor: useColorScheme() == "dark" ? "#111" : "#eee"}}>
+            <Image resizeMode="contain" style={styles.imageOverlay} source={require('../assets/images/no-picture.png')}/>
+          </View>
+        </Pressable>}
+
         <View
           style={{ flex: 1, justifyContent: "flex-end", marginBottom: 10, marginHorizontal: 10 }}>
           <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
@@ -347,6 +355,11 @@ const themedStyles = () => {
       flex: 3,
       marginTop: 20,
     },
+    imageOverlay: {
+      height: "100%",
+      width: "100%",
+      opacity: 0.5
+    }
   });
 };
 
