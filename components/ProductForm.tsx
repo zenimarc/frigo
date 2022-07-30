@@ -39,7 +39,13 @@ export const getData = async (): Promise<StoredProductsDictData> => {
   return jsonValue != null ? JSON.parse(jsonValue) : {};
 };
 
-const Form = ({ setScanner, productName, productImage, productBarCode = null, navigation }: formProps) => {
+const Form = ({
+  setScanner,
+  productName,
+  productImage,
+  productBarCode = null,
+  navigation,
+}: formProps) => {
   const styles = themedStyles();
   const [name, setName] = useState(productName);
   const [barCode, setBarCode] = useState(productBarCode);
@@ -49,7 +55,7 @@ const Form = ({ setScanner, productName, productImage, productBarCode = null, na
   const [showPicker, setShowPicker] = useState(false);
   const [, setMode] = useState("date");
   const [, setItems] = useContext(AppContext);
-  var [nav, setNav] = useState<Boolean>(false);
+  const [nav, setNav] = useState<boolean>(false);
 
   console.log("immaghiubne: ", image);
 
@@ -83,7 +89,7 @@ const Form = ({ setScanner, productName, productImage, productBarCode = null, na
     setImage(undefined);
   };
 
-  const storeData = async (nav: Boolean) => {
+  const storeData = async (nav: boolean) => {
     const key = barCode ? String(barCode + "-" + expDate) : name + "-" + expDate;
     try {
       const storedItems = await getData();
@@ -141,14 +147,8 @@ const Form = ({ setScanner, productName, productImage, productBarCode = null, na
           value={name}
           onChangeText={(text) => setName(text)}
         />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-around",
-            alignItems: "center",
-            marginTop: 20,
-          }}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View style={styles.quantityAndExpWrapper}>
+          <View style={styles.quantityWrapper}>
             <Text style={[styles.text, { marginRight: 10 }]}>Quantity</Text>
             <WheelPicker
               selectedIndex={quantity}
@@ -170,7 +170,7 @@ const Form = ({ setScanner, productName, productImage, productBarCode = null, na
                 )*/}
           </View>
           {/*<View style={{ flexDirection: "row", flex: 1 }} />*/}
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View style={styles.expWrapper}>
             <Text style={styles.text}>Exp. Date</Text>
             {Platform.OS !== "ios" && (
               <Pressable style={styles.pickerButton} onPress={() => showMode()}>
@@ -203,17 +203,16 @@ const Form = ({ setScanner, productName, productImage, productBarCode = null, na
         )}
 
         <View
-          style={{ flex: 1, justifyContent: "flex-end", marginBottom: 10, marginHorizontal: 10}}>         
-          <View
-            style={{flexDirection: "row", justifyContent: "space-around"}}>
+          style={{ flex: 1, justifyContent: "flex-end", marginBottom: 10, marginHorizontal: 10 }}>
+          <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
             <Pressable
-              onPress = {() => {
+              onPress={() => {
                 storeData(true);
               }}
               style={styles.submitButton}>
               <Text style={styles.buttonText}>Add another</Text>
             </Pressable>
-            
+
             <Pressable
               onPress={() => {
                 setNav(false);
@@ -288,6 +287,14 @@ const themedStyles = () => {
       padding: 15,
       borderRadius: 20,
     },
+    quantityAndExpWrapper: {
+      flexDirection: "row",
+      justifyContent: "space-around",
+      alignItems: "center",
+      marginTop: 20,
+    },
+    quantityWrapper: { flexDirection: "row", alignItems: "center" },
+    expWrapper: { flexDirection: "row", alignItems: "center" },
     button: {
       height: 50,
       backgroundColor: colorScheme === "dark" ? "#007AFF" : "#007AFF",
@@ -337,7 +344,7 @@ const themedStyles = () => {
       backgroundColor: colorScheme === "dark" ? "#222" : "#eee",
     },
     imageWrapper: {
-      height: 250,
+      flex: 3,
       marginTop: 20,
     },
   });
