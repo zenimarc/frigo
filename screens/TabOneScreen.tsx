@@ -1,8 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext, useEffect } from "react";
-import { FlatList, StyleSheet } from "react-native";
+import { Alert, FlatList, Pressable, StyleSheet } from "react-native";
 
 import ProductCard from "../components/ProductCard";
+import { ProductTile } from "../components/ProductCard";
 import {
   ProductDataToBeStored,
   getData as getStoredItems,
@@ -12,6 +13,7 @@ import { AddButton, View } from "../components/Themed";
 import { AppContext } from "../context";
 import { convertObjToArray } from "../helper_functions";
 import { RootTabScreenProps } from "../types";
+import {getData} from "../components/ProductForm"
 
 const getRenderItemFuncGivenLayoutColumns = ({ columns }: { columns: number }) => {
   return ({ item }: { item: ProductDataToBeStored }) => {
@@ -29,6 +31,44 @@ const getRenderItemFuncGivenLayoutColumns = ({ columns }: { columns: number }) =
       </View>
     );
   };
+};
+
+const getRenderFunctionRows = (row: number) => {
+  return ({item}: {item: ProductDataToBeStored}) =>{
+    const {expDate, productBarCode, productImage, productName, quantity, addedDate} = item;
+
+    return (
+      <Pressable
+      onLongPress={() => Alert.alert(productName, "Quantity: " + quantity, [{text: "Remove", onPress: () => {RemoveFood(item)}}])}>
+        <View lightColor="white" darkColor="black">
+          <ProductTile
+            addedDate={addedDate}
+            expDate={expDate}
+            productBarCode={productBarCode}
+            productImage={productImage}
+            productName={productName}
+            quantity={quantity}
+          />
+        </View>
+      </Pressable>
+    )
+  }
+
+};
+
+const RemoveFood = async ({item}: {item: ProductDataToBeStored}) => {
+  const [, setItems] = useContext(AppContext);
+  const {expDate, productBarCode, productImage, productName, quantity, addedDate} = item;
+  const key = productBarCode ? String(productBarCode + "-" + expDate) : productName + "-" + expDate;
+
+  /*try{
+    const storedItems = await getData();
+    storedItems[key] = undefined;
+    await AsyncStorage.setItem("@storedItems", JSON.stringify(storedItems));
+    setItems(convertObjToArray(storedItems));
+  } catch {
+    console.log("Error getting data:" + name);
+  }*/
 };
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<"TabOne">) {
@@ -49,13 +89,13 @@ e un'altra più dettagliata dove ogni elemento è una riga */
     <View lightColor="white" darkColor="black" style={styles.container}>
       <FlatList
         data={items}
-        renderItem={getRenderItemFuncGivenLayoutColumns({ columns: layoutColumns })}
+        renderItem={getRenderFunctionRows(items.length) /*|| getRenderItemFuncGivenLayoutColumns({ columns: layoutColumns })*/}
         keyExtractor={(item) =>
           item.productBarCode
             ? String(item.productBarCode) + item.expDate
             : String(item.productName + item.expDate)
         }
-        numColumns={layoutColumns}
+        numColumns={1}
         horizontal={false}
       />
       <AddButton
@@ -75,7 +115,8 @@ e un'altra più dettagliata dove ogni elemento è una riga */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    padding: 5,
+    paddingTop: 10
   },
   box: {
     flex: 1,

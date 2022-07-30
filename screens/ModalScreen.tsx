@@ -41,6 +41,7 @@ export default function ModalScreen({ navigation }: RootTabScreenProps<"TabOne">
           productName={productName}
           setScanner={setShowScanner}
           productImage={productImage}
+          navigation={() => navigation.navigate("TabOne")}
         />
       )}
     </>
