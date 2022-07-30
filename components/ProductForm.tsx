@@ -21,6 +21,7 @@ interface formProps extends Omit<productData, "productBarCode"> {
   setScanner: Function;
   productBarCode: string | null | undefined;
   navigateToHome: Function;
+  setCamera: Function;
 }
 
 export interface ProductDataToBeStored extends productData {
@@ -48,6 +49,7 @@ const Form = ({
   productBarCode = null,
   navigateToHome,
   productNameEng,
+  setCamera,
 }: formProps) => {
   const styles = themedStyles();
   const [name, setName] = useState(productName);
@@ -200,11 +202,21 @@ const Form = ({
           </View>
         </View>
 
-        {image && (
+        {
           <View style={styles.imageWrapper}>
-            <Image resizeMode="contain" style={{ height: "100%" }} source={{ uri: image }} />
+            {image ? (
+              <Image resizeMode="contain" style={{ height: "100%" }} source={{ uri: image }} />
+            ) : (
+              <Pressable onPress={() => setCamera(true)}>
+                <Image
+                  resizeMode="contain"
+                  style={styles.imageOverlay}
+                  source={require("../assets/images/no-picture.png")}
+                />
+              </Pressable>
+            )}
           </View>
-        )}
+        }
 
         <View
           style={{ flex: 1, justifyContent: "flex-end", marginBottom: 10, marginHorizontal: 10 }}>
@@ -350,6 +362,12 @@ const themedStyles = () => {
     imageWrapper: {
       flex: 3,
       marginTop: 20,
+      backgroundColor: colorScheme == "dark" ? "#111" : "#eee",
+    },
+    imageOverlay: {
+      height: "100%",
+      width: "100%",
+      opacity: 0.5,
     },
   });
 };

@@ -4,12 +4,15 @@ import ScannerBarCode from "../components/ScannerBarCode";
 import { RootTabScreenProps } from "../types";
 import Form from "../components/ProductForm";
 import { getProductDataFromApi } from "../apiCalls";
+import { Camera } from "expo-camera";
+import CameraImage from "../components/CameraImage";
 
 export default function ModalScreen({ navigation }: RootTabScreenProps<"TabOne">) {
   const [showScanner, setShowScanner] = useState(true);
   const [productName, setProductName] = useState<string | undefined>();
   const [productImage, setProductImage] = useState<string | undefined>();
   const [productBarCode, setProductBarCode] = useState<string | undefined>();
+  const [showCamera, setShowCamera] = useState<boolean>(false);
 
   const getProduct = async (code: string) => {
     const resp = await getProductDataFromApi(code);
@@ -26,7 +29,7 @@ export default function ModalScreen({ navigation }: RootTabScreenProps<"TabOne">
 
   return (
     <>
-      {showScanner && (
+      {showScanner && !showCamera && (
         <ScannerBarCode
           onSuccess={async (code: string) => {
             setShowScanner(false);
@@ -35,14 +38,26 @@ export default function ModalScreen({ navigation }: RootTabScreenProps<"TabOne">
           onFail={() => setShowScanner(false)}
         />
       )}
-      {!showScanner && (
+      {!showScanner && !showCamera && (
         <Form
           productBarCode={productBarCode}
           productName={productName}
           setScanner={setShowScanner}
           productImage={productImage}
           navigateToHome={() => navigation.navigate("TabOne")}
+          setCamera={setShowCamera}
         />
+      )}
+      {showCamera && (
+       <CameraImage
+        onSuccess={(image: string | undefined) => {
+          setProductImage(image);
+          setShowCamera(false);
+        }}
+        onFail={() => {
+          setShowCamera(false);
+        }}
+       />
       )}
     </>
   );
