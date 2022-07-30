@@ -196,19 +196,14 @@ const Form = ({
           </View>
         </View>
 
-        {image && (
-          <View style={styles.imageWrapper}>
-            <Image resizeMode="contain" style={{ height: "100%" }} source={{ uri: image }} />
-          </View>
-        )}
-
-        {!image && <Pressable
-          style={styles.imageWrapper}
-          onPress={() => {}}>
-          <View style={{backgroundColor: useColorScheme() == "dark" ? "#111" : "#eee"}}>
-            <Image resizeMode="contain" style={styles.imageOverlay} source={require('../assets/images/no-picture.png')}/>
-          </View>
-        </Pressable>}
+        
+        {<View style={styles.imageWrapper}>
+          {image ? <Image resizeMode="contain" style={{ height: "100%" }} source={{ uri: image }} />
+                 : <Image resizeMode="contain" style={styles.imageOverlay} source={require('../assets/images/no-picture.png')}/>
+          }
+        </View>}
+        
+        
 
         <View
           style={{ flex: 1, justifyContent: "flex-end", marginBottom: 10, marginHorizontal: 10 }}>
@@ -354,11 +349,12 @@ const themedStyles = () => {
     imageWrapper: {
       flex: 3,
       marginTop: 20,
+      backgroundColor: colorScheme == "dark" ? "#111" : "#eee",
     },
     imageOverlay: {
       height: "100%",
       width: "100%",
-      opacity: 0.5
+      opacity: 0.5,
     }
   });
 };
