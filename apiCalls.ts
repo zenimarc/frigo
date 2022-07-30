@@ -4,6 +4,7 @@ type ProductDataResp = {
   status: 0 | 1;
   data?: {
     name?: string;
+    name_eng?: string;
     imageUrl?: string;
     code: string;
   };
@@ -30,6 +31,7 @@ export const getProductDataFromApi = async (code: string): Promise<ProductDataRe
       };
     } else {
       const pName = product.product.product_name || product.product.product_name_it;
+      const pNameEng = product.product.product_name_en;
       const imageUrl = product.product.image_url;
       const imageUrlSmall = product.product.image_url_small;
       //console.log(product);
@@ -37,6 +39,7 @@ export const getProductDataFromApi = async (code: string): Promise<ProductDataRe
         status: 1,
         data: {
           name: pName,
+          name_eng: pNameEng,
           imageUrl,
           code,
         },
@@ -54,6 +57,17 @@ export const SpoonacularAPI = () => {
   const _baseUrl = "https://api.spoonacular.com";
   const _apiKey = "817efa11d7b94cdb9fa258c57ca90ba9";
 
+  const _doGetRequest = async (url: string) => {
+    const resp = await fetch(url, {
+      method: "GET",
+      redirect: "follow",
+    });
+    return await resp.json();
+  };
+
+  // TODO: there is an endpoint that can combine search by ingredients and get informations and get instructions
+  // it might be a good idea to use it
+
   const searchRecipesGivenIngredients = async (ingredients: string[]) => {
     const _apiMethod = "/recipes/findByIngredients?";
     const params = {
@@ -67,12 +81,30 @@ export const SpoonacularAPI = () => {
 
     const queryString = new URLSearchParams(params).toString();
     const url = _baseUrl + _apiMethod + queryString;
-    const resp = await fetch(url, {
-      method: "GET",
-      redirect: "follow",
-    });
-    return await resp.json();
+    return await _doGetRequest(url);
   };
 
-  return { searchRecipesGivenIngredients };
+  const getRecipeInformations = async (recipeID: string) => {
+    //gets ingredient list, prep time ecc...
+    const _apiMethod = `/recipes/${recipeID}/information?`;
+    const params = {
+      includeNutrition: "false",
+    };
+    const queryString = new URLSearchParams(params).toString();
+    const url = _baseUrl + _apiMethod + queryString;
+    return await _doGetRequest(url);
+  };
+
+  const getAnalyzedRecipeInstructions = async (recipeID: string) => {
+    //gets instructions in step
+    const _apiMethod = `/recipes/${recipeID}/analyzedInstructions?`;
+    const params = {
+      stepBreakdown: "true",
+    };
+    const queryString = new URLSearchParams(params).toString();
+    const url = _baseUrl + _apiMethod + queryString;
+    return await _doGetRequest(url);
+  };
+
+  return { searchRecipesGivenIngredients, getRecipeInformations, getAnalyzedRecipeInstructions };
 };

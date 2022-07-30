@@ -12,6 +12,7 @@ import { RootTabScreenProps } from "../types";
 
 interface productData {
   productName: string | undefined;
+  productNameEng: string | undefined;
   productImage: string | undefined;
   productBarCode: string | null;
 }
@@ -24,6 +25,7 @@ interface formProps extends Omit<productData, "productBarCode"> {
 
 export interface ProductDataToBeStored extends productData {
   productName: string;
+  productNameEng: string;
   expDate: Date;
   addedDate: Date;
   quantity: number;
@@ -45,6 +47,7 @@ const Form = ({
   productImage,
   productBarCode = null,
   navigateToHome,
+  productNameEng,
 }: formProps) => {
   const styles = themedStyles();
   const [name, setName] = useState(productName);
@@ -99,6 +102,7 @@ const Form = ({
           productBarCode: barCode || null,
           productImage: image,
           productName: name || "undefined",
+          productNameEng: productNameEng || productName || "undefined", //maybe try to translate in case
           expDate: expDate.toISOString(),
           addedDate: new Date().toISOString(),
           quantity,
