@@ -2,18 +2,17 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext, useEffect } from "react";
 import { Alert, FlatList, Pressable, StyleSheet } from "react-native";
 
-import ProductCard from "../components/ProductCard";
-import { ProductTile } from "../components/ProductCard";
+import ProductCard, { ProductTile } from "../components/ProductCard";
+
 import {
   ProductDataToBeStored,
-  getData as getStoredItems,
+  getStoredItems,
   StoredProductData,
 } from "../components/ProductForm";
 import { AddButton, View } from "../components/Themed";
 import { AppContext } from "../context";
 import { convertObjToArray } from "../helper_functions";
 import { RootTabScreenProps } from "../types";
-import {getData} from "../components/ProductForm"
 
 const getRenderItemFuncGivenLayoutColumns = ({ columns }: { columns: number }) => {
   return ({ item }: { item: ProductDataToBeStored }) => {
@@ -34,12 +33,21 @@ const getRenderItemFuncGivenLayoutColumns = ({ columns }: { columns: number }) =
 };
 
 const getRenderFunctionRows = (row: number) => {
-  return ({item}: {item: ProductDataToBeStored}) =>{
-    const {expDate, productBarCode, productImage, productName, quantity, addedDate} = item;
+  return ({ item }: { item: ProductDataToBeStored }) => {
+    const { expDate, productBarCode, productImage, productName, quantity, addedDate } = item;
 
     return (
       <Pressable
-      onLongPress={() => Alert.alert(productName, "Quantity: " + quantity, [{text: "Remove", onPress: () => {RemoveFood(item)}}])}>
+        onLongPress={() =>
+          Alert.alert(productName, "Quantity: " + quantity, [
+            {
+              text: "Remove",
+              onPress: () => {
+                RemoveFood(item);
+              },
+            },
+          ])
+        }>
         <View lightColor="white" darkColor="black">
           <ProductTile
             addedDate={addedDate}
@@ -51,14 +59,13 @@ const getRenderFunctionRows = (row: number) => {
           />
         </View>
       </Pressable>
-    )
-  }
-
+    );
+  };
 };
 
-const RemoveFood = async ({item}: {item: ProductDataToBeStored}) => {
+const RemoveFood = async ({ item }: { item: ProductDataToBeStored }) => {
   const [, setItems] = useContext(AppContext);
-  const {expDate, productBarCode, productImage, productName, quantity, addedDate} = item;
+  const { expDate, productBarCode, productImage, productName, quantity, addedDate } = item;
   const key = productBarCode ? String(productBarCode + "-" + expDate) : productName + "-" + expDate;
 
   /*try{
@@ -89,7 +96,11 @@ e un'altra più dettagliata dove ogni elemento è una riga */
     <View lightColor="white" darkColor="black" style={styles.container}>
       <FlatList
         data={items}
-        renderItem={getRenderFunctionRows(items.length) /*|| getRenderItemFuncGivenLayoutColumns({ columns: layoutColumns })*/}
+        renderItem={
+          getRenderFunctionRows(
+            items.length
+          ) /*|| getRenderItemFuncGivenLayoutColumns({ columns: layoutColumns })*/
+        }
         keyExtractor={(item) =>
           item.productBarCode
             ? String(item.productBarCode) + item.expDate
@@ -116,7 +127,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 5,
-    paddingTop: 10
+    paddingTop: 10,
   },
   box: {
     flex: 1,

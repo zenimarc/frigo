@@ -19,7 +19,7 @@ interface productData {
 interface formProps extends Omit<productData, "productBarCode"> {
   setScanner: Function;
   productBarCode: string | null | undefined;
-  navigation: Function;
+  navigateToHome: Function;
 }
 
 export interface ProductDataToBeStored extends productData {
@@ -34,7 +34,7 @@ export interface StoredProductData extends Omit<ProductDataToBeStored, "expDate"
   addedDate: string;
 }
 
-export const getData = async (): Promise<StoredProductsDictData> => {
+export const getStoredItems = async (): Promise<StoredProductsDictData> => {
   const jsonValue = await AsyncStorage.getItem("@storedItems");
   return jsonValue != null ? JSON.parse(jsonValue) : {};
 };
@@ -44,7 +44,7 @@ const Form = ({
   productName,
   productImage,
   productBarCode = null,
-  navigation,
+  navigateToHome,
 }: formProps) => {
   const styles = themedStyles();
   const [name, setName] = useState(productName);
@@ -92,7 +92,7 @@ const Form = ({
   const storeData = async (nav: boolean) => {
     const key = barCode ? String(barCode + "-" + expDate) : name + "-" + expDate;
     try {
-      const storedItems = await getData();
+      const storedItems = await getStoredItems();
       const val = storedItems[key];
       if (!val) {
         const newItem: StoredProductData = {
@@ -111,7 +111,7 @@ const Form = ({
         console.log("fatto setItems del context");
         Alert.alert("Insert", "Product inserted succesfully", [{ text: "OK" }]);
         clearData();
-        nav ? setScanner(true) : navigation();
+        nav ? setScanner(true) : navigateToHome();
       } else {
         Alert.alert("Error", "Product already inserted", [{ text: "OK" }]);
       }
