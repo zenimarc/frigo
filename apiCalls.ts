@@ -49,3 +49,30 @@ export const getProductDataFromApi = async (code: string): Promise<ProductDataRe
     };
   }
 };
+
+export const SpoonacularAPI = () => {
+  const _baseUrl = "https://api.spoonacular.com";
+  const _apiKey = "817efa11d7b94cdb9fa258c57ca90ba9";
+
+  const searchRecipesGivenIngredients = async (ingredients: string[]) => {
+    const _apiMethod = "/recipes/findByIngredients?";
+    const params = {
+      ingredients: ingredients.join(","),
+      number: "10",
+      limitLicense: "true",
+      ranking: "1",
+      ignorePantry: "true",
+      apiKey: _apiKey,
+    };
+
+    const queryString = new URLSearchParams(params).toString();
+    const url = _baseUrl + _apiMethod + queryString;
+    const resp = await fetch(url, {
+      method: "GET",
+      redirect: "follow",
+    });
+    return await resp.json();
+  };
+
+  return { searchRecipesGivenIngredients };
+};
