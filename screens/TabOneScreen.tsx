@@ -16,7 +16,15 @@ import { RootTabScreenProps } from "../types";
 
 const getRenderItemFuncGivenLayoutColumns = ({ columns }: { columns: number }) => {
   return ({ item }: { item: ProductDataToBeStored }) => {
-    const { expDate, productBarCode, productImage, productName, quantity, addedDate } = item;
+    const {
+      expDate,
+      productBarCode,
+      productImage,
+      productName,
+      quantity,
+      addedDate,
+      productNameEng,
+    } = item;
     return (
       <View lightColor="white" darkColor="black" style={{ flex: 1 / columns }}>
         <ProductCard
@@ -25,6 +33,7 @@ const getRenderItemFuncGivenLayoutColumns = ({ columns }: { columns: number }) =
           productBarCode={productBarCode}
           productImage={productImage}
           productName={productName}
+          productNameEng={productNameEng}
           quantity={quantity}
         />
       </View>
@@ -34,7 +43,15 @@ const getRenderItemFuncGivenLayoutColumns = ({ columns }: { columns: number }) =
 
 const getRenderFunctionRows = (row: number) => {
   return ({ item }: { item: ProductDataToBeStored }) => {
-    const { expDate, productBarCode, productImage, productName, quantity, addedDate } = item;
+    const {
+      expDate,
+      productBarCode,
+      productImage,
+      productName,
+      quantity,
+      addedDate,
+      productNameEng,
+    } = item;
 
     return (
       <Pressable
@@ -55,6 +72,7 @@ const getRenderFunctionRows = (row: number) => {
             productBarCode={productBarCode}
             productImage={productImage}
             productName={productName}
+            productNameEng={productNameEng}
             quantity={quantity}
           />
         </View>
