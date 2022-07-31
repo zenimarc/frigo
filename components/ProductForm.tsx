@@ -23,7 +23,6 @@ interface formProps extends Omit<productData, "productBarCode"> {
   setScanner: Function;
   productBarCode: string | null | undefined;
   navigateToHome: Function;
-  setCamera: Function;
 }
 
 export interface ProductDataToBeStored extends productData {
@@ -51,7 +50,6 @@ const Form = ({
   productBarCode = null,
   navigateToHome,
   productNameEng,
-  setCamera,
 }: formProps) => {
   const styles = themedStyles();
   const [name, setName] = useState(productName);
@@ -206,27 +204,27 @@ const Form = ({
           </View>
         </View>
 
-        {
-          <View style={styles.imageWrapper}>
-            {image ? (
-              <Image resizeMode="contain" style={{ height: "100%" }} source={{ uri: image }} />
-            ) : (
-              <Pressable
-                onPress={() =>
-                  navigation.navigate("cameraModal", { onSuccess: (photo) => setImage(photo.uri) })
-                }>
-                <Image
-                  resizeMode="contain"
-                  style={styles.imageOverlay}
-                  source={require("../assets/images/no-picture.png")}
-                />
-              </Pressable>
-            )}
-          </View>
-        }
+        <View style={styles.imageWrapper}>
+          {image ? (
+            <Image resizeMode="contain" style={{ height: "100%" }} source={{ uri: image }} />
+          ) : (
+            <Pressable
+              onPress={() =>
+                navigation.navigate("cameraModal", {
+                  sendItemBack: true,
+                  receiverRouteName: "addFoodModal",
+                })
+              }>
+              <Image
+                resizeMode="contain"
+                style={styles.imageOverlay}
+                source={require("../assets/images/no-picture.png")}
+              />
+            </Pressable>
+          )}
+        </View>
 
-        <View
-          style={{ flex: 1, justifyContent: "flex-end", marginBottom: 10, marginHorizontal: 10 }}>
+        <View style={styles.buttonsWrapper}>
           <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
             <Pressable
               onPress={() => {
@@ -350,6 +348,7 @@ const themedStyles = () => {
       width: 320,
       height: 260,
     },
+    buttonsWrapper: { flex: 1, justifyContent: "flex-end", marginBottom: 10, marginHorizontal: 10 },
     submitButton: {
       height: 50,
       minWidth: 100,
@@ -367,7 +366,8 @@ const themedStyles = () => {
       backgroundColor: colorScheme === "dark" ? "#222" : "#eee",
     },
     imageWrapper: {
-      flex: 3,
+      flex: 1,
+      minHeight: 200,
       marginTop: 20,
       backgroundColor: colorScheme == "dark" ? "#111" : "#eee",
     },

@@ -16,8 +16,8 @@ declare global {
 
 export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
-  addFoodModal: undefined;
-  cameraModal: { onSuccess: (photo: CameraCapturedPicture) => void };
+  addFoodModal: undefined | { photo: CameraCapturedPicture };
+  cameraModal: { sendItemBack: boolean; receiverRouteName: string };
   NotFound: undefined;
 };
 
@@ -35,3 +35,5 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> = Composit
   BottomTabScreenProps<RootTabParamList, Screen>,
   NativeStackScreenProps<RootStackParamList>
 >;
+
+export type ReceiverRouteNamesFromCamera = "addFoodModal";

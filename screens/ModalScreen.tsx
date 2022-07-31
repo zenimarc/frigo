@@ -1,19 +1,30 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Platform, Alert } from "react-native";
 import ScannerBarCode from "../components/ScannerBarCode";
 import { RootTabScreenProps } from "../types";
 import Form from "../components/ProductForm";
 import { getProductDataFromApi } from "../apiCalls";
-import { Camera, CameraCapturedPicture } from "expo-camera";
-import CameraImage from "../components/CameraImage";
+import { CameraCapturedPicture } from "expo-camera";
 
-export default function ModalScreen({ navigation }: RootTabScreenProps<"TabOne">) {
+export default function ModalScreen({ route, navigation }: RootTabScreenProps<"TabOne">) {
   const [showScanner, setShowScanner] = useState(true);
   const [productName, setProductName] = useState<string | undefined>();
   const [productNameEng, setProductNameEng] = useState<string | undefined>();
   const [productImage, setProductImage] = useState<string | undefined>();
   const [productBarCode, setProductBarCode] = useState<string | undefined>();
-  const [showCamera, setShowCamera] = useState<boolean>(false);
+
+  const params = useMemo(() => route.params || { photo: undefined }, [route.params]);
+
+  const onSnapPhoto = useCallback(
+    (photo: CameraCapturedPicture) => {
+      setProductImage(photo.uri); // basic useState
+    },
+    [setProductImage]
+  );
+
+  useEffect(() => {
+    if (params.photo) onSnapPhoto(params.photo);
+  }, [params, onSnapPhoto]);
 
   const getProduct = async (code: string) => {
     const resp = await getProductDataFromApi(code);
@@ -31,7 +42,7 @@ export default function ModalScreen({ navigation }: RootTabScreenProps<"TabOne">
 
   return (
     <>
-      {showScanner && !showCamera && (
+      {showScanner && (
         <ScannerBarCode
           onSuccess={async (code: string) => {
             setShowScanner(false);
@@ -40,7 +51,7 @@ export default function ModalScreen({ navigation }: RootTabScreenProps<"TabOne">
           onFail={() => setShowScanner(false)}
         />
       )}
-      {!showScanner && !showCamera && (
+      {!showScanner && (
         <Form
           productBarCode={productBarCode}
           productName={productName}
@@ -48,18 +59,6 @@ export default function ModalScreen({ navigation }: RootTabScreenProps<"TabOne">
           setScanner={setShowScanner}
           productImage={productImage}
           navigateToHome={() => navigation.navigate("TabOne")}
-          setCamera={setShowCamera}
-        />
-      )}
-      {showCamera && (
-        <CameraImage
-          onSuccess={(image: CameraCapturedPicture) => {
-            setProductImage(image.uri);
-            setShowCamera(false);
-          }}
-          onFail={() => {
-            setShowCamera(false);
-          }}
         />
       )}
     </>

@@ -1,20 +1,27 @@
 import React, { useState } from "react";
 import { Platform, Alert } from "react-native";
 import ScannerBarCode from "../components/ScannerBarCode";
-import { RootTabScreenProps } from "../types";
+import {
+  ReceiverRouteNamesFromCamera as ReceiverRouteNameFromCamera,
+  RootStackScreenProps,
+  RootTabScreenProps,
+} from "../types";
 import Form from "../components/ProductForm";
 import { getProductDataFromApi } from "../apiCalls";
 import { Camera, CameraCapturedPicture } from "expo-camera";
 import CameraImage from "../components/CameraImage";
 
-export default function CameraModalScreen({ route, navigation }: RootTabScreenProps<"TabOne">) {
-  const { onSuccess }: { onSuccess: (image: CameraCapturedPicture) => void } = route.params!;
+export default function CameraModalScreen({
+  route,
+  navigation,
+}: RootStackScreenProps<"cameraModal">) {
+  const { sendItemBack, receiverRouteName } = route.params;
   return (
     <>
       <CameraImage
         onSuccess={(image) => {
-          onSuccess(image);
-          navigation.goBack();
+          const recRoute = receiverRouteName as ReceiverRouteNameFromCamera; //to let typescript understand which are the possible routes
+          navigation.navigate(recRoute, sendItemBack ? { photo: image } : undefined);
         }}
         onFail={() => {
           console.log("fail to take photo");
