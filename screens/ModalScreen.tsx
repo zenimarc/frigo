@@ -4,7 +4,7 @@ import ScannerBarCode from "../components/ScannerBarCode";
 import { RootTabScreenProps } from "../types";
 import Form from "../components/ProductForm";
 import { getProductDataFromApi } from "../apiCalls";
-import { Camera } from "expo-camera";
+import { Camera, CameraCapturedPicture } from "expo-camera";
 import CameraImage from "../components/CameraImage";
 
 export default function ModalScreen({ navigation }: RootTabScreenProps<"TabOne">) {
@@ -53,8 +53,8 @@ export default function ModalScreen({ navigation }: RootTabScreenProps<"TabOne">
       )}
       {showCamera && (
         <CameraImage
-          onSuccess={(image: string | undefined) => {
-            setProductImage(image);
+          onSuccess={(image: CameraCapturedPicture) => {
+            setProductImage(image.uri);
             setShowCamera(false);
           }}
           onFail={() => {

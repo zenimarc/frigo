@@ -1,5 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { useNavigation } from "@react-navigation/native";
+import { CameraCapturedPicture } from "expo-camera";
 import React, { useContext, useState } from "react";
 import { Platform, Pressable, StyleSheet, TextInput, View, Text, Alert, Image } from "react-native";
 import WheelPicker from "react-native-wheely";
@@ -61,6 +63,8 @@ const Form = ({
   const [, setMode] = useState("date");
   const [, setItems] = useContext(AppContext);
   const [nav, setNav] = useState<boolean>(false);
+
+  const navigation = useNavigation();
 
   console.log("immaghiubne: ", image);
 
@@ -207,7 +211,10 @@ const Form = ({
             {image ? (
               <Image resizeMode="contain" style={{ height: "100%" }} source={{ uri: image }} />
             ) : (
-              <Pressable onPress={() => setCamera(true)}>
+              <Pressable
+                onPress={() =>
+                  navigation.navigate("cameraModal", { onSuccess: (photo) => setImage(photo.uri) })
+                }>
                 <Image
                   resizeMode="contain"
                   style={styles.imageOverlay}

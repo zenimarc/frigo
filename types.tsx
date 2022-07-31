@@ -6,6 +6,7 @@
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { CompositeScreenProps, NavigatorScreenParams } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { CameraCapturedPicture } from "expo-camera";
 
 declare global {
   namespace ReactNavigation {
@@ -16,6 +17,7 @@ declare global {
 export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   addFoodModal: undefined;
+  cameraModal: { onSuccess: (photo: CameraCapturedPicture) => void };
   NotFound: undefined;
 };
 

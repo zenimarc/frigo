@@ -7,7 +7,7 @@ export default function CameraImage({
   onSuccess,
   onFail,
 }: {
-  onSuccess: (image: string | undefined) => any;
+  onSuccess: (image: CameraCapturedPicture) => any;
   onFail: () => any;
 }) {
   const [hasCameraPermission, setHasCameraPermission] = useState<null | boolean>(null);
@@ -24,7 +24,7 @@ export default function CameraImage({
     if (camera) {
       const photo = await camera.takePictureAsync();
       console.log(photo);
-      onSuccess(photo.uri);
+      onSuccess(photo);
     }
   };
 

@@ -10,6 +10,7 @@ import WavyHeader from "../components/WavyHeader";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
+import CameraModalScreen from "../screens/CameraModalScreen";
 import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import TabOneScreen from "../screens/TabOneScreen";
@@ -36,6 +37,11 @@ function RootNavigator() {
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: "Oops!" }} />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="addFoodModal" component={ModalScreen} options={{ title: "Add Food" }} />
+        <Stack.Screen
+          name="cameraModal"
+          component={CameraModalScreen}
+          options={{ title: "Camera" }}
+        />
       </Stack.Group>
     </Stack.Navigator>
   );
