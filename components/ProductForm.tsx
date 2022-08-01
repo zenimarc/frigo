@@ -205,23 +205,24 @@ const Form = ({
         </View>
 
         <View style={styles.imageWrapper}>
-          {image ? (
-            <Image resizeMode="contain" style={{ height: "100%" }} source={{ uri: image }} />
-          ) : (
-            <Pressable
-              onPress={() =>
-                navigation.navigate("cameraModal", {
-                  sendItemBack: true,
-                  receiverRouteName: "addFoodModal",
-                })
-              }>
+          <Pressable
+            onPress={() =>
+              navigation.navigate("cameraModal", {
+                sendItemBack: true,
+                receiverRouteName: "addFoodModal",
+              })
+            }>
+            {image ? (
+              <Image resizeMode="contain" style={{ height: "100%" }} source={{ uri: image }} />
+            ) : 
+            (
               <Image
                 resizeMode="contain"
                 style={styles.imageOverlay}
                 source={require("../assets/images/no-picture.png")}
               />
-            </Pressable>
-          )}
+            )}
+          </Pressable>
         </View>
 
         <View style={styles.buttonsWrapper}>

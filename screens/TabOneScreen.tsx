@@ -41,7 +41,7 @@ const getRenderItemFuncGivenLayoutColumns = ({ columns }: { columns: number }) =
   };
 };
 
-const getRenderFunctionRows = (row: number) => {
+const getRenderFunctionRows = (setItems: Function, navigate: Function) => {
   return ({ item }: { item: ProductDataToBeStored }) => {
     const {
       expDate,
@@ -60,9 +60,13 @@ const getRenderFunctionRows = (row: number) => {
             {
               text: "Remove",
               onPress: () => {
-                RemoveFood(item);
+                RemoveFood({item, setItems});
               },
             },
+            { text: "Edit",
+              onPress: () => {
+                navigate("addFoodModal");
+              }}
           ])
         }>
         <View lightColor="white" darkColor="black">
@@ -81,19 +85,18 @@ const getRenderFunctionRows = (row: number) => {
   };
 };
 
-const RemoveFood = async ({ item }: { item: ProductDataToBeStored }) => {
-  const [, setItems] = useContext(AppContext);
-  const { expDate, productBarCode, productImage, productName, quantity, addedDate } = item;
+const RemoveFood = async ({ item, setItems }: { item: ProductDataToBeStored, setItems: Function }) => {
+  const { expDate, productBarCode, productName } = item;
   const key = productBarCode ? String(productBarCode + "-" + expDate) : productName + "-" + expDate;
 
-  /*try{
-    const storedItems = await getData();
-    storedItems[key] = undefined;
+  try{
+    let storedItems = await getStoredItems();
+    delete storedItems[key];
     await AsyncStorage.setItem("@storedItems", JSON.stringify(storedItems));
     setItems(convertObjToArray(storedItems));
   } catch {
     console.log("Error getting data:" + name);
-  }*/
+  }
 };
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<"TabOne">) {
@@ -109,6 +112,7 @@ e un'altra più dettagliata dove ogni elemento è una riga */
     })();
   }, []);
 
+  
   const layoutColumns = 2;
   return (
     <View lightColor="white" darkColor="black" style={styles.container}>
@@ -116,7 +120,8 @@ e un'altra più dettagliata dove ogni elemento è una riga */
         data={items}
         renderItem={
           getRenderFunctionRows(
-            items.length
+            setItems,
+            navigation.navigate
           ) /*|| getRenderItemFuncGivenLayoutColumns({ columns: layoutColumns })*/
         }
         keyExtractor={(item) =>
