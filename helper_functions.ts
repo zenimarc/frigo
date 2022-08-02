@@ -29,3 +29,10 @@ export const removeTimeFromDate = (date: Date) => {
 export const daysBetweenTwoDates = (startDate: Date, endDate: Date) => {
   return moment(endDate).diff(moment(startDate), "days");
 };
+
+export const computeProductKey = (product: ProductDataToBeStored | StoredProductData) => {
+  const { productBarCode, expDate: productExpDate, productName } = product;
+  const expString =
+    typeof productExpDate === "string" ? productExpDate : productExpDate.toISOString();
+  return productBarCode ? String(productBarCode + "-" + expString) : productName + "-" + expString;
+};

@@ -58,11 +58,15 @@ export const SpoonacularAPI = () => {
   const _apiKey = "817efa11d7b94cdb9fa258c57ca90ba9";
 
   const _doGetRequest = async (url: string) => {
-    const resp = await fetch(url, {
-      method: "GET",
-      redirect: "follow",
-    });
-    return await resp.json();
+    const resp =
+      0 && //used to not actually make the request because of costs
+      (await fetch(url, {
+        method: "GET",
+        redirect: "follow",
+      }));
+    const data = await resp.json();
+    console.log("resp spoonacular", data);
+    return data;
   };
 
   // TODO: there is an endpoint that can combine search by ingredients and get informations and get instructions
@@ -81,6 +85,7 @@ export const SpoonacularAPI = () => {
 
     const queryString = new URLSearchParams(params).toString();
     const url = _baseUrl + _apiMethod + queryString;
+    console.log(url);
     return await _doGetRequest(url);
   };
 
