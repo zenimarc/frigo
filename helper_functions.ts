@@ -32,7 +32,7 @@ export const daysBetweenTwoDates = (startDate: Date, endDate: Date) => {
 
 export const computeProductKey = (product: ProductDataToBeStored | StoredProductData) => {
   const { productBarCode, expDate: productExpDate, productName } = product;
-  return productBarCode
-    ? String(productBarCode + "-" + productExpDate)
-    : productName + "-" + productExpDate;
+  const expString =
+    typeof productExpDate === "string" ? productExpDate : productExpDate.toISOString();
+  return productBarCode ? String(productBarCode + "-" + expString) : productName + "-" + expString;
 };

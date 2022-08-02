@@ -219,8 +219,7 @@ const Form = ({
             }>
             {image ? (
               <Image resizeMode="contain" style={{ height: "100%" }} source={{ uri: image }} />
-            ) : 
-            (
+            ) : (
               <Image
                 resizeMode="contain"
                 style={styles.imageOverlay}
