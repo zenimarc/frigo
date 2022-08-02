@@ -11,7 +11,7 @@ import {
 } from "../components/ProductForm";
 import { AddButton, View } from "../components/Themed";
 import { AppContext } from "../context";
-import { convertObjToArray } from "../helper_functions";
+import { computeProductKey, convertObjToArray } from "../helper_functions";
 import { RootTabScreenProps } from "../types";
 
 const getRenderItemFuncGivenLayoutColumns = ({ columns }: { columns: number }) => {
@@ -56,23 +56,36 @@ const getRenderFunctionRows = (setItems: Function, navigate: Function) => {
     return (
       <Pressable
         onLongPress={() =>
-          Alert.alert(productName, "Quantity: " + quantity + "\nExpiration date: " + expDate.toDateString(), [
-            {
-              text: "Close",
-              onPress: () => {},
-            },
-            {
-              text: "Remove",
-              onPress: () => {
-                RemoveFood({item, setItems});
+          Alert.alert(
+            productName,
+            "Quantity: " + quantity + "\nExpiration date: " + expDate.toDateString(),
+            [
+              {
+                text: "Close",
+                onPress: () => {},
               },
-            },
-            { text: "Edit",
-              onPress: () => {
-                const key = productBarCode ? String(productBarCode + "-" + expDate) : productName + "-" + expDate;
-                navigate("addFoodModal", {photo: undefined, key: key, scanner: false, editing: true});
-              }}
-          ])
+              {
+                text: "Remove",
+                onPress: () => {
+                  RemoveFood({ item, setItems });
+                },
+              },
+              {
+                text: "Edit",
+                onPress: () => {
+                  const key = productBarCode
+                    ? String(productBarCode + "-" + expDate)
+                    : productName + "-" + expDate;
+                  navigate("addFoodModal", {
+                    photo: undefined,
+                    key: key,
+                    scanner: false,
+                    editing: true,
+                  });
+                },
+              },
+            ]
+          )
         }>
         <View lightColor="white" darkColor="black">
           <ProductTile
@@ -90,11 +103,17 @@ const getRenderFunctionRows = (setItems: Function, navigate: Function) => {
   };
 };
 
-const RemoveFood = async ({ item, setItems }: { item: ProductDataToBeStored, setItems: Function }) => {
+const RemoveFood = async ({
+  item,
+  setItems,
+}: {
+  item: ProductDataToBeStored;
+  setItems: Function;
+}) => {
   const { expDate, productBarCode, productName } = item;
-  const key = productBarCode ? String(productBarCode + "-" + expDate) : productName + "-" + expDate;
+  const key = computeProductKey(item);
 
-  try{
+  try {
     let storedItems = await getStoredItems();
     delete storedItems[key];
     await AsyncStorage.setItem("@storedItems", JSON.stringify(storedItems));
@@ -117,7 +136,6 @@ e un'altra più dettagliata dove ogni elemento è una riga */
     })();
   }, []);
 
-  
   const layoutColumns = 2;
   return (
     <View lightColor="white" darkColor="black" style={styles.container}>
@@ -140,7 +158,14 @@ e un'altra più dettagliata dove ogni elemento è una riga */
       <AddButton
         size={80}
         style={styles.buttonAdd}
-        onPress={() => navigation.navigate("addFoodModal", {photo: undefined, key: undefined, scanner: true, editing: false})}
+        onPress={() =>
+          navigation.navigate("addFoodModal", {
+            photo: undefined,
+            key: undefined,
+            scanner: true,
+            editing: false,
+          })
+        }
       />
       <AddButton
         size={80}
