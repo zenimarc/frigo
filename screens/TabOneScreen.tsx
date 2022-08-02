@@ -73,9 +73,7 @@ const getRenderFunctionRows = (setItems: Function, navigate: Function) => {
               {
                 text: "Edit",
                 onPress: () => {
-                  const key = productBarCode
-                    ? String(productBarCode + "-" + expDate)
-                    : productName + "-" + expDate;
+                  const key = computeProductKey(item);
                   navigate("addFoodModal", {
                     photo: undefined,
                     key: key,
