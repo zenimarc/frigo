@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
-import { ProductDataToBeStored, StoredProductData } from "./components/ProductForm";
+import { ProductDataToBeStored, StoredProductData, StoredProductsDictData } from "./helper_data_types";
 
 export const initAsyncStorage = async () => {
   const stored = await AsyncStorage.getItem("@storedItems");
@@ -9,10 +9,6 @@ export const initAsyncStorage = async () => {
     await AsyncStorage.setItem("@storedItems", "{}");
   }
 };
-
-export interface StoredProductsDictData {
-  [key: string]: StoredProductData;
-}
 
 //takes the stored object in asyncStorage and convert to a list of ProductDataToBeStored with correct date type
 export const convertObjToArray = (obj: StoredProductsDictData): ProductDataToBeStored[] => {
@@ -35,4 +31,28 @@ export const computeProductKey = (product: ProductDataToBeStored | StoredProduct
   const expString =
     typeof productExpDate === "string" ? productExpDate : productExpDate.toISOString();
   return productBarCode ? String(productBarCode + "-" + expString) : productName + "-" + expString;
+};
+
+export const getStoredItems = async (): Promise<StoredProductsDictData> => {
+  const jsonValue = await AsyncStorage.getItem("@storedItems");
+  return jsonValue != null ? JSON.parse(jsonValue) : {};
+};
+
+export const RemoveFood = async ({
+  key,
+  setItems,
+}: {
+  key: string
+  setItems: Function;
+}) => {
+  //const key = computeProductKey(item);
+
+  try {
+    let storedItems = await getStoredItems();
+    delete storedItems[key];
+    await AsyncStorage.setItem("@storedItems", JSON.stringify(storedItems));
+    setItems(convertObjToArray(storedItems));
+  } catch {
+    console.log("Error getting data:" + key);
+  }
 };

@@ -1,6 +1,6 @@
 import React, { createContext, useState } from "react";
 
-import { ProductDataToBeStored } from "./components/ProductForm";
+import { ProductDataToBeStored } from "./helper_data_types";
 
 export const AppContext = createContext<
   [ProductDataToBeStored[], React.Dispatch<React.SetStateAction<ProductDataToBeStored[]>>]

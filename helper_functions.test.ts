@@ -1,10 +1,14 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useContext } from "react";
+import { AppContext } from "./context";
 import {
   convertObjToArray,
   daysBetweenTwoDates,
   removeTimeFromDate,
   initAsyncStorage,
+  computeProductKey,
 } from "./helper_functions";
+import { RemoveFood, getStoredItems} from "./helper_functions";
 
 describe("helper functions", () => {
   it("convertObjToArray", () => {
@@ -17,6 +21,7 @@ describe("helper functions", () => {
           productImage:
             "https://images.openfoodfacts.org/images/products/800/267/000/8746/front_it.3.400.jpg",
           productName: "Mozzarella",
+          productNameEng: "Mozzarella",
           quantity: 1,
         },
         "8002330064600": {
@@ -26,6 +31,7 @@ describe("helper functions", () => {
           productImage:
             "https://images.openfoodfacts.org/images/products/800/233/006/4600/front_en.12.400.jpg",
           productName: "Esselunga crescenza bio",
+          productNameEng: "Esselunga crescenza bio",
           quantity: 1,
         },
       })
@@ -37,6 +43,7 @@ describe("helper functions", () => {
         productImage:
           "https://images.openfoodfacts.org/images/products/800/267/000/8746/front_it.3.400.jpg",
         productName: "Mozzarella",
+        productNameEng: "Mozzarella",
         quantity: 1,
       },
       {
@@ -46,6 +53,7 @@ describe("helper functions", () => {
         productImage:
           "https://images.openfoodfacts.org/images/products/800/233/006/4600/front_en.12.400.jpg",
         productName: "Esselunga crescenza bio",
+        productNameEng: "Esselunga crescenza bio",
         quantity: 1,
       },
     ]);
@@ -73,4 +81,60 @@ describe("helper functions", () => {
     const expDate = removeTimeFromDate(new Date("2022-07-25T02:58:06.155Z"));
     expect(daysBetweenTwoDates(startDate, expDate)).toBe(2);
   });
+
+  test("Removal of ingredients from list"), async () => {
+    const [items, setItems] = useContext(AppContext);
+    const storedItems = {
+      "8002670008746": {
+        expDate: "2022-07-23T01:52:58.387Z",
+        addedDate: "2022-06-23T01:52:58.387Z",
+        productBarCode: "8002670008746",
+        productImage:
+          "https://images.openfoodfacts.org/images/products/800/267/000/8746/front_it.3.400.jpg",
+        productName: "Mozzarella",
+        productNameEng: "Mozzarella",
+        quantity: 1,
+      },
+      "8002330064600": {
+        expDate: "2022-07-23T01:58:06.155Z",
+        addedDate: "2022-06-23T01:52:58.387Z",
+        productBarCode: "8002330064600",
+        productImage:
+          "https://images.openfoodfacts.org/images/products/800/233/006/4600/front_en.12.400.jpg",
+        productName: "Esselunga crescenza bio",
+        productNameEng: "Esselunga crescenza bio",
+        quantity: 1,
+      },
+    };
+
+    await AsyncStorage.setItem("@storedItems", JSON.stringify(storedItems));
+    setItems(convertObjToArray(storedItems));
+    
+    const item = items[0];
+    const key = computeProductKey(item);
+    
+    RemoveFood({key, setItems});
+
+    expect(items).toEqual([{
+      expDate: new Date("2022-07-23T01:58:06.155Z"),
+      addedDate: new Date("2022-06-23T01:52:58.387Z"),
+      productBarCode: "8002330064600",
+      productImage:
+        "https://images.openfoodfacts.org/images/products/800/233/006/4600/front_en.12.400.jpg",
+      productName: "Esselunga crescenza bio",
+      productNameEng: "Esselunga crescenza bio",
+      quantity: 1,
+    }]);
+
+    expect(getStoredItems()).toEqual({"8002330064600": {
+      expDate: "2022-07-23T01:58:06.155Z",
+      addedDate: "2022-06-23T01:52:58.387Z",
+      productBarCode: "8002330064600",
+      productImage:
+        "https://images.openfoodfacts.org/images/products/800/233/006/4600/front_en.12.400.jpg",
+      productName: "Esselunga crescenza bio",
+      productNameEng: "Esselunga crescenza bio",
+      quantity: 1,
+    }});
+  }
 });

@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Platform, Alert } from "react-native";
 import ScannerBarCode from "../components/ScannerBarCode";
 import { RootTabScreenProps } from "../types";
-import Form, { getStoredItems } from "../components/ProductForm";
+import Form from "../components/ProductForm";
 import { getProductDataFromApi } from "../apiCalls";
 import { CameraCapturedPicture } from "expo-camera";
-import { removeTimeFromDate } from "../helper_functions";
+import { getStoredItems, removeTimeFromDate } from "../helper_functions";
 
 export default function ModalScreen({ route, navigation }: RootTabScreenProps<"TabOne">) {
   const [showScanner, setShowScanner] = useState(true);

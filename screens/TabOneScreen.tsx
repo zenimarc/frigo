@@ -1,18 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext, useEffect } from "react";
 import { Alert, FlatList, Pressable, StyleSheet } from "react-native";
-
 import ProductCard, { ProductTile } from "../components/ProductCard";
-
-import {
-  ProductDataToBeStored,
-  getStoredItems,
-  StoredProductData,
-} from "../components/ProductForm";
 import { AddButton, View } from "../components/Themed";
 import { AppContext } from "../context";
-import { computeProductKey, convertObjToArray } from "../helper_functions";
+import { computeProductKey, convertObjToArray, getStoredItems, RemoveFood } from "../helper_functions";
 import { RootTabScreenProps } from "../types";
+import { ProductDataToBeStored } from "../helper_data_types";
 
 const getRenderItemFuncGivenLayoutColumns = ({ columns }: { columns: number }) => {
   return ({ item }: { item: ProductDataToBeStored }) => {
@@ -67,7 +61,8 @@ const getRenderFunctionRows = (setItems: Function, navigate: Function) => {
               {
                 text: "Remove",
                 onPress: () => {
-                  RemoveFood({ item, setItems });
+                  const key = computeProductKey(item);
+                  RemoveFood({ key, setItems });
                 },
               },
               {
@@ -99,26 +94,6 @@ const getRenderFunctionRows = (setItems: Function, navigate: Function) => {
       </Pressable>
     );
   };
-};
-
-const RemoveFood = async ({
-  item,
-  setItems,
-}: {
-  item: ProductDataToBeStored;
-  setItems: Function;
-}) => {
-  const { expDate, productBarCode, productName } = item;
-  const key = computeProductKey(item);
-
-  try {
-    let storedItems = await getStoredItems();
-    delete storedItems[key];
-    await AsyncStorage.setItem("@storedItems", JSON.stringify(storedItems));
-    setItems(convertObjToArray(storedItems));
-  } catch {
-    console.log("Error getting data:" + name);
-  }
 };
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<"TabOne">) {

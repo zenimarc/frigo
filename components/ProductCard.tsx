@@ -2,9 +2,9 @@ import React from "react";
 import { Image, StyleSheet, View } from "react-native";
 
 import Colors from "../constants/Colors";
+import { ProductDataToBeStored } from "../helper_data_types";
 import useColorScheme from "../hooks/useColorScheme";
 import ExpireIndicator from "./ExpireIndicator";
-import { ProductDataToBeStored } from "./ProductForm";
 import { Text, View as ThemedView } from "./Themed";
 
 const ProductCard = ({

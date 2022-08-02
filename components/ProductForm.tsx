@@ -10,46 +10,15 @@ import { AppContext } from "../context";
 import {
   computeProductKey,
   convertObjToArray,
+  getStoredItems,
   removeTimeFromDate,
-  StoredProductsDictData,
 } from "../helper_functions";
 import useColorScheme from "../hooks/useColorScheme";
 import Navigation from "../navigation";
+import { RemoveFood } from "../helper_functions";
 import { RootTabScreenProps } from "../types";
 
-interface productData {
-  productName: string | undefined;
-  productNameEng: string | undefined;
-  productImage: string | undefined;
-  productBarCode: string | undefined;
-}
-
-interface formProps extends Omit<productData, "productBarCode"> {
-  setScanner: Function;
-  productBarCode: string | null | undefined;
-  productQuantity: number;
-  productExpDate: Date;
-  navigateToHome: Function;
-  productEditing: boolean;
-}
-
-export interface ProductDataToBeStored extends productData {
-  productName: string;
-  productNameEng: string;
-  expDate: Date;
-  addedDate: Date;
-  quantity: number;
-}
-
-export interface StoredProductData extends Omit<ProductDataToBeStored, "expDate" | "addedDate"> {
-  expDate: string; //once stored in asyncstorage the Date is serialized into a string
-  addedDate: string;
-}
-
-export const getStoredItems = async (): Promise<StoredProductsDictData> => {
-  const jsonValue = await AsyncStorage.getItem("@storedItems");
-  return jsonValue != null ? JSON.parse(jsonValue) : {};
-};
+import { formProps, StoredProductData, StoredProductsDictData } from "../helper_data_types";
 
 const Form = ({
   setScanner,
@@ -73,6 +42,7 @@ const Form = ({
   const [, setItems] = useContext(AppContext);
   const [nav, setNav] = useState<boolean>(false);
   const [isEditing] = useState<boolean>(productEditing);
+  const [originalExpDate, setOriginalExpDate] = useState<Date>(productExpDate || removeTimeFromDate(new Date()));
 
   const navigation = useNavigation();
 
@@ -129,6 +99,14 @@ const Form = ({
         console.log("fatto asyncstorage");
         setItems(convertObjToArray(storedItems));
         console.log("fatto setItems del context");
+        
+        if(originalExpDate != expDate){
+          const item = newItem;
+          item.expDate = originalExpDate.toISOString();
+          const key = computeProductKey(item);
+          RemoveFood({key, setItems});
+        }
+        
         Alert.alert("Insert", "Product inserted succesfully", [{ text: "OK" }]);
         clearData();
         nav ? setScanner(true) : navigateToHome();
