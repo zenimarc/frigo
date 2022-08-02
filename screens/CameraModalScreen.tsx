@@ -21,7 +21,7 @@ export default function CameraModalScreen({
       <CameraImage
         onSuccess={(image) => {
           const recRoute = receiverRouteName as ReceiverRouteNameFromCamera; //to let typescript understand which are the possible routes
-          navigation.navigate(recRoute, sendItemBack ? { photo: image } : undefined);
+          navigation.navigate(recRoute, sendItemBack ? { photo: image, key: undefined, scanner:false , editing: false} : undefined);
         }}
         onFail={() => {
           console.log("fail to take photo");
