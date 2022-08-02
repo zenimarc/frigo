@@ -1,0 +1,627 @@
+{
+  "vegetarian": false,
+  "vegan": false,
+  "glutenFree": false,
+  "dairyFree": false,
+  "veryHealthy": true,
+  "cheap": false,
+  "veryPopular": false,
+  "sustainable": false,
+  "lowFodmap": false,
+  "weightWatcherSmartPoints": 8,
+  "gaps": "no",
+  "preparationMinutes": -1,
+  "cookingMinutes": -1,
+  "aggregateLikes": 1,
+  "healthScore": 81,
+  "creditsText": "Foodista.com – The Cooking Encyclopedia Everyone Can Edit",
+  "license": "CC BY 3.0",
+  "sourceName": "Foodista",
+  "pricePerServing": 137.26,
+  "extendedIngredients": [
+    {
+      "id": 2004,
+      "aisle": "Produce;Spices and Seasonings",
+      "image": "bay-leaves.jpg",
+      "consistency": "SOLID",
+      "name": "bay leaf",
+      "nameClean": "bay leaves",
+      "original": "1 bay leaf",
+      "originalName": "bay leaf",
+      "amount": 1.0,
+      "unit": "",
+      "meta": [],
+      "measures": {
+        "us": {
+          "amount": 1.0,
+          "unitShort": "",
+          "unitLong": ""
+        },
+        "metric": {
+          "amount": 1.0,
+          "unitShort": "",
+          "unitLong": ""
+        }
+      }
+    },
+    {
+      "id": 10016051,
+      "aisle": "Canned and Jarred",
+      "image": "cooked-cannellini-beans.png",
+      "consistency": "SOLID",
+      "name": "canned cannellini beans",
+      "nameClean": "canned cannellini beans",
+      "original": "1 14 oz can cannellini beans",
+      "originalName": "cannellini beans",
+      "amount": 14.0,
+      "unit": "oz",
+      "meta": ["canned"],
+      "measures": {
+        "us": {
+          "amount": 14.0,
+          "unitShort": "oz",
+          "unitLong": "ounces"
+        },
+        "metric": {
+          "amount": 396.893,
+          "unitShort": "g",
+          "unitLong": "grams"
+        }
+      }
+    },
+    {
+      "id": 11124,
+      "aisle": "Produce",
+      "image": "sliced-carrot.png",
+      "consistency": "SOLID",
+      "name": "carrots",
+      "nameClean": "carrot",
+      "original": "4 carrots",
+      "originalName": "carrots",
+      "amount": 4.0,
+      "unit": "",
+      "meta": [],
+      "measures": {
+        "us": {
+          "amount": 4.0,
+          "unitShort": "",
+          "unitLong": ""
+        },
+        "metric": {
+          "amount": 4.0,
+          "unitShort": "",
+          "unitLong": ""
+        }
+      }
+    },
+    {
+      "id": 2003,
+      "aisle": "Spices and Seasonings",
+      "image": "basil.jpg",
+      "consistency": "SOLID",
+      "name": "dried basil",
+      "nameClean": "dried basil",
+      "original": "1 1/2 tsp Dried Basil",
+      "originalName": "Dried Basil",
+      "amount": 1.5,
+      "unit": "tsp",
+      "meta": ["dried"],
+      "measures": {
+        "us": {
+          "amount": 1.5,
+          "unitShort": "tsps",
+          "unitLong": "teaspoons"
+        },
+        "metric": {
+          "amount": 1.5,
+          "unitShort": "tsps",
+          "unitLong": "teaspoons"
+        }
+      }
+    },
+    {
+      "id": 10120499,
+      "aisle": "Pasta and Rice",
+      "image": "elbow.jpg",
+      "consistency": "SOLID",
+      "name": "elbow macaroni",
+      "nameClean": "elbow macaroni",
+      "original": "1 1/2 cups (6 oz) elbow macaroni",
+      "originalName": "1/2 cups elbow macaroni",
+      "amount": 6.0,
+      "unit": "oz",
+      "meta": [],
+      "measures": {
+        "us": {
+          "amount": 6.0,
+          "unitShort": "oz",
+          "unitLong": "ounces"
+        },
+        "metric": {
+          "amount": 170.097,
+          "unitShort": "g",
+          "unitLong": "grams"
+        }
+      }
+    },
+    {
+      "id": 1002030,
+      "aisle": "Spices and Seasonings",
+      "image": "pepper.jpg",
+      "consistency": "SOLID",
+      "name": "ground pepper",
+      "nameClean": "black pepper",
+      "original": "1 tsp Ground Pepper",
+      "originalName": "Ground Pepper",
+      "amount": 1.0,
+      "unit": "tsp",
+      "meta": [],
+      "measures": {
+        "us": {
+          "amount": 1.0,
+          "unitShort": "tsp",
+          "unitLong": "teaspoon"
+        },
+        "metric": {
+          "amount": 1.0,
+          "unitShort": "tsp",
+          "unitLong": "teaspoon"
+        }
+      }
+    },
+    {
+      "id": 4053,
+      "aisle": "Oil, Vinegar, Salad Dressing",
+      "image": "olive-oil.jpg",
+      "consistency": "LIQUID",
+      "name": "olive oil",
+      "nameClean": "olive oil",
+      "original": "2 tsps olive oil",
+      "originalName": "olive oil",
+      "amount": 2.0,
+      "unit": "tsps",
+      "meta": [],
+      "measures": {
+        "us": {
+          "amount": 2.0,
+          "unitShort": "tsps",
+          "unitLong": "teaspoons"
+        },
+        "metric": {
+          "amount": 2.0,
+          "unitShort": "tsps",
+          "unitLong": "teaspoons"
+        }
+      }
+    },
+    {
+      "id": 11282,
+      "aisle": "Produce",
+      "image": "brown-onion.png",
+      "consistency": "SOLID",
+      "name": "onion",
+      "nameClean": "onion",
+      "original": "1 onion",
+      "originalName": "onion",
+      "amount": 1.0,
+      "unit": "",
+      "meta": [],
+      "measures": {
+        "us": {
+          "amount": 1.0,
+          "unitShort": "",
+          "unitLong": ""
+        },
+        "metric": {
+          "amount": 1.0,
+          "unitShort": "",
+          "unitLong": ""
+        }
+      }
+    },
+    {
+      "id": 1033,
+      "aisle": "Cheese",
+      "image": "parmesan.jpg",
+      "consistency": "SOLID",
+      "name": "parmesan cheese",
+      "nameClean": "parmesan",
+      "original": "1 tsp Grated Parmesan Cheese",
+      "originalName": "Grated Parmesan Cheese",
+      "amount": 1.0,
+      "unit": "tsp",
+      "meta": ["grated"],
+      "measures": {
+        "us": {
+          "amount": 1.0,
+          "unitShort": "tsp",
+          "unitLong": "teaspoon"
+        },
+        "metric": {
+          "amount": 1.0,
+          "unitShort": "tsp",
+          "unitLong": "teaspoon"
+        }
+      }
+    },
+    {
+      "id": 2047,
+      "aisle": "Spices and Seasonings",
+      "image": "salt.jpg",
+      "consistency": "SOLID",
+      "name": "salt",
+      "nameClean": "table salt",
+      "original": "1 1/2 tsp salt",
+      "originalName": "salt",
+      "amount": 1.5,
+      "unit": "tsp",
+      "meta": [],
+      "measures": {
+        "us": {
+          "amount": 1.5,
+          "unitShort": "tsps",
+          "unitLong": "teaspoons"
+        },
+        "metric": {
+          "amount": 1.5,
+          "unitShort": "tsps",
+          "unitLong": "teaspoons"
+        }
+      }
+    },
+    {
+      "id": 11529,
+      "aisle": "Produce",
+      "image": "tomato.png",
+      "consistency": "SOLID",
+      "name": "tomato",
+      "nameClean": "tomato",
+      "original": "2 14 oz cans diced tomato",
+      "originalName": "diced tomato",
+      "amount": 28.0,
+      "unit": "oz",
+      "meta": ["diced", "canned"],
+      "measures": {
+        "us": {
+          "amount": 28.0,
+          "unitShort": "oz",
+          "unitLong": "ounces"
+        },
+        "metric": {
+          "amount": 793.787,
+          "unitShort": "g",
+          "unitLong": "grams"
+        }
+      }
+    },
+    {
+      "id": 11477,
+      "aisle": "Produce",
+      "image": "zucchini.jpg",
+      "consistency": "SOLID",
+      "name": "zucchini",
+      "nameClean": "zucchini",
+      "original": "2 zucchini",
+      "originalName": "zucchini",
+      "amount": 2.0,
+      "unit": "",
+      "meta": [],
+      "measures": {
+        "us": {
+          "amount": 2.0,
+          "unitShort": "",
+          "unitLong": ""
+        },
+        "metric": {
+          "amount": 2.0,
+          "unitShort": "",
+          "unitLong": ""
+        }
+      }
+    }
+  ],
+  "id": 664565,
+  "title": "Vegetable Minestrone Soup",
+  "readyInMinutes": 30,
+  "servings": 4,
+  "sourceUrl": "http://www.foodista.com/recipe/RMQ7YGLH/vegetable-minestrone-soup",
+  "image": "https://spoonacular.com/recipeImages/664565-556x370.jpg",
+  "imageType": "jpg",
+  "summary": "Vegetable Minestrone Soup might be just the main course you are searching for. This recipe makes 4 servings with <b>380 calories</b>, <b>17g of protein</b>, and <b>4g of fat</b> each. For <b>$1.37 per serving</b>, this recipe <b>covers 29%</b> of your daily requirements of vitamins and minerals. This recipe is typical of Mediterranean cuisine. If you have bay leaf, parmesan cheese, ground pepper, and a few other ingredients on hand, you can make it. To use up the olive oil you could follow this main course with the <a href=\"https://spoonacular.com/recipes/sauteed-banana-granola-and-yogurt-parfait-624619\">Sauteed Banana, Granolan and Yogurt Parfait</a> as a dessert. Only a few people made this recipe, and 1 would say it hit the spot. It can be enjoyed any time, but it is especially good for <b>Autumn</b>. From preparation to the plate, this recipe takes roughly <b>30 minutes</b>. All things considered, we decided this recipe <b>deserves a spoonacular score of 91%</b>. This score is amazing. Try <a href=\"https://spoonacular.com/recipes/vegetable-garden-minestrone-soup-531452\">Vegetable Garden Minestrone Soup</a>, <a href=\"https://spoonacular.com/recipes/the-vegetable-broth-and-the-minestrone-le-bouillon-de-lgumes-et-la-minestrone-36756\">The Vegetable Broth and the Minestrone — Le bouillon de légumes et la minestrone</a>, and <a href=\"https://spoonacular.com/recipes/vegetable-minestrone-368467\">Vegetable Minestrone</a> for similar recipes.",
+  "cuisines": ["Mediterranean", "Italian", "European"],
+  "dishTypes": ["soup"],
+  "diets": [],
+  "occasions": ["fall", "winter"],
+  "winePairing": {},
+  "instructions": "<ol><li>In a deep sauce pan or pot, heat about 2 tsps of oil or butter. Add bay leaf. When the bay leaf begins to splutter, add finely chopped onions and saute for a couple of mins until the onions are translucent.</li><li>In the meanwhile, boil water with a pinch of salt in another pot. Add pasta and cook for about 6 to 7 mins. When done, drain all the water and set the pasta aside.</li><li>Add the chopped zucchini and chopped carrots to the sauteed onions. Now, add salt and ground pepper and saute for a couple of mins. Empty the diced tomato cans into the sauce pan now. Add the remaining spices  red chilli powder and dried basil to the tomatoes. Cover and let cook for at least 5 mins.</li><li>Empty the cannellini beans into a bowl. Rinse under running water to drain out all the canned liquid and add the beans to the sauce pan. Also, add the cooked pasta now. Add about 2 cups of water, cover and let cook for about 15 mins. Give a taste test and adjust salt if needed.</li><li>Serve with a hint of grated Parmesan cheese as garnish and some bread to dip into it!</li></ol>",
+  "analyzedInstructions": [
+    {
+      "name": "",
+      "steps": [
+        {
+          "number": 1,
+          "step": "In a deep sauce pan or pot, heat about 2 tsps of oil or butter.",
+          "ingredients": [
+            {
+              "id": 1001,
+              "name": "butter",
+              "localizedName": "butter",
+              "image": "butter-sliced.jpg"
+            },
+            {
+              "id": 0,
+              "name": "sauce",
+              "localizedName": "sauce",
+              "image": ""
+            },
+            {
+              "id": 4582,
+              "name": "cooking oil",
+              "localizedName": "cooking oil",
+              "image": "vegetable-oil.jpg"
+            }
+          ],
+          "equipment": [
+            {
+              "id": 404669,
+              "name": "sauce pan",
+              "localizedName": "sauce pan",
+              "image": "sauce-pan.jpg"
+            },
+            {
+              "id": 404752,
+              "name": "pot",
+              "localizedName": "pot",
+              "image": "stock-pot.jpg"
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "step": "Add bay leaf. When the bay leaf begins to splutter, add finely chopped onions and saute for a couple of mins until the onions are translucent.In the meanwhile, boil water with a pinch of salt in another pot.",
+          "ingredients": [
+            {
+              "id": 2004,
+              "name": "bay leaves",
+              "localizedName": "bay leaves",
+              "image": "bay-leaves.jpg"
+            },
+            {
+              "id": 11282,
+              "name": "onion",
+              "localizedName": "onion",
+              "image": "brown-onion.png"
+            },
+            {
+              "id": 14412,
+              "name": "water",
+              "localizedName": "water",
+              "image": "water.png"
+            },
+            {
+              "id": 2047,
+              "name": "salt",
+              "localizedName": "salt",
+              "image": "salt.jpg"
+            }
+          ],
+          "equipment": [
+            {
+              "id": 404752,
+              "name": "pot",
+              "localizedName": "pot",
+              "image": "stock-pot.jpg"
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "step": "Add pasta and cook for about 6 to 7 mins. When done, drain all the water and set the pasta aside.",
+          "ingredients": [
+            {
+              "id": 20420,
+              "name": "pasta",
+              "localizedName": "pasta",
+              "image": "fusilli.jpg"
+            },
+            {
+              "id": 14412,
+              "name": "water",
+              "localizedName": "water",
+              "image": "water.png"
+            }
+          ],
+          "equipment": [],
+          "length": {
+            "number": 6,
+            "unit": "minutes"
+          }
+        },
+        {
+          "number": 4,
+          "step": "Add the chopped zucchini and chopped carrots to the sauteed onions. Now, add salt and ground pepper and saute for a couple of mins. Empty the diced tomato cans into the sauce pan now.",
+          "ingredients": [
+            {
+              "id": 1002030,
+              "name": "ground black pepper",
+              "localizedName": "ground black pepper",
+              "image": "pepper.jpg"
+            },
+            {
+              "id": 11477,
+              "name": "zucchini",
+              "localizedName": "zucchini",
+              "image": "zucchini.jpg"
+            },
+            {
+              "id": 11124,
+              "name": "carrot",
+              "localizedName": "carrot",
+              "image": "sliced-carrot.png"
+            },
+            {
+              "id": 11282,
+              "name": "onion",
+              "localizedName": "onion",
+              "image": "brown-onion.png"
+            },
+            {
+              "id": 11529,
+              "name": "tomato",
+              "localizedName": "tomato",
+              "image": "tomato.png"
+            },
+            {
+              "id": 0,
+              "name": "sauce",
+              "localizedName": "sauce",
+              "image": ""
+            },
+            {
+              "id": 2047,
+              "name": "salt",
+              "localizedName": "salt",
+              "image": "salt.jpg"
+            }
+          ],
+          "equipment": [
+            {
+              "id": 404669,
+              "name": "sauce pan",
+              "localizedName": "sauce pan",
+              "image": "sauce-pan.jpg"
+            }
+          ]
+        },
+        {
+          "number": 5,
+          "step": "Add the remaining spices  red chilli powder and dried basil to the tomatoes. Cover and let cook for at least 5 mins.Empty the cannellini beans into a bowl. Rinse under running water to drain out all the canned liquid and add the beans to the sauce pan. Also, add the cooked pasta now.",
+          "ingredients": [
+            {
+              "id": 10716050,
+              "name": "cannellini beans",
+              "localizedName": "cannellini beans",
+              "image": "cooked-cannellini-beans.png"
+            },
+            {
+              "id": 2009,
+              "name": "chili powder",
+              "localizedName": "chili powder",
+              "image": "chili-powder.jpg"
+            },
+            {
+              "id": 20421,
+              "name": "cooked pasta",
+              "localizedName": "cooked pasta",
+              "image": "fusilli.jpg"
+            },
+            {
+              "id": 2003,
+              "name": "dried basil",
+              "localizedName": "dried basil",
+              "image": "basil.jpg"
+            },
+            {
+              "id": 11529,
+              "name": "tomato",
+              "localizedName": "tomato",
+              "image": "tomato.png"
+            },
+            {
+              "id": 2035,
+              "name": "spices",
+              "localizedName": "spices",
+              "image": "spices.png"
+            },
+            {
+              "id": 0,
+              "name": "beans",
+              "localizedName": "beans",
+              "image": "kidney-beans.jpg"
+            },
+            {
+              "id": 0,
+              "name": "sauce",
+              "localizedName": "sauce",
+              "image": ""
+            },
+            {
+              "id": 14412,
+              "name": "water",
+              "localizedName": "water",
+              "image": "water.png"
+            }
+          ],
+          "equipment": [
+            {
+              "id": 404669,
+              "name": "sauce pan",
+              "localizedName": "sauce pan",
+              "image": "sauce-pan.jpg"
+            },
+            {
+              "id": 404783,
+              "name": "bowl",
+              "localizedName": "bowl",
+              "image": "bowl.jpg"
+            }
+          ],
+          "length": {
+            "number": 5,
+            "unit": "minutes"
+          }
+        },
+        {
+          "number": 6,
+          "step": "Add about 2 cups of water, cover and let cook for about 15 mins. Give a taste test and adjust salt if needed.",
+          "ingredients": [
+            {
+              "id": 14412,
+              "name": "water",
+              "localizedName": "water",
+              "image": "water.png"
+            },
+            {
+              "id": 2047,
+              "name": "salt",
+              "localizedName": "salt",
+              "image": "salt.jpg"
+            }
+          ],
+          "equipment": [],
+          "length": {
+            "number": 15,
+            "unit": "minutes"
+          }
+        },
+        {
+          "number": 7,
+          "step": "Serve with a hint of grated Parmesan cheese as garnish and some bread to dip into it!",
+          "ingredients": [
+            {
+              "id": 1032,
+              "name": "grated parmesan cheese",
+              "localizedName": "grated parmesan cheese",
+              "image": "parmesan.jpg"
+            },
+            {
+              "id": 18064,
+              "name": "bread",
+              "localizedName": "bread",
+              "image": "white-bread.jpg"
+            },
+            {
+              "id": 0,
+              "name": "dip",
+              "localizedName": "dip",
+              "image": ""
+            }
+          ],
+          "equipment": []
+        }
+      ]
+    }
+  ],
+  "originalId": null,
+  "spoonacularSourceUrl": "https://spoonacular.com/vegetable-minestrone-soup-664565"
+}

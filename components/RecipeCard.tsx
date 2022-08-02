@@ -1,3 +1,8 @@
+import React from "react";
+import { Image, StyleSheet, View, Text } from "react-native";
+import Colors from "../constants/Colors";
+import useColorScheme from "../hooks/useColorScheme";
+
 export type RecipeGivenIngredientsResponse = {
   id: number;
   title: string;
@@ -5,11 +10,6 @@ export type RecipeGivenIngredientsResponse = {
   usedIngredientCount: number;
   missedIngredientCount: number;
 };
-
-import React from "react";
-import { Image, StyleSheet, View, Text } from "react-native";
-import Colors from "../constants/Colors";
-import useColorScheme from "../hooks/useColorScheme";
 
 const RecipeCard = ({
   id,
