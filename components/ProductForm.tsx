@@ -7,7 +7,12 @@ import { Platform, Pressable, StyleSheet, TextInput, View, Text, Alert, Image } 
 import WheelPicker from "react-native-wheely";
 
 import { AppContext } from "../context";
-import { convertObjToArray, removeTimeFromDate, StoredProductsDictData } from "../helper_functions";
+import {
+  computeProductKey,
+  convertObjToArray,
+  removeTimeFromDate,
+  StoredProductsDictData,
+} from "../helper_functions";
 import useColorScheme from "../hooks/useColorScheme";
 import Navigation from "../navigation";
 import { RootTabScreenProps } from "../types";
@@ -97,20 +102,20 @@ const Form = ({
   };
 
   const storeData = async (nav: boolean) => {
-    const key = barCode ? String(barCode + "-" + expDate) : name + "-" + expDate;
     try {
+      const newItem: StoredProductData = {
+        productBarCode: barCode || null,
+        productImage: image,
+        productName: name || "undefined",
+        productNameEng: productNameEng || name || "undefined", //maybe try to translate in case
+        expDate: expDate.toISOString(),
+        addedDate: new Date().toISOString(),
+        quantity,
+      };
+      const key = computeProductKey(newItem);
       const storedItems = await getStoredItems();
       const val = storedItems[key];
       if (!val) {
-        const newItem: StoredProductData = {
-          productBarCode: barCode || null,
-          productImage: image,
-          productName: name || "undefined",
-          productNameEng: productNameEng || productName || "undefined", //maybe try to translate in case
-          expDate: expDate.toISOString(),
-          addedDate: new Date().toISOString(),
-          quantity,
-        };
         console.log("Value: " + val);
         storedItems[key] = newItem;
         await AsyncStorage.setItem("@storedItems", JSON.stringify(storedItems));

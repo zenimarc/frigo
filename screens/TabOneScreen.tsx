@@ -11,7 +11,7 @@ import {
 } from "../components/ProductForm";
 import { AddButton, View } from "../components/Themed";
 import { AppContext } from "../context";
-import { convertObjToArray } from "../helper_functions";
+import { computeProductKey, convertObjToArray } from "../helper_functions";
 import { RootTabScreenProps } from "../types";
 
 const getRenderItemFuncGivenLayoutColumns = ({ columns }: { columns: number }) => {
@@ -84,7 +84,7 @@ const getRenderFunctionRows = (row: number) => {
 const RemoveFood = async ({ item }: { item: ProductDataToBeStored }) => {
   const [, setItems] = useContext(AppContext);
   const { expDate, productBarCode, productImage, productName, quantity, addedDate } = item;
-  const key = productBarCode ? String(productBarCode + "-" + expDate) : productName + "-" + expDate;
+  const key = computeProductKey(item);
 
   /*try{
     const storedItems = await getData();
