@@ -5,6 +5,7 @@ import { RootTabScreenProps } from "../types";
 import Form, { getStoredItems } from "../components/ProductForm";
 import { getProductDataFromApi } from "../apiCalls";
 import { CameraCapturedPicture } from "expo-camera";
+import { removeTimeFromDate } from "../helper_functions";
 
 export default function ModalScreen({ route, navigation }: RootTabScreenProps<"TabOne">) {
   const [showScanner, setShowScanner] = useState(true);
@@ -12,10 +13,13 @@ export default function ModalScreen({ route, navigation }: RootTabScreenProps<"T
   const [productNameEng, setProductNameEng] = useState<string | undefined>();
   const [productImage, setProductImage] = useState<string | undefined>();
   const [productBarCode, setProductBarCode] = useState<string | undefined>();
-  const [productExpDate, setProductExpDate] = useState<Date>(new Date());
+  const [productExpDate, setProductExpDate] = useState<Date>(removeTimeFromDate(new Date()));
   const [productQuantity, setProductQuantity] = useState<number>(0);
 
-  const params = useMemo(() => route.params || { photo: undefined, key: undefined, scanner: false , editing: false}, [route.params]);
+  const params = useMemo(
+    () => route.params || { photo: undefined, key: undefined, scanner: false, editing: false },
+    [route.params]
+  );
 
   const onSnapPhoto = useCallback(
     (photo: CameraCapturedPicture) => {
@@ -29,17 +33,19 @@ export default function ModalScreen({ route, navigation }: RootTabScreenProps<"T
   }, [params, onSnapPhoto]);
 
   useEffect(() => {
-    (async () => {if(params.key){
-      const storedItems = await getStoredItems();
-      setProductName(storedItems[params.key].productName);
-      setProductNameEng(storedItems[params.key].productNameEng);
-      setProductImage(storedItems[params.key].productImage);
-      setProductBarCode(storedItems[params.key].productBarCode);
-      setProductExpDate(new Date(storedItems[params.key].expDate));
-      setProductQuantity(storedItems[params.key].quantity);
-      setShowScanner(params.scanner);
-    }
-  })()}, [params]);
+    (async () => {
+      if (params.key) {
+        const storedItems = await getStoredItems();
+        setProductName(storedItems[params.key].productName);
+        setProductNameEng(storedItems[params.key].productNameEng);
+        setProductImage(storedItems[params.key].productImage);
+        setProductBarCode(storedItems[params.key].productBarCode);
+        setProductExpDate(new Date(storedItems[params.key].expDate));
+        setProductQuantity(storedItems[params.key].quantity);
+        setShowScanner(params.scanner);
+      }
+    })();
+  }, [params]);
 
   const getProduct = async (code: string) => {
     const resp = await getProductDataFromApi(code);

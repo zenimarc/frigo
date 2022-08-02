@@ -7,7 +7,12 @@ import { Platform, Pressable, StyleSheet, TextInput, View, Text, Alert, Image } 
 import WheelPicker from "react-native-wheely";
 
 import { AppContext } from "../context";
-import { convertObjToArray, removeTimeFromDate, StoredProductsDictData } from "../helper_functions";
+import {
+  computeProductKey,
+  convertObjToArray,
+  removeTimeFromDate,
+  StoredProductsDictData,
+} from "../helper_functions";
 import useColorScheme from "../hooks/useColorScheme";
 import Navigation from "../navigation";
 import { RootTabScreenProps } from "../types";
@@ -22,10 +27,10 @@ interface productData {
 interface formProps extends Omit<productData, "productBarCode"> {
   setScanner: Function;
   productBarCode: string | null | undefined;
-  productQuantity: number,
-  productExpDate: Date,
+  productQuantity: number;
+  productExpDate: Date;
   navigateToHome: Function;
-  productEditing: boolean
+  productEditing: boolean;
 }
 
 export interface ProductDataToBeStored extends productData {
@@ -67,7 +72,7 @@ const Form = ({
   const [, setMode] = useState("date");
   const [, setItems] = useContext(AppContext);
   const [nav, setNav] = useState<boolean>(false);
-  const [isEditing,] = useState<boolean>(productEditing)
+  const [isEditing] = useState<boolean>(productEditing);
 
   const navigation = useNavigation();
 
@@ -104,20 +109,20 @@ const Form = ({
   };
 
   const storeData = async (nav: boolean) => {
-    const key = barCode ? String(barCode + "-" + expDate) : name + "-" + expDate;
+    const newItem: StoredProductData = {
+      productBarCode: barCode || undefined,
+      productImage: image,
+      productName: name || "undefined",
+      productNameEng: productNameEng || productName || "undefined", //maybe try to translate in case
+      expDate: expDate.toISOString(),
+      addedDate: new Date().toISOString(),
+      quantity,
+    };
+    const key = computeProductKey(newItem);
     try {
       const storedItems = await getStoredItems();
       const val = storedItems[key];
       if (!val || isEditing) {
-        const newItem: StoredProductData = {
-          productBarCode: barCode || undefined,
-          productImage: image,
-          productName: name || "undefined",
-          productNameEng: productNameEng || productName || "undefined", //maybe try to translate in case
-          expDate: expDate.toISOString(),
-          addedDate: new Date().toISOString(),
-          quantity,
-        };
         console.log("Value: " + val);
         storedItems[key] = newItem;
         await AsyncStorage.setItem("@storedItems", JSON.stringify(storedItems));
@@ -221,8 +226,7 @@ const Form = ({
             }>
             {image ? (
               <Image resizeMode="contain" style={{ height: "100%" }} source={{ uri: image }} />
-            ) : 
-            (
+            ) : (
               <Image
                 resizeMode="contain"
                 style={styles.imageOverlay}
@@ -233,8 +237,8 @@ const Form = ({
         </View>
 
         <View style={styles.buttonsWrapper}>
-          <View style={{ flexDirection: "row", justifyContent: "space-around"}}>
-            {!isEditing && 
+          <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+            {!isEditing && (
               <Pressable
                 onPress={() => {
                   storeData(true);
@@ -242,7 +246,7 @@ const Form = ({
                 style={styles.submitButton}>
                 <Text style={styles.buttonText}>Add another</Text>
               </Pressable>
-            }
+            )}
             <Pressable
               onPress={() => {
                 setNav(false);
