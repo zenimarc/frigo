@@ -16,13 +16,16 @@ interface productData {
   productName: string | undefined;
   productNameEng: string | undefined;
   productImage: string | undefined;
-  productBarCode: string | null;
+  productBarCode: string | undefined;
 }
 
 interface formProps extends Omit<productData, "productBarCode"> {
   setScanner: Function;
   productBarCode: string | null | undefined;
+  productQuantity: number,
+  productExpDate: Date,
   navigateToHome: Function;
+  productEditing: boolean
 }
 
 export interface ProductDataToBeStored extends productData {
@@ -47,20 +50,24 @@ const Form = ({
   setScanner,
   productName,
   productImage,
-  productBarCode = null,
+  productBarCode,
   navigateToHome,
   productNameEng,
+  productQuantity,
+  productExpDate,
+  productEditing,
 }: formProps) => {
   const styles = themedStyles();
   const [name, setName] = useState(productName);
   const [barCode, setBarCode] = useState(productBarCode);
-  const [image, setImage] = useState<string | undefined>();
-  const [quantity, setQuantity] = useState(1);
-  const [expDate, setExpDate] = useState<Date>(removeTimeFromDate(new Date()));
+  const [image, setImage] = useState<string | undefined>(productImage);
+  const [quantity, setQuantity] = useState(productQuantity || 1);
+  const [expDate, setExpDate] = useState<Date>(productExpDate || removeTimeFromDate(new Date()));
   const [showPicker, setShowPicker] = useState(false);
   const [, setMode] = useState("date");
   const [, setItems] = useContext(AppContext);
   const [nav, setNav] = useState<boolean>(false);
+  const [isEditing,] = useState<boolean>(productEditing)
 
   const navigation = useNavigation();
 
@@ -101,9 +108,9 @@ const Form = ({
     try {
       const storedItems = await getStoredItems();
       const val = storedItems[key];
-      if (!val) {
+      if (!val || isEditing) {
         const newItem: StoredProductData = {
-          productBarCode: barCode || null,
+          productBarCode: barCode || undefined,
           productImage: image,
           productName: name || "undefined",
           productNameEng: productNameEng || productName || "undefined", //maybe try to translate in case
@@ -226,15 +233,16 @@ const Form = ({
         </View>
 
         <View style={styles.buttonsWrapper}>
-          <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
-            <Pressable
-              onPress={() => {
-                storeData(true);
-              }}
-              style={styles.submitButton}>
-              <Text style={styles.buttonText}>Add another</Text>
-            </Pressable>
-
+          <View style={{ flexDirection: "row", justifyContent: "space-around"}}>
+            {!isEditing && 
+              <Pressable
+                onPress={() => {
+                  storeData(true);
+                }}
+                style={styles.submitButton}>
+                <Text style={styles.buttonText}>Add another</Text>
+              </Pressable>
+            }
             <Pressable
               onPress={() => {
                 setNav(false);

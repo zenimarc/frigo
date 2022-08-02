@@ -56,7 +56,11 @@ const getRenderFunctionRows = (setItems: Function, navigate: Function) => {
     return (
       <Pressable
         onLongPress={() =>
-          Alert.alert(productName, "Quantity: " + quantity, [
+          Alert.alert(productName, "Quantity: " + quantity + "\nExpiration date: " + expDate.toDateString(), [
+            {
+              text: "Close",
+              onPress: () => {},
+            },
             {
               text: "Remove",
               onPress: () => {
@@ -65,7 +69,8 @@ const getRenderFunctionRows = (setItems: Function, navigate: Function) => {
             },
             { text: "Edit",
               onPress: () => {
-                navigate("addFoodModal");
+                const key = productBarCode ? String(productBarCode + "-" + expDate) : productName + "-" + expDate;
+                navigate("addFoodModal", {photo: undefined, key: key, scanner: false, editing: true});
               }}
           ])
         }>
@@ -135,7 +140,7 @@ e un'altra più dettagliata dove ogni elemento è una riga */
       <AddButton
         size={80}
         style={styles.buttonAdd}
-        onPress={() => navigation.navigate("addFoodModal")}
+        onPress={() => navigation.navigate("addFoodModal", {photo: undefined, key: undefined, scanner: true, editing: false})}
       />
       <AddButton
         size={80}
