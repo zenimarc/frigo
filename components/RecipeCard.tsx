@@ -1,5 +1,5 @@
-export type RecipeResponse = {
-  id: string;
+export type RecipeGivenIngredientsResponse = {
+  id: number;
   title: string;
   image: string;
   usedIngredientCount: number;
@@ -11,13 +11,13 @@ import { Image, StyleSheet, View, Text } from "react-native";
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 
-export const RecipeCard = ({
+const RecipeCard = ({
   id,
   image,
   title,
   missedIngredientCount,
   usedIngredientCount,
-}: RecipeResponse) => {
+}: RecipeGivenIngredientsResponse) => {
   const colorScheme = useColorScheme();
 
   return (

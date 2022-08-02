@@ -1,4 +1,5 @@
 import { Platform } from "react-native";
+import mockedSearchByIngredientsResp from "./mocked-responses/searchByIngredients.json";
 
 type ProductDataResp = {
   status: 0 | 1;
@@ -59,11 +60,11 @@ export const SpoonacularAPI = () => {
 
   const _doGetRequest = async (url: string) => {
     const resp =
-      0 && //used to not actually make the request because of costs
-      (await fetch(url, {
+      //used to not actually make the request because of costs
+      await fetch(url, {
         method: "GET",
         redirect: "follow",
-      }));
+      });
     const data = await resp.json();
     console.log("resp spoonacular", data);
     return data;
@@ -86,7 +87,8 @@ export const SpoonacularAPI = () => {
     const queryString = new URLSearchParams(params).toString();
     const url = _baseUrl + _apiMethod + queryString;
     console.log(url);
-    return await _doGetRequest(url);
+    //return await _doGetRequest(url);
+    return mockedSearchByIngredientsResp;
   };
 
   const getRecipeInformations = async (recipeID: string) => {
