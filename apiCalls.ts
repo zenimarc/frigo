@@ -1,6 +1,7 @@
 import { Platform } from "react-native";
 import mockedSearchByIngredientsResp from "./mocked-responses/searchByIngredients.json";
 import mockedGetRecipeInfosResp from "./mocked-responses/getRecipeInformations.json";
+import mockedSearchByIngredientsIncludeDetailsResp from "./mocked-responses/complexSearch.json";
 
 type ProductDataResp = {
   status: 0 | 1;
@@ -71,6 +72,28 @@ export const SpoonacularAPI = () => {
 
   // TODO: there is an endpoint that can combine search by ingredients and get informations and get instructions
   // it might be a good idea to use it
+  const complexRecipeSearch = async (ingredients: string[]) => {};
+
+  const searchRecipesGivenIngredientsIncludeDetails = async (ingredients: string[]) => {
+    const _apiMethod = "/recipes/complexSearch?";
+    const params = {
+      includeIngredients: ingredients.join(","),
+      fillIngredients: "true",
+      instructionsRequired: "true",
+      addRecipeInformation: "true",
+      addRecipeNutrition: "false",
+      number: "10",
+      limitLicense: "true",
+      ignorePantry: "true",
+      apiKey: _apiKey,
+    };
+
+    const queryString = new URLSearchParams(params).toString();
+    const url = _baseUrl + _apiMethod + queryString;
+    console.log(url);
+    //return await _doGetRequest(url);
+    return mockedSearchByIngredientsIncludeDetailsResp;
+  };
 
   const searchRecipesGivenIngredients = async (ingredients: string[]) => {
     const _apiMethod = "/recipes/findByIngredients?";
@@ -113,5 +136,10 @@ export const SpoonacularAPI = () => {
     return await _doGetRequest(url);
   };
 
-  return { searchRecipesGivenIngredients, getRecipeInformations, getAnalyzedRecipeInstructions };
+  return {
+    searchRecipesGivenIngredients,
+    getRecipeInformations,
+    getAnalyzedRecipeInstructions,
+    searchRecipesGivenIngredientsIncludeDetails,
+  };
 };
