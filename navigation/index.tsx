@@ -106,7 +106,7 @@ function BottomTabNavigator() {
         name="TabTwo"
         component={TabTwoScreen}
         options={{
-          title: "Tab Two",
+          title: "Recipes",
           tabBarIcon: ({ color }) => (
             <Image
               source={require("../assets/images/recipes2-icon.png")}
