@@ -1,5 +1,6 @@
 import React from "react";
-import { Image, StyleSheet, View, Text } from "react-native";
+import { Text } from "./Themed";
+import { Image, StyleSheet, View } from "react-native";
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 
@@ -21,41 +22,49 @@ const RecipeCard = ({
   const colorScheme = useColorScheme();
 
   return (
-    <View
-      style={[styles.containerTile, { backgroundColor: Colors[colorScheme].backgroundNeutral }]}>
-      <Image source={{ uri: image }} style={styles.imageTile} resizeMode="contain" />
-      <View style={{ flex: 1 }} />
-      <View style={{ flex: 10 }}>
-        <Text style={styles.title}>{title}</Text>
-      </View>
-      <View style={{ flexDirection: "column", flex: 7 }}>
-        <Text style={styles.title}>used ingredients: {usedIngredientCount}</Text>
-        <Text style={styles.title}>missing ingredients: {missedIngredientCount}</Text>
+    <View style={[styles.container, { backgroundColor: Colors[colorScheme].backgroundNeutral }]}>
+      <View style={styles.cardContentWrapper}>
+        <Text style={styles.recipeTitle}>{title}</Text>
+
+        <View style={styles.contentBody}>
+          <Image source={{ uri: image }} style={styles.image} />
+
+          <View style={styles.details}>
+            <Text style={styles.text}>used ingredients: {usedIngredientCount}</Text>
+            <Text style={styles.text}>missing ingredients: {missedIngredientCount}</Text>
+          </View>
+        </View>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, marginBottom: 25, height: 150 },
-  cardContentWrapper: { margin: 5, alignItems: "center", justifyContent: "flex-end" },
-  title: { fontSize: 15, fontWeight: "400", fontFamily: "lato-regular" },
-  image: { resizeMode: "contain" },
-
-  containerTile: {
-    height: 200,
+  container: {
     marginBottom: 10,
     padding: 10,
     flexDirection: "row",
     borderRadius: 10,
   },
-  imageTile: {
-    height: undefined,
-    width: undefined,
-    flex: 3,
-    //backgroundColor: "#fff",
-    borderRadius: 30,
+  cardContentWrapper: { flex: 1, padding: 5, flexDirection: "column" },
+  recipeTitle: {
+    fontSize: 16,
+    fontWeight: "500",
   },
+  contentBody: { flex: 1, flexDirection: "row", marginTop: 10 },
+
+  image: {
+    flex: 2,
+    minHeight: 130,
+    borderRadius: 5,
+    //backgroundColor: "#fff",
+  },
+  details: {
+    flex: 3,
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+  },
+  text: { fontSize: 15, fontWeight: "400", fontFamily: "lato-regular" },
 });
 
 export default RecipeCard;
