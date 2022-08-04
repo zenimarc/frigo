@@ -7,6 +7,8 @@ import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { CompositeScreenProps, NavigatorScreenParams } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { CameraCapturedPicture } from "expo-camera";
+import { RecipeGivenIngredientsResponse } from "./components/RecipeCard";
+import { ComplexSearchResp, ComplexSearchResultsEntity } from "./helper_data_types";
 
 declare global {
   namespace ReactNavigation {
@@ -16,9 +18,16 @@ declare global {
 
 export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
-  addFoodModal: undefined | { photo: CameraCapturedPicture | undefined, key: string | undefined, scanner: boolean | undefined, editing: boolean};
+  addFoodModal:
+    | undefined
+    | {
+        photo: CameraCapturedPicture | undefined;
+        key: string | undefined;
+        scanner: boolean | undefined;
+        editing: boolean;
+      };
   cameraModal: { sendItemBack: boolean; receiverRouteName: string };
-  recipeModal: {id: number};
+  recipeModal: { recipeData: ComplexSearchResultsEntity };
   NotFound: undefined;
 };
 

@@ -78,6 +78,7 @@ export const SpoonacularAPI = () => {
     const _apiMethod = "/recipes/complexSearch?";
     const params = {
       includeIngredients: ingredients.join(","),
+      sort: "max-used-ingredients",
       fillIngredients: "true",
       instructionsRequired: "true",
       addRecipeInformation: "true",
@@ -91,8 +92,9 @@ export const SpoonacularAPI = () => {
     const queryString = new URLSearchParams(params).toString();
     const url = _baseUrl + _apiMethod + queryString;
     console.log(url);
-    //return await _doGetRequest(url);
-    return mockedSearchByIngredientsIncludeDetailsResp;
+    //return (await _doGetRequest(url)).results;
+    //await new Promise((resolve) => setTimeout(resolve, 2000));
+    return mockedSearchByIngredientsIncludeDetailsResp.results;
   };
 
   const searchRecipesGivenIngredients = async (ingredients: string[]) => {

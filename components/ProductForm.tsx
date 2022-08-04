@@ -12,10 +12,10 @@ import {
   convertObjToArray,
   getStoredItems,
   removeTimeFromDate,
+  RemoveFood,
 } from "../helper_functions";
 import useColorScheme from "../hooks/useColorScheme";
 import Navigation from "../navigation";
-import { RemoveFood } from "../helper_functions";
 import { RootTabScreenProps } from "../types";
 
 import { formProps, StoredProductData, StoredProductsDictData } from "../helper_data_types";
@@ -42,7 +42,9 @@ const Form = ({
   const [, setItems] = useContext(AppContext);
   const [nav, setNav] = useState<boolean>(false);
   const [isEditing] = useState<boolean>(productEditing);
-  const [originalExpDate, setOriginalExpDate] = useState<Date>(productExpDate || removeTimeFromDate(new Date()));
+  const [originalExpDate, setOriginalExpDate] = useState<Date>(
+    productExpDate || removeTimeFromDate(new Date())
+  );
 
   const navigation = useNavigation();
 
@@ -83,7 +85,7 @@ const Form = ({
       productBarCode: barCode || undefined,
       productImage: image,
       productName: name || "undefined",
-      productNameEng: productNameEng || productName || "undefined", //maybe try to translate in case
+      productNameEng: productNameEng || name || "undefined", //maybe try to translate in case
       expDate: expDate.toISOString(),
       addedDate: new Date().toISOString(),
       quantity,
@@ -99,14 +101,14 @@ const Form = ({
         console.log("fatto asyncstorage");
         setItems(convertObjToArray(storedItems));
         console.log("fatto setItems del context");
-        
-        if(originalExpDate != expDate){
+
+        if (originalExpDate != expDate) {
           const item = newItem;
           item.expDate = originalExpDate.toISOString();
           const key = computeProductKey(item);
-          RemoveFood({key, setItems});
+          RemoveFood({ key, setItems });
         }
-        
+
         Alert.alert("Insert", "Product inserted succesfully", [{ text: "OK" }]);
         clearData();
         nav ? setScanner(true) : navigateToHome();

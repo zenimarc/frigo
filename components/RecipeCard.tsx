@@ -12,9 +12,9 @@ export type RecipeGivenIngredientsResponse = {
   missedIngredientCount: number;
 };
 
-interface RecipeGivenIngredients extends RecipeGivenIngredientsResponse{
+interface RecipeGivenIngredients extends RecipeGivenIngredientsResponse {
   navigateToRecipe: Function;
-};
+}
 
 const RecipeCard = ({
   id,
@@ -28,8 +28,9 @@ const RecipeCard = ({
 
   return (
     <Pressable
-      onPress={() => {navigateToRecipe()}}
-    >
+      onPress={() => {
+        navigateToRecipe();
+      }}>
       <View style={[styles.container]}>
         <View style={styles.cardContentWrapper}>
           <Text style={styles.recipeTitle}>{title}</Text>
@@ -58,19 +59,19 @@ const themedStyles = () => {
       borderRadius: 10,
       backgroundColor: Colors[colorScheme].backgroundNeutral,
     },
-    cardContentWrapper: { 
-      flex: 1, 
-      padding: 5, 
-      flexDirection: "column" 
+    cardContentWrapper: {
+      flex: 1,
+      padding: 5,
+      flexDirection: "column",
     },
     recipeTitle: {
       fontSize: 16,
       fontWeight: "500",
     },
-    contentBody: { 
-      flex: 1, 
-      flexDirection: "row", 
-      marginTop: 10 
+    contentBody: {
+      flex: 1,
+      flexDirection: "row",
+      marginTop: 10,
     },
     image: {
       flex: 2,
@@ -82,10 +83,11 @@ const themedStyles = () => {
       justifyContent: "flex-end",
       alignItems: "flex-end",
     },
-    text: { 
-      fontSize: 15, 
-      fontWeight: "400", 
-      fontFamily: "lato-regular" },
+    text: {
+      fontSize: 15,
+      fontWeight: "400",
+      fontFamily: "lato-regular",
+    },
   });
 };
 
