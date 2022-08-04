@@ -3,6 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
+import * as Device from "expo-device";
+import * as ScreenOrientation from "expo-screen-orientation";
 import { Animated, ColorSchemeName, Dimensions, Pressable, Image } from "react-native";
 import ScannerBarCode from "../components/ScannerBarCode";
 import { View } from "../components/Themed";
@@ -31,6 +33,32 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  const [deviceType, setDeviceType] = React.useState<Device.DeviceType>(Device.DeviceType.PHONE);
+  const [orientation, setOrientation] = React.useState(ScreenOrientation.Orientation.PORTRAIT_UP);
+
+  console.log("orientoooo", orientation);
+
+  React.useEffect(() => {
+    (async () => {
+      const deviceType = await Device.getDeviceTypeAsync();
+      if (deviceType === Device.DeviceType.PHONE) {
+        // if using a Phone lock vertical
+        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+      }
+      setDeviceType(deviceType);
+    })();
+
+    // set initial orientation
+    ScreenOrientation.getOrientationAsync().then((orientation) => {
+      setOrientation(orientation);
+    });
+
+    // subscribe to future changes
+    const subscription = ScreenOrientation.addOrientationChangeListener((evt) => {
+      setOrientation(evt.orientationInfo.orientation);
+    });
+  }, []);
+
   return (
     <Stack.Navigator>
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
