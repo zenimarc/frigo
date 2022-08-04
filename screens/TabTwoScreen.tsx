@@ -6,8 +6,9 @@ import EditScreenInfo from "../components/EditScreenInfo";
 import RecipeCard, { RecipeGivenIngredientsResponse } from "../components/RecipeCard";
 import { Text, View } from "../components/Themed";
 import { AppContext } from "../context";
+import { RootTabScreenProps } from "../types";
 
-export default function TabTwoScreen() {
+export default function TabTwoScreen({navigation} : RootTabScreenProps<"TabTwo">) {
   const [items, setItems] = useContext(AppContext);
   const [recipes, setRecipes] = useState<RecipeGivenIngredientsResponse[]>([]);
   const RecipeApi = SpoonacularAPI();
@@ -37,6 +38,7 @@ export default function TabTwoScreen() {
         title={title}
         usedIngredientCount={usedIngredientCount}
         key={id}
+        navigateToRecipe={() => navigation.navigate("recipeModal", {id: id})}
       />
     );
   };

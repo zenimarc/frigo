@@ -10,6 +10,7 @@ import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import CameraModalScreen from "../screens/CameraModalScreen";
 import ModalScreen from "../screens/ModalScreen";
+import { RecipeModalScreen } from "../screens/RecipeModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import TabOneScreen from "../screens/TabOneScreen";
 import TabTwoScreen from "../screens/TabTwoScreen";
@@ -41,6 +42,10 @@ function RootNavigator() {
           name="cameraModal"
           component={CameraModalScreen}
           options={{ title: "Camera" }}
+        />
+        <Stack.Screen
+          name="recipeModal"
+          component={RecipeModalScreen}
         />
       </Stack.Group>
     </Stack.Navigator>
@@ -108,7 +113,15 @@ function BottomTabNavigator() {
         name="TabTwo"
         component={!landScapeMode ? TabTwoScreen : TabOneAndTwo}
         options={{
-          title: "Recipes",
+          headerTitleStyle: {
+            fontWeight: "600",
+            fontStyle: "normal",
+            fontSize: 30,
+            color: "white",
+            display: "flex",
+            justifyContent: "center",
+          },
+          title: "recipes",
           tabBarIcon: ({ color }) => (
             <Image
               source={require("../assets/images/recipes2-icon.png")}

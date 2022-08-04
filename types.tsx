@@ -18,6 +18,7 @@ export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   addFoodModal: undefined | { photo: CameraCapturedPicture | undefined, key: string | undefined, scanner: boolean | undefined, editing: boolean};
   cameraModal: { sendItemBack: boolean; receiverRouteName: string };
+  recipeModal: {id: number};
   NotFound: undefined;
 };
 
