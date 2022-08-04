@@ -43,11 +43,8 @@ function RootNavigator() {
           component={CameraModalScreen}
           options={{ title: "Camera" }}
         />
-        <Stack.Screen
-          name="recipeModal"
-          component={RecipeModalScreen}
-        />
       </Stack.Group>
+      <Stack.Screen name="recipeModal" component={RecipeModalScreen} />
     </Stack.Navigator>
   );
 }
