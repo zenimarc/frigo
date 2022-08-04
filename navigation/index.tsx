@@ -3,12 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
-import * as Device from "expo-device";
-import * as ScreenOrientation from "expo-screen-orientation";
-import { Animated, ColorSchemeName, Dimensions, Pressable, Image } from "react-native";
-import ScannerBarCode from "../components/ScannerBarCode";
-import { View } from "../components/Themed";
-import WavyHeader from "../components/WavyHeader";
+
+import { ColorSchemeName, Pressable, Image } from "react-native";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
@@ -19,6 +15,8 @@ import TabOneScreen from "../screens/TabOneScreen";
 import TabTwoScreen from "../screens/TabTwoScreen";
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
+import TabOneAndTwo from "../screens/TabOneAndTwo";
+import useLandscapeMode from "../hooks/useLandscapeMode";
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -33,32 +31,6 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  const [deviceType, setDeviceType] = React.useState<Device.DeviceType>(Device.DeviceType.PHONE);
-  const [orientation, setOrientation] = React.useState(ScreenOrientation.Orientation.PORTRAIT_UP);
-
-  console.log("orientoooo", orientation);
-
-  React.useEffect(() => {
-    (async () => {
-      const deviceType = await Device.getDeviceTypeAsync();
-      if (deviceType === Device.DeviceType.PHONE) {
-        // if using a Phone lock vertical
-        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
-      }
-      setDeviceType(deviceType);
-    })();
-
-    // set initial orientation
-    ScreenOrientation.getOrientationAsync().then((orientation) => {
-      setOrientation(orientation);
-    });
-
-    // subscribe to future changes
-    const subscription = ScreenOrientation.addOrientationChangeListener((evt) => {
-      setOrientation(evt.orientationInfo.orientation);
-    });
-  }, []);
-
   return (
     <Stack.Navigator>
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
@@ -80,12 +52,14 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
+  const landScapeMode = useLandscapeMode();
   return (
     <BottomTab.Navigator
       initialRouteName="TabOne"
       screenOptions={{
         tabBarStyle: {
           backgroundColor: Colors[colorScheme].background,
+          ...(landScapeMode && { display: "none" }),
         },
         tabBarActiveTintColor: Colors[colorScheme].tint,
         tabBarInactiveTintColor: Colors[colorScheme].tabIconInactive,
@@ -97,7 +71,7 @@ function BottomTabNavigator() {
       }}>
       <BottomTab.Screen
         name="TabOne"
-        component={TabOneScreen}
+        component={!landScapeMode ? TabOneScreen : TabOneAndTwo}
         options={({ navigation }: RootTabScreenProps<"TabOne">) => ({
           headerTitleStyle: {
             fontWeight: "600",
@@ -132,7 +106,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="TabTwo"
-        component={TabTwoScreen}
+        component={!landScapeMode ? TabTwoScreen : TabOneAndTwo}
         options={{
           title: "Recipes",
           tabBarIcon: ({ color }) => (
