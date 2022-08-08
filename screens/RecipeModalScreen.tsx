@@ -4,6 +4,7 @@ import { RootStackScreenProps } from "../types";
 import { SpoonacularAPI } from "../apiCalls";
 import { StyleSheet, Image, Alert, FlatList, ScrollView } from "react-native";
 import useColorScheme from "../hooks/useColorScheme";
+import { AnalyzedInstructionsEntity, StepsEntity } from "../helper_data_types";
 
 export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"recipeModal">) {
   const [recipeId, setRecipeId] = useState<string>(route.params.recipeData.id.toString());
@@ -12,7 +13,7 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
   const [recipeImage, setRecipeImage] = useState<string>();
   const [recipeCuisines, setRecipeCuisines] = useState<string[]>([]);
   const [recipeDishTypes, setRecipeDishTypes] = useState<string[]>([]);
-  const [recipeInstructions, setRecipeInstructions] = useState<string>();
+  const [recipeInstructions, setRecipeInstructions] = useState<any>();
   const styles = themedStyles();
 
   useLayoutEffect(() => {
@@ -30,7 +31,13 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
       setRecipeImage(image);
       setRecipeCuisines(cuisines || []);
       setRecipeDishTypes(dishTypes || []);
-      setRecipeInstructions(JSON.stringify(analyzedInstructions));
+      setRecipeInstructions(analyzedInstructions);
+      if(analyzedInstructions){
+        if(analyzedInstructions[0])
+          analyzedInstructions[0].steps?.forEach((item) => {
+            console.log("Instructions: " + item.step);
+          })
+      }
     })();
   }, [route.params]);
 
@@ -73,12 +80,20 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
         </View>
         <Text style={[styles.subTitle, { marginTop: 5 }]}>Instructions</Text>
         <ScrollView style={styles.instructionContainer}>
-          <Text style={styles.instructions}>
-            {recipeInstructions
-              ?.replace("<ol>", "")
-              .replace("</ol>", "")
-              .replace(/<(?:.|\n)*?>/gm, "\n")}
-          </Text>
+          {recipeInstructions && recipeInstructions[0] ?
+            recipeInstructions[0].steps.map((value: { step: any, number: number }) => {
+              return (
+                <View key={value.number} style={styles.instructionView}>
+                  <View style={styles.instructionIndex}>
+                    <Text style={{fontWeight: "100"}}>{value.number}</Text>
+                  </View>
+                  <Text style={[styles.instructions, {flex: 15}]}>{value.step}</Text>
+                </View>
+              );
+            })
+
+            : false
+          }
         </ScrollView>
       </View>
     </View>
@@ -111,7 +126,7 @@ const themedStyles = () => {
       padding: 5,
     },
     subTitle: {
-      fontWeight: "bold",
+      fontWeight: "100",
       alignSelf: "center",
       fontSize: 15,
     },
@@ -129,9 +144,22 @@ const themedStyles = () => {
       paddingLeft: 10,
       paddingRight: 10,
     },
+    instructionView: {
+      flexDirection: "row",
+      backgroundColor: colorScheme == "dark" ? "#333" : "#ccc",
+      flex: 1,
+      marginTop: 3,
+    },
+    instructionIndex: { 
+      justifyContent: "center", 
+      alignItems: "center",
+      backgroundColor: colorScheme == "dark" ? "#333" : "#ccc",
+      flex: 1,
+    },
     instructions: {
       fontWeight: "normal",
       textAlign: "justify",
+      alignSelf: "center"
     },
   });
 };

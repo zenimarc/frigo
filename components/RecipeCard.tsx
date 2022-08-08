@@ -85,7 +85,7 @@ const themedStyles = () => {
     },
     text: {
       fontSize: 15,
-      fontWeight: "400",
+      fontWeight: "100",
       fontFamily: "lato-regular",
     },
   });
