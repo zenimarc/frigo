@@ -66,7 +66,8 @@ const themedStyles = () => {
     },
     recipeTitle: {
       fontSize: 16,
-      fontWeight: "500",
+      fontWeight: "bold",
+      fontFamily: "lato-regular"
     },
     contentBody: {
       flex: 1,
@@ -85,7 +86,7 @@ const themedStyles = () => {
     },
     text: {
       fontSize: 15,
-      fontWeight: "100",
+      fontWeight: "normal",
       fontFamily: "lato-regular",
     },
   });

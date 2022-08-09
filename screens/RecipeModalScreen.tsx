@@ -4,7 +4,7 @@ import { RootStackScreenProps } from "../types";
 import { SpoonacularAPI } from "../apiCalls";
 import { StyleSheet, Image, Alert, FlatList, ScrollView } from "react-native";
 import useColorScheme from "../hooks/useColorScheme";
-import { AnalyzedInstructionsEntity, StepsEntity } from "../helper_data_types";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"recipeModal">) {
   const [recipeId, setRecipeId] = useState<string>(route.params.recipeData.id.toString());
@@ -53,8 +53,14 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
             data={recipeCuisines.concat(recipeDishTypes)}
             renderItem={({ item }) => {
               return (
-                <View style={{ backgroundColor: "#333", margin: 5, padding: 10, borderRadius: 10 }}>
-                  <Text>{item}</Text>
+                <View style={styles.tagItems}>
+                  <Text style={{
+                    fontFamily: "lato-regular", 
+                    fontWeight: "bold", 
+                    textTransform: "capitalize"
+                    }}>
+                      {item}
+                  </Text>
                 </View>
               );
             }}
@@ -67,9 +73,18 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
             data={recipeIngredients}
             renderItem={({ item }) => {
               return (
-                <View style={{ backgroundColor: "#333", margin: 5, padding: 10, borderRadius: 10 }}>
-                  <Text style={{ alignSelf: "center" }}>{item.name}</Text>
-                  <Text style={{ alignSelf: "center" }}>
+                <View style={styles.tagItems}>
+                  <Text style={{ 
+                    alignSelf: "center", 
+                    fontFamily: "lato-regular", 
+                    fontWeight: "bold",
+                    textTransform: "capitalize" }}>
+                      {item.name}
+                  </Text>
+                  <Text style={{ 
+                    alignSelf: "center", 
+                    fontFamily: "lato-regular", 
+                    }}>
                     {item.measures.metric.amount + " " + item.measures.metric.unitShort}
                   </Text>
                 </View>
@@ -85,7 +100,7 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
               return (
                 <View key={value.number} style={styles.instructionView}>
                   <View style={styles.instructionIndex}>
-                    <Text style={{fontWeight: "100"}}>{value.number}</Text>
+                    <Text style={{fontWeight: "bold", fontFamily: "Roboto"}}>{value.number}</Text>
                   </View>
                   <Text style={[styles.instructions, {flex: 15}]}>{value.step}</Text>
                 </View>
@@ -118,10 +133,16 @@ const themedStyles = () => {
       borderRadius: 5,
       margin: 5,
     },
+    tagItems: {
+      backgroundColor: colorScheme == "dark" ? "#222" : "#ddd", 
+      margin: 5, 
+      padding: 10, 
+      borderRadius: 10 
+    },
     recipe: {
       flex: 4,
       flexDirection: "column",
-      backgroundColor: colorScheme == "dark" ? "#222" : "#ddd",
+      backgroundColor: colorScheme == "dark" ? "#000" : "#fff",
       borderRadius: 5,
       padding: 5,
     },
@@ -129,15 +150,16 @@ const themedStyles = () => {
       fontWeight: "100",
       alignSelf: "center",
       fontSize: 15,
+      fontFamily: "lato-regular",
     },
     tags: {
       flexDirection: "row",
-      backgroundColor: colorScheme == "dark" ? "#222" : "#ccc",
+      backgroundColor: colorScheme == "dark" ? "#000" : "#fff",
       alignItems: "center",
     },
     instructionContainer: {
       flexDirection: "column",
-      backgroundColor: colorScheme == "dark" ? "#333" : "#ccc",
+      backgroundColor: colorScheme == "dark" ? "#111" : "#eee",
       //alignItems: "center",
       borderRadius: 5,
       margin: 5,
@@ -146,20 +168,21 @@ const themedStyles = () => {
     },
     instructionView: {
       flexDirection: "row",
-      backgroundColor: colorScheme == "dark" ? "#333" : "#ccc",
+      backgroundColor: colorScheme == "dark" ? "#111" : "#eee",
       flex: 1,
       marginTop: 3,
     },
     instructionIndex: { 
-      justifyContent: "center", 
-      alignItems: "center",
-      backgroundColor: colorScheme == "dark" ? "#333" : "#ccc",
+      justifyContent: "flex-start", 
+      alignItems: "flex-start",
+      backgroundColor: colorScheme == "dark" ? "#111" : "#eee",
       flex: 1,
     },
     instructions: {
-      fontWeight: "normal",
+      fontWeight: "100",
       textAlign: "justify",
-      alignSelf: "center"
+      alignSelf: "center",
+      fontFamily: "lato-regular"
     },
   });
 };

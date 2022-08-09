@@ -70,11 +70,24 @@ export const ProductTile = ({
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, marginBottom: 25, height: 150 },
-  cardContentWrapper: { margin: 5, alignItems: "center", justifyContent: "flex-end" },
-  title: { fontSize: 15, fontWeight: "400", fontFamily: "lato-regular" },
-  image: { resizeMode: "contain" },
-
+  container: { 
+    flex: 1, 
+    marginBottom: 25, 
+    height: 150 
+  },
+  cardContentWrapper: { 
+    margin: 5, 
+    alignItems: "center", 
+    justifyContent: "flex-end" 
+  },
+  title: { 
+    fontSize: 15, 
+    fontWeight: "400", 
+    fontFamily: "lato-regular" 
+  },
+  image: { 
+    resizeMode: "contain" 
+  },
   containerTile: {
     marginBottom: 10,
     padding: 10,

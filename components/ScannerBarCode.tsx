@@ -50,7 +50,7 @@ export default function ScannerBarCode({
               lightColor={mainColor1}
               darkColor={mainColor2}
               style={{ padding: 15, borderRadius: 15 }}>
-              <ColorfulText>Insert data manually</ColorfulText>
+              <ColorfulText style={{fontFamily: "lato-regular"}}>Insert data manually</ColorfulText>
             </ThemedView>
           </Pressable>
         </View>

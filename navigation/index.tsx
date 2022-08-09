@@ -37,14 +37,21 @@ function RootNavigator() {
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: "Oops!" }} />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
-        <Stack.Screen name="addFoodModal" component={ModalScreen} options={{ title: "Add Food" }} />
+        <Stack.Screen 
+          name="addFoodModal" 
+          component={ModalScreen} 
+          options={{ title: "Add Food", 
+          headerStyle: {backgroundColor: Colors[useColorScheme()].header }}} />
         <Stack.Screen
           name="cameraModal"
           component={CameraModalScreen}
           options={{ title: "Camera" }}
         />
       </Stack.Group>
-      <Stack.Screen name="recipeModal" component={RecipeModalScreen} />
+      <Stack.Screen 
+        name="recipeModal" 
+        component={RecipeModalScreen} 
+        options={{headerStyle: {backgroundColor: Colors[useColorScheme()].header}}}/>
     </Stack.Navigator>
   );
 }

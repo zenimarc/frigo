@@ -247,12 +247,12 @@ const themedStyles = () => {
   const colorScheme = useColorScheme();
   return StyleSheet.create({
     container: {
-      backgroundColor: colorScheme === "dark" ? "#111" : "#eee",
+      backgroundColor: colorScheme === "dark" ? "#000" : "#fff",
       flex: 1,
       flexDirection: "column",
     },
     scanContainer: {
-      backgroundColor: colorScheme === "dark" ? "#111" : "#eee",
+      backgroundColor: colorScheme === "dark" ? "#000" : "#fff",
       flexDirection: "column",
       margin: 40,
     },
@@ -264,12 +264,14 @@ const themedStyles = () => {
       fontSize: 16,
       color: colorScheme === "dark" ? "#fff" : "#000",
       marginVertical: 5,
+      fontFamily: "lato-regular"
     },
     nameInputLabel: {
       fontSize: 16,
       color: colorScheme === "dark" ? "#fff" : "#000",
       marginVertical: 5,
       marginLeft: 5,
+      fontFamily: "lato-regular"
     },
     nameTextInput: {
       fontSize: 16,
@@ -280,6 +282,7 @@ const themedStyles = () => {
       borderRadius: 5,
       marginHorizontal: 5,
       backgroundColor: colorScheme === "dark" ? "#111" : "#eee",
+      fontFamily: "lato-regular"
     },
     textInput2: {
       fontSize: 14,
@@ -291,9 +294,10 @@ const themedStyles = () => {
       paddingHorizontal: 15,
       maxWidth: 100,
       textAlign: "center",
+      fontFamily: "lato-regular"
     },
     formContainer: {
-      backgroundColor: colorScheme === "dark" ? "#000" : "#fff",
+      backgroundColor: colorScheme === "dark" ? "#111" : "#eee",
       flex: 1,
       marginTop: 5,
       marginBottom: 20,
@@ -307,8 +311,14 @@ const themedStyles = () => {
       alignItems: "center",
       marginTop: 20,
     },
-    quantityWrapper: { flexDirection: "row", alignItems: "center" },
-    expWrapper: { flexDirection: "row", alignItems: "center" },
+    quantityWrapper: { 
+      flexDirection: "row", 
+      alignItems: "center"
+    },
+    expWrapper: { 
+      flexDirection: "row", 
+      alignItems: "center" 
+    },
     button: {
       height: 50,
       backgroundColor: colorScheme === "dark" ? "#007AFF" : "#007AFF",
@@ -321,6 +331,7 @@ const themedStyles = () => {
     buttonText: {
       color: colorScheme === "dark" ? "#fff" : "#fff",
       fontSize: 14,
+      fontFamily: "lato-regular"
     },
     pickerButtonText: {
       color: colorScheme === "dark" ? "#fff" : "#000",
@@ -341,7 +352,11 @@ const themedStyles = () => {
       width: 320,
       height: 260,
     },
-    buttonsWrapper: { flex: 1, justifyContent: "flex-end", marginBottom: 10, marginHorizontal: 10 },
+    buttonsWrapper: { flex: 1, 
+      justifyContent: "flex-end", 
+      marginBottom: 10, 
+      marginHorizontal: 10 
+    },
     submitButton: {
       height: 50,
       minWidth: 100,
@@ -356,7 +371,7 @@ const themedStyles = () => {
       color: colorScheme === "dark" ? "#fff" : "#000",
     },
     selectedWheelItem: {
-      backgroundColor: colorScheme === "dark" ? "#222" : "#eee",
+      backgroundColor: colorScheme === "dark" ? "#333" : "#eee",
     },
     imageWrapper: {
       flex: 1,
