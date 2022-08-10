@@ -45,7 +45,7 @@ export default function TabTwoScreen({ navigation }: RootTabScreenProps<"TabTwo"
   //console.log(recipes); //log all recipes
 
   const renderRecipeFun = ({ item }: { item: ComplexSearchResultsEntity }) => {
-    const { id, image, missedIngredientCount, title, usedIngredientCount } = item;
+    const { id, image, missedIngredientCount, title, usedIngredientCount, readyInMinutes, servings } = item;
     return (
       <RecipeCard
         id={id}
@@ -54,6 +54,8 @@ export default function TabTwoScreen({ navigation }: RootTabScreenProps<"TabTwo"
         title={title}
         usedIngredientCount={usedIngredientCount}
         key={id}
+        readyInMinutes={readyInMinutes}
+        servings={servings}
         navigateToRecipe={() => navigation.navigate("recipeModal", { recipeData: item })}
       />
     );
@@ -65,7 +67,8 @@ export default function TabTwoScreen({ navigation }: RootTabScreenProps<"TabTwo"
       <FlatList
         data={recipes}
         renderItem={renderRecipeFun}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );

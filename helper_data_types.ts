@@ -68,7 +68,7 @@ export interface ComplexSearchResultsEntity {
   summary: string;
   cuisines?: string[];
   dishTypes?: string[];
-  diets?: (string | null)[] | null;
+  diets?: (string)[] | null;
   occasions?: (string | null)[] | null;
   analyzedInstructions?: (AnalyzedInstructionsEntity | null)[] | null;
   spoonacularSourceUrl: string;

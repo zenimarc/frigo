@@ -127,6 +127,7 @@ e un'altra più dettagliata dove ogni elemento è una riga */
         }
         numColumns={1}
         horizontal={false}
+        showsVerticalScrollIndicator={false}
       />
       <AddButton
         size={80}
