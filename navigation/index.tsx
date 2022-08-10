@@ -51,7 +51,12 @@ function RootNavigator() {
       <Stack.Screen 
         name="recipeModal" 
         component={RecipeModalScreen} 
-        options={{headerStyle: {backgroundColor: Colors[useColorScheme()].header}}}/>
+        options={
+          { 
+            headerStyle: {backgroundColor: Colors[useColorScheme()].header},
+            headerTitleStyle: {color: "white"}
+          }
+        }/>
     </Stack.Navigator>
   );
 }

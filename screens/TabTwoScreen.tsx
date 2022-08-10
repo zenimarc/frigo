@@ -7,6 +7,7 @@ import RecipeCard, { RecipeGivenIngredientsResponse } from "../components/Recipe
 import { Text, View } from "../components/Themed";
 import { AppContext } from "../context";
 import { ComplexSearchResultsEntity } from "../helper_data_types";
+import useColorScheme from "../hooks/useColorScheme";
 import { RootTabScreenProps } from "../types";
 
 export default function TabTwoScreen({ navigation }: RootTabScreenProps<"TabTwo">) {
@@ -15,6 +16,7 @@ export default function TabTwoScreen({ navigation }: RootTabScreenProps<"TabTwo"
   const [items, setItems] = useContext(AppContext);
   const [recipes, setRecipes] = useState<ComplexSearchResultsEntity[]>([]);
   const RecipeApi = SpoonacularAPI();
+  const styles = themedStyle();
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -43,7 +45,7 @@ export default function TabTwoScreen({ navigation }: RootTabScreenProps<"TabTwo"
   //console.log(recipes); //log all recipes
 
   const renderRecipeFun = ({ item }: { item: ComplexSearchResultsEntity }) => {
-    const { id, image, missedIngredientCount, title, usedIngredientCount } = item;
+    const { id, image, missedIngredientCount, title, usedIngredientCount, readyInMinutes, servings } = item;
     return (
       <RecipeCard
         id={id}
@@ -52,6 +54,8 @@ export default function TabTwoScreen({ navigation }: RootTabScreenProps<"TabTwo"
         title={title}
         usedIngredientCount={usedIngredientCount}
         key={id}
+        readyInMinutes={readyInMinutes}
+        servings={servings}
         navigateToRecipe={() => navigation.navigate("recipeModal", { recipeData: item })}
       />
     );
@@ -63,23 +67,30 @@ export default function TabTwoScreen({ navigation }: RootTabScreenProps<"TabTwo"
       <FlatList
         data={recipes}
         renderItem={renderRecipeFun}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});
+const themedStyle = () => {
+  const colorScheme = useColorScheme();
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colorScheme === "dark" ? "#000" : "#fff",
+      padding: 5,
+      paddingTop: 10,
+    },
+    title: {
+      fontSize: 20,
+      fontWeight: "bold",
+    },
+    separator: {
+      marginVertical: 30,
+      height: 1,
+      width: "80%",
+    },
+  });
+}

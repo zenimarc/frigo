@@ -6,11 +6,11 @@ import { View, Text } from "./Themed";
 const mapDaysLeftToColors = (daysLeft: number) => {
   if (daysLeft <= 0) {
     //expired
-    return "red";
+    return "#ff0505";
   } else if (daysLeft <= 2) {
-    return "orange";
+    return "#ff5805";
   } else if (daysLeft <= 5) {
-    return "#ffd60a";
+    return "#ffea05";
   } else {
     return "green";
   }

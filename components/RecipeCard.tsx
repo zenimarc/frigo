@@ -3,6 +3,7 @@ import { Text } from "./Themed";
 import { Image, Pressable, StyleSheet, View } from "react-native";
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
+import useLandscapeMode from "../hooks/useLandscapeMode";
 
 export type RecipeGivenIngredientsResponse = {
   id: number;
@@ -10,6 +11,8 @@ export type RecipeGivenIngredientsResponse = {
   image: string;
   usedIngredientCount: number;
   missedIngredientCount: number;
+  readyInMinutes: number;
+  servings: number;
 };
 
 interface RecipeGivenIngredients extends RecipeGivenIngredientsResponse {
@@ -23,8 +26,11 @@ const RecipeCard = ({
   missedIngredientCount,
   usedIngredientCount,
   navigateToRecipe,
+  readyInMinutes, 
+  servings,
 }: RecipeGivenIngredients) => {
   const styles = themedStyles();
+  const landscapeMode = useLandscapeMode();
 
   return (
     <Pressable
@@ -37,7 +43,13 @@ const RecipeCard = ({
 
           <View style={styles.contentBody}>
             <Image source={{ uri: image }} style={styles.image} />
-
+            
+            {landscapeMode &&
+            <View style={styles.recipeInfo}>
+              <Text style={styles.text}>Ready in {readyInMinutes} minutes</Text>
+              <Text style={styles.text}>Servings: {servings}</Text>
+            </View>
+            } 
             <View style={styles.details}>
               <Text style={styles.text}>Owned ingredients: {usedIngredientCount}</Text>
               <Text style={styles.text}>Missing ingredients: {missedIngredientCount}</Text>
@@ -53,11 +65,13 @@ const themedStyles = () => {
   const colorScheme = useColorScheme();
   return StyleSheet.create({
     container: {
-      margin: 5,
+      marginHorizontal: 5,
+      marginBottom: 10,
+      marginTop: 0,
       padding: 10,
       flexDirection: "row",
       borderRadius: 10,
-      backgroundColor: Colors[colorScheme].backgroundNeutral,
+      backgroundColor: colorScheme === "dark" ? "#222" : "#3fc996",
     },
     cardContentWrapper: {
       flex: 1,
@@ -67,7 +81,8 @@ const themedStyles = () => {
     recipeTitle: {
       fontSize: 16,
       fontWeight: "bold",
-      fontFamily: "lato-regular"
+      fontFamily: "lato-regular",
+      color: colorScheme === "dark" ? "#fff" : "#fff"
     },
     contentBody: {
       flex: 1,
@@ -75,9 +90,14 @@ const themedStyles = () => {
       marginTop: 10,
     },
     image: {
-      flex: 2,
+      flex: 1.5,
       minHeight: 100,
       borderRadius: 5,
+      resizeMode: "stretch"
+    },
+    recipeInfo: {
+      marginLeft: 10,
+      justifyContent: "center",
     },
     details: {
       flex: 3,
@@ -88,6 +108,7 @@ const themedStyles = () => {
       fontSize: 15,
       fontWeight: "normal",
       fontFamily: "lato-regular",
+      color: colorScheme === "dark" ? "#fff" : "#fff"
     },
   });
 };
