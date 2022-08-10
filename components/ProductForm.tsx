@@ -19,6 +19,7 @@ import Navigation from "../navigation";
 import { RootTabScreenProps } from "../types";
 
 import { formProps, StoredProductData, StoredProductsDictData } from "../helper_data_types";
+import useLandscapeMode from "../hooks/useLandscapeMode";
 
 const Form = ({
   setScanner,
@@ -47,6 +48,8 @@ const Form = ({
   );
 
   const navigation = useNavigation();
+
+  const landascapeMode = useLandscapeMode();
 
   console.log("immaghiubne: ", image);
 
@@ -121,124 +124,272 @@ const Form = ({
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.scanContainer}>
-        <View style={styles.scanContainerWrapper}>
-          <View style={{ flex: 3 }}>
-            <Text style={styles.text}>Scan the barcode or insert your food data below</Text>
-          </View>
-          <View style={{ flex: 1, paddingLeft: 20 }}>
-            <Pressable
-              onPress={() => {
-                setScanner(true);
-              }}
-              style={styles.button}>
-              <Text style={styles.buttonText}>Scan</Text>
-            </Pressable>
-          </View>
-        </View>
-      </View>
-      <View style={styles.formContainer}>
-        <Text style={styles.nameInputLabel}>Name of food</Text>
-        <TextInput
-          style={styles.nameTextInput}
-          placeholder="Insert name"
-          placeholderTextColor="#aaa"
-          value={name}
-          onChangeText={(text) => setName(text)}
-        />
-        <View style={styles.quantityAndExpWrapper}>
-          <View style={styles.quantityWrapper}>
-            <Text style={[styles.text, { marginRight: 10 }]}>Quantity</Text>
-            <WheelPicker
-              selectedIndex={quantity}
-              options={new Array(99).fill(0).map((_, index) => String(index))}
-              onChange={(index: number) => setQuantity(index)}
-              itemTextStyle={styles.wheelItemText}
-              selectedIndicatorStyle={styles.selectedWheelItem}
-              visibleRest={1}
-            />
-            {/* (
-                  <TextInput
-                    style={styles.textInput2}
-                    placeholder="0"
-                    placeholderTextColor={"#aaa"}
-                    value={quantity}
-                    onChangeText={(n) => setQuantity(n)}
-                    keyboardType="number-pad"
-                  />
-                )*/}
-          </View>
-          {/*<View style={{ flexDirection: "row", flex: 1 }} />*/}
-          <View style={styles.expWrapper}>
-            <Text style={styles.text}>Exp. Date</Text>
-            {Platform.OS !== "ios" && (
-              <Pressable style={styles.pickerButton} onPress={() => showMode()}>
-                <Text style={styles.pickerButtonText}>
-                  {expDate.toLocaleDateString("en-US", { year: "numeric", month: "short" })}
-                </Text>
-              </Pressable>
-            )}
-            {showPicker && Platform.OS !== "ios" && (
-              <DateTimePicker
-                style={{ width: "100%", height: "100%" }}
-                value={expDate}
-                onChange={onChange}
-                display="default"
-                minimumDate={new Date(Date.now())}
-              />
-            )}
-            {Platform.OS === "ios" && (
-              <View style={{ width: 100 }}>
-                <DateTimePicker value={expDate} onChange={onChange} minimumDate={new Date()} />
+    <>
+      {!landascapeMode && (
+        <>
+          <View style={styles.container}>
+            <View style={styles.scanContainer}>
+              <View style={styles.scanContainerWrapper}>
+                <View style={{ flex: 3 }}>
+                  <Text style={styles.text}>Scan the barcode or insert your food data below</Text>
+                </View>
+                <View style={{ flex: 1, paddingLeft: 20 }}>
+                  <Pressable
+                    onPress={() => {
+                      setScanner(true);
+                    }}
+                    style={styles.button}>
+                    <Text style={styles.buttonText}>Scan</Text>
+                  </Pressable>
+                </View>
               </View>
-            )}
-          </View>
-        </View>
-
-        <View style={styles.imageWrapper}>
-          <Pressable
-            onPress={() =>
-              navigation.navigate("cameraModal", {
-                sendItemBack: true,
-                receiverRouteName: "addFoodModal",
-              })
-            }>
-            {image ? (
-              <Image resizeMode="contain" style={{ height: "100%" }} source={{ uri: image }} />
-            ) : (
-              <Image
-                resizeMode="contain"
-                style={styles.imageOverlay}
-                source={require("../assets/images/no-picture.png")}
+            </View>
+            <View style={styles.formContainer}>
+              <Text style={styles.nameInputLabel}>Name of food</Text>
+              <TextInput
+                style={styles.nameTextInput}
+                placeholder="Insert name"
+                placeholderTextColor="#aaa"
+                value={name}
+                onChangeText={(text) => setName(text)}
               />
-            )}
-          </Pressable>
-        </View>
+              <View style={styles.quantityAndExpWrapper}>
+                <View style={styles.quantityWrapper}>
+                  <Text style={[styles.text, { marginRight: 10 }]}>Quantity</Text>
+                  <WheelPicker
+                    selectedIndex={quantity}
+                    options={new Array(99).fill(0).map((_, index) => String(index))}
+                    onChange={(index: number) => setQuantity(index)}
+                    itemTextStyle={styles.wheelItemText}
+                    selectedIndicatorStyle={styles.selectedWheelItem}
+                    visibleRest={1}
+                  />
+                  {/* (
+                <TextInput
+                  style={styles.textInput2}
+                  placeholder="0"
+                  placeholderTextColor={"#aaa"}
+                  value={quantity}
+                  onChangeText={(n) => setQuantity(n)}
+                  keyboardType="number-pad"
+                />
+              )*/}
+                </View>
+                {/*<View style={{ flexDirection: "row", flex: 1 }} />*/}
+                <View style={styles.expWrapper}>
+                  <Text style={styles.text}>Exp. Date</Text>
+                  {Platform.OS !== "ios" && (
+                    <Pressable style={styles.pickerButton} onPress={() => showMode()}>
+                      <Text style={styles.pickerButtonText}>
+                        {expDate.toLocaleDateString("en-US", { year: "numeric", month: "short" })}
+                      </Text>
+                    </Pressable>
+                  )}
+                  {showPicker && Platform.OS !== "ios" && (
+                    <DateTimePicker
+                      style={{ width: "100%", height: "100%" }}
+                      value={expDate}
+                      onChange={onChange}
+                      display="default"
+                      minimumDate={new Date(Date.now())}
+                    />
+                  )}
+                  {Platform.OS === "ios" && (
+                    <View style={{ width: 100 }}>
+                      <DateTimePicker
+                        value={expDate}
+                        onChange={onChange}
+                        minimumDate={new Date()}
+                      />
+                    </View>
+                  )}
+                </View>
+              </View>
 
-        <View style={styles.buttonsWrapper}>
-          <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
-            {!isEditing && (
-              <Pressable
-                onPress={() => {
-                  storeData(true);
-                }}
-                style={styles.submitButton}>
-                <Text style={styles.buttonText}>Add another</Text>
-              </Pressable>
-            )}
-            <Pressable
-              onPress={() => {
-                setNav(false);
-                storeData(false);
-              }}
-              style={styles.submitButton}>
-              <Text style={styles.buttonText}>Submit</Text>
-            </Pressable>
+              <View style={styles.imageWrapper}>
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate("cameraModal", {
+                      sendItemBack: true,
+                      receiverRouteName: "addFoodModal",
+                    })
+                  }>
+                  {image ? (
+                    <Image
+                      resizeMode="contain"
+                      style={{ height: "100%" }}
+                      source={{ uri: image }}
+                    />
+                  ) : (
+                    <Image
+                      resizeMode="contain"
+                      style={styles.imageOverlay}
+                      source={require("../assets/images/no-picture.png")}
+                    />
+                  )}
+                </Pressable>
+              </View>
+
+              <View style={styles.buttonsWrapper}>
+                <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+                  {!isEditing && (
+                    <Pressable
+                      onPress={() => {
+                        storeData(true);
+                      }}
+                      style={styles.submitButton}>
+                      <Text style={styles.buttonText}>Add another</Text>
+                    </Pressable>
+                  )}
+                  <Pressable
+                    onPress={() => {
+                      setNav(false);
+                      storeData(false);
+                    }}
+                    style={styles.submitButton}>
+                    <Text style={styles.buttonText}>Submit</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
           </View>
-        </View>
-      </View>
-    </View>
+        </>
+      )}
+      {landascapeMode && (
+        <>
+          <View style={styles.container}>
+            <View style={styles.scanContainer}>
+              <View style={styles.scanContainerWrapper}>
+                <View style={{ flex: 3 }}>
+                  <Text style={styles.text}>Scan the barcode or insert your food data below</Text>
+                </View>
+                <View style={{ flex: 1, paddingLeft: 20 }}>
+                  <Pressable
+                    onPress={() => {
+                      setScanner(true);
+                    }}
+                    style={styles.button}>
+                    <Text style={styles.buttonText}>Scan</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+            <View style={styles.formContainerLandscape}>
+              <View style={styles.formWrapper}>
+                <View>
+                  <Text style={styles.nameInputLabel}>Name of food</Text>
+                  <TextInput
+                    style={styles.nameTextInput}
+                    placeholder="Insert name"
+                    placeholderTextColor="#aaa"
+                    value={name}
+                    onChangeText={(text) => setName(text)}
+                  />
+                </View>
+
+                <View style={styles.quantityAndExpWrapper}>
+                  <View style={styles.quantityWrapper}>
+                    <Text style={[styles.text, { marginRight: 10 }]}>Quantity</Text>
+                    <WheelPicker
+                      selectedIndex={quantity}
+                      options={new Array(99).fill(0).map((_, index) => String(index))}
+                      onChange={(index: number) => setQuantity(index)}
+                      itemTextStyle={styles.wheelItemText}
+                      selectedIndicatorStyle={styles.selectedWheelItem}
+                      visibleRest={1}
+                    />
+                    {/* (
+                <TextInput
+                  style={styles.textInput2}
+                  placeholder="0"
+                  placeholderTextColor={"#aaa"}
+                  value={quantity}
+                  onChangeText={(n) => setQuantity(n)}
+                  keyboardType="number-pad"
+                />
+              )*/}
+                  </View>
+                  {/*<View style={{ flexDirection: "row", flex: 1 }} />*/}
+                  <View style={styles.expWrapper}>
+                    <Text style={styles.text}>Exp. Date</Text>
+                    {Platform.OS !== "ios" && (
+                      <Pressable style={styles.pickerButton} onPress={() => showMode()}>
+                        <Text style={styles.pickerButtonText}>
+                          {expDate.toLocaleDateString("en-US", { year: "numeric", month: "short" })}
+                        </Text>
+                      </Pressable>
+                    )}
+                    {showPicker && Platform.OS !== "ios" && (
+                      <DateTimePicker
+                        style={{ width: "100%", height: "100%" }}
+                        value={expDate}
+                        onChange={onChange}
+                        display="default"
+                        minimumDate={new Date(Date.now())}
+                      />
+                    )}
+                    {Platform.OS === "ios" && (
+                      <View style={{ width: 100 }}>
+                        <DateTimePicker
+                          value={expDate}
+                          onChange={onChange}
+                          minimumDate={new Date()}
+                        />
+                      </View>
+                    )}
+                  </View>
+                </View>
+
+                <View style={styles.buttonsWrapper}>
+                  <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+                    {!isEditing && (
+                      <Pressable
+                        onPress={() => {
+                          storeData(true);
+                        }}
+                        style={styles.submitButton}>
+                        <Text style={styles.buttonText}>Add another</Text>
+                      </Pressable>
+                    )}
+                    <Pressable
+                      onPress={() => {
+                        setNav(false);
+                        storeData(false);
+                      }}
+                      style={styles.submitButton}>
+                      <Text style={styles.buttonText}>Submit</Text>
+                    </Pressable>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.imageWrapper}>
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate("cameraModal", {
+                      sendItemBack: true,
+                      receiverRouteName: "addFoodModal",
+                    })
+                  }>
+                  {image ? (
+                    <Image
+                      resizeMode="contain"
+                      style={{ height: "100%" }}
+                      source={{ uri: image }}
+                    />
+                  ) : (
+                    <Image
+                      resizeMode="contain"
+                      style={styles.imageOverlay}
+                      source={require("../assets/images/no-picture.png")}
+                    />
+                  )}
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        </>
+      )}
+    </>
   );
 };
 
@@ -264,14 +415,14 @@ const themedStyles = () => {
       fontSize: 16,
       color: colorScheme === "dark" ? "#fff" : "#000",
       marginVertical: 5,
-      fontFamily: "lato-regular"
+      fontFamily: "lato-regular",
     },
     nameInputLabel: {
       fontSize: 16,
       color: colorScheme === "dark" ? "#fff" : "#000",
       marginVertical: 5,
       marginLeft: 5,
-      fontFamily: "lato-regular"
+      fontFamily: "lato-regular",
     },
     nameTextInput: {
       fontSize: 16,
@@ -282,7 +433,7 @@ const themedStyles = () => {
       borderRadius: 5,
       marginHorizontal: 5,
       backgroundColor: colorScheme === "dark" ? "#111" : "#eee",
-      fontFamily: "lato-regular"
+      fontFamily: "lato-regular",
     },
     textInput2: {
       fontSize: 14,
@@ -294,7 +445,7 @@ const themedStyles = () => {
       paddingHorizontal: 15,
       maxWidth: 100,
       textAlign: "center",
-      fontFamily: "lato-regular"
+      fontFamily: "lato-regular",
     },
     formContainer: {
       backgroundColor: colorScheme === "dark" ? "#111" : "#eee",
@@ -305,19 +456,30 @@ const themedStyles = () => {
       padding: 15,
       borderRadius: 20,
     },
+    formContainerLandscape: {
+      backgroundColor: colorScheme === "dark" ? "#111" : "#eee",
+      flex: 1,
+      flexDirection: "row",
+      marginTop: 5,
+      marginBottom: 20,
+      marginHorizontal: 20,
+      padding: 15,
+      borderRadius: 20,
+    },
+    formWrapper: { flex: 1 },
     quantityAndExpWrapper: {
       flexDirection: "row",
       justifyContent: "space-around",
       alignItems: "center",
       marginTop: 20,
     },
-    quantityWrapper: { 
-      flexDirection: "row", 
-      alignItems: "center"
+    quantityWrapper: {
+      flexDirection: "row",
+      alignItems: "center",
     },
-    expWrapper: { 
-      flexDirection: "row", 
-      alignItems: "center" 
+    expWrapper: {
+      flexDirection: "row",
+      alignItems: "center",
     },
     button: {
       height: 50,
@@ -331,7 +493,7 @@ const themedStyles = () => {
     buttonText: {
       color: colorScheme === "dark" ? "#fff" : "#fff",
       fontSize: 14,
-      fontFamily: "lato-regular"
+      fontFamily: "lato-regular",
     },
     pickerButtonText: {
       color: colorScheme === "dark" ? "#fff" : "#000",
@@ -352,11 +514,7 @@ const themedStyles = () => {
       width: 320,
       height: 260,
     },
-    buttonsWrapper: { flex: 1, 
-      justifyContent: "flex-end", 
-      marginBottom: 10, 
-      marginHorizontal: 10 
-    },
+    buttonsWrapper: { flex: 1, justifyContent: "flex-end", marginBottom: 10, marginHorizontal: 10 },
     submitButton: {
       height: 50,
       minWidth: 100,

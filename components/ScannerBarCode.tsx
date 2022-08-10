@@ -50,7 +50,9 @@ export default function ScannerBarCode({
               lightColor={mainColor1}
               darkColor={mainColor2}
               style={{ padding: 15, borderRadius: 15 }}>
-              <ColorfulText style={{fontFamily: "lato-regular"}}>Insert data manually</ColorfulText>
+              <ColorfulText style={{ fontFamily: "lato-regular" }}>
+                Insert data manually
+              </ColorfulText>
             </ThemedView>
           </Pressable>
         </View>
@@ -66,14 +68,13 @@ const BarCodeOverlay = () => {
       <View style={styles.unfocusedContainer} />
       <View style={styles.middleContainer}>
         <View style={styles.unfocusedContainer} />
-        <View style={styles.focusedContainer} />
-        <View style={styles.unfocusedContainer} />
         <View style={styles.barcodeOverlay}>
           <Image
             source={require("../assets/images/barcode-overlay.png")}
             style={{ width: 250, height: 170, opacity: 0.2 }}
           />
         </View>
+        <View style={styles.unfocusedContainer} />
       </View>
       <View style={styles.unfocusedContainer} />
     </View>
@@ -94,11 +95,9 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   barcodeOverlay: {
-    position: "absolute",
-    top: "25%",
-    left: "18%",
-    right: 0,
-    bottom: 0,
+    flex: 6,
+    alignItems: "center",
+    justifyContent: "center",
   },
   unfocusedContainer: {
     flex: 1,
