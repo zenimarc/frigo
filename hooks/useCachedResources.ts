@@ -20,6 +20,7 @@ export default function useCachedResources() {
           "space-mono": require("../assets/fonts/SpaceMono-Regular.ttf"),
           "lato-regular": require("../assets/fonts/Lato-Regular.ttf"),
           "lato-light": require("../assets/fonts/Lato-Light.ttf"),
+          "roboto": require("../assets/fonts/Roboto-Regular.ttf"),
         });
 
         //load asyncstorage

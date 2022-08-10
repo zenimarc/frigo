@@ -140,11 +140,6 @@ e un'altra più dettagliata dove ogni elemento è una riga */
           })
         }
       />
-      <AddButton
-        size={80}
-        style={[styles.buttonAdd, { right: 200 }]}
-        onPress={async () => await AsyncStorage.setItem("@storedItems", "{}")}
-      />
     </View>
   );
 }

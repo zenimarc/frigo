@@ -53,11 +53,13 @@ const themedStyles = () => {
   const colorScheme = useColorScheme();
   return StyleSheet.create({
     container: {
-      margin: 5,
+      marginHorizontal: 5,
+      marginBottom: 10,
+      marginTop: 0,
       padding: 10,
       flexDirection: "row",
       borderRadius: 10,
-      backgroundColor: Colors[colorScheme].backgroundNeutral,
+      backgroundColor: colorScheme === "dark" ? "#222" : "#3fc996",
     },
     cardContentWrapper: {
       flex: 1,
@@ -67,7 +69,8 @@ const themedStyles = () => {
     recipeTitle: {
       fontSize: 16,
       fontWeight: "bold",
-      fontFamily: "lato-regular"
+      fontFamily: "lato-regular",
+      color: colorScheme === "dark" ? "#fff" : "#fff"
     },
     contentBody: {
       flex: 1,
@@ -75,9 +78,10 @@ const themedStyles = () => {
       marginTop: 10,
     },
     image: {
-      flex: 2,
+      flex: 1.5,
       minHeight: 100,
       borderRadius: 5,
+      resizeMode: "stretch"
     },
     details: {
       flex: 3,
@@ -88,6 +92,7 @@ const themedStyles = () => {
       fontSize: 15,
       fontWeight: "normal",
       fontFamily: "lato-regular",
+      color: colorScheme === "dark" ? "#fff" : "#fff"
     },
   });
 };

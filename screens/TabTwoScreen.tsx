@@ -7,6 +7,7 @@ import RecipeCard, { RecipeGivenIngredientsResponse } from "../components/Recipe
 import { Text, View } from "../components/Themed";
 import { AppContext } from "../context";
 import { ComplexSearchResultsEntity } from "../helper_data_types";
+import useColorScheme from "../hooks/useColorScheme";
 import { RootTabScreenProps } from "../types";
 
 export default function TabTwoScreen({ navigation }: RootTabScreenProps<"TabTwo">) {
@@ -15,6 +16,7 @@ export default function TabTwoScreen({ navigation }: RootTabScreenProps<"TabTwo"
   const [items, setItems] = useContext(AppContext);
   const [recipes, setRecipes] = useState<ComplexSearchResultsEntity[]>([]);
   const RecipeApi = SpoonacularAPI();
+  const styles = themedStyle();
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -69,17 +71,23 @@ export default function TabTwoScreen({ navigation }: RootTabScreenProps<"TabTwo"
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});
+const themedStyle = () => {
+  const colorScheme = useColorScheme();
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colorScheme === "dark" ? "#000" : "#fff",
+      padding: 5,
+      paddingTop: 10,
+    },
+    title: {
+      fontSize: 20,
+      fontWeight: "bold",
+    },
+    separator: {
+      marginVertical: 30,
+      height: 1,
+      width: "80%",
+    },
+  });
+}
