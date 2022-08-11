@@ -50,6 +50,7 @@ const Form = ({
   const navigation = useNavigation();
 
   const landascapeMode = useLandscapeMode();
+  const changeLayout = landascapeMode && Platform.OS !== "ios";
 
   console.log("immaghiubne: ", image);
 
@@ -125,7 +126,7 @@ const Form = ({
 
   return (
     <>
-      {!landascapeMode && (
+      {!changeLayout && (
         <>
           <View style={styles.container}>
             <View style={styles.scanContainer}>
@@ -255,7 +256,7 @@ const Form = ({
           </View>
         </>
       )}
-      {landascapeMode && (
+      {changeLayout && (
         <>
           <View style={styles.container}>
             <View style={styles.scanContainer}>

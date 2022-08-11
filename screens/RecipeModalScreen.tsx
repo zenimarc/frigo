@@ -17,7 +17,7 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
   const [recipeInstructions, setRecipeInstructions] = useState<any>();
   const [recipeDiets, setRecipeDiets] = useState<string[]>();
   const [recipeSummary, setRecipeSummary] = useState<string>("");
-  const [landscapeMode, setLandscapeMode] = useState<boolean>(useLandscapeMode());
+  const landscapeMode = useLandscapeMode();
   const styles = themedStyles();
 
   useLayoutEffect(() => {
@@ -30,17 +30,17 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
       //const resp = await getRecipeInformations(route.params.id.toString());
 
       const resp = route.params.recipeData;
-      const { 
-        extendedIngredients, 
-        title, 
-        image, 
-        cuisines, 
-        dishTypes, 
-        analyzedInstructions, 
-        diets, 
-        summary, 
-        readyInMinutes, 
-        servings 
+      const {
+        extendedIngredients,
+        title,
+        image,
+        cuisines,
+        dishTypes,
+        analyzedInstructions,
+        diets,
+        summary,
+        readyInMinutes,
+        servings,
       } = resp;
       setRecipeIngredients(extendedIngredients);
       setRecipeTitle(title);
@@ -48,13 +48,15 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
       setRecipeCuisines(cuisines || []);
       setRecipeDishTypes(dishTypes || []);
       setRecipeInstructions(analyzedInstructions);
-      setRecipeDiets(diets? diets : []);
-      setRecipeSummary(summary.concat("\n\nReady in " + readyInMinutes + "minutes\nServings: " + servings));
-      if(analyzedInstructions){
-        if(analyzedInstructions[0])
+      setRecipeDiets(diets ? diets : []);
+      setRecipeSummary(
+        summary.concat("\n\nReady in " + readyInMinutes + "minutes\nServings: " + servings)
+      );
+      if (analyzedInstructions) {
+        if (analyzedInstructions[0])
           analyzedInstructions[0].steps?.forEach((item) => {
             console.log("Instructions: " + item.step);
-          })
+          });
       }
     })();
   }, [route.params]);
@@ -65,23 +67,20 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
         <Image source={{ uri: recipeImage }} style={styles.image} />
       </View>
       <View style={styles.recipe}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={styles.scrollView}
-        >
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
           <Text style={!landscapeMode ? styles.subTitle : styles.subtitleTablet}>Summary</Text>
           <Text style={!landscapeMode ? styles.summary : styles.summaryTablet}>
-            {recipeSummary.replace(/(<([^>]+)>)/ig, "")}
+            {recipeSummary.replace(/(<([^>]+)>)/gi, "")}
           </Text>
           <Text style={!landscapeMode ? styles.subTitle : styles.subtitleTablet}>Tags</Text>
           <View style={styles.tags}>
             <FlatList
-              data={recipeCuisines.concat(recipeDishTypes).concat(recipeDiets? recipeDiets : [])}
+              data={recipeCuisines.concat(recipeDishTypes).concat(recipeDiets ? recipeDiets : [])}
               renderItem={({ item }) => {
                 return (
                   <View style={styles.tagItems}>
                     <Text style={!landscapeMode ? styles.tagText : styles.tagTextTablet}>
-                        {item}
+                      {item}
                     </Text>
                   </View>
                 );
@@ -98,7 +97,7 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
                 return (
                   <View style={styles.tagItems}>
                     <Text style={!landscapeMode ? styles.tagText : styles.tagTextTablet}>
-                        {item.name}
+                      {item.name}
                     </Text>
                     <Text style={!landscapeMode ? styles.tagMeasure : styles.tagMeasureTablet}>
                       {item.measures.metric.amount + " " + item.measures.metric.unitShort}
@@ -110,24 +109,29 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
               showsHorizontalScrollIndicator={false}
             />
           </View>
-          <Text style={[!landscapeMode ? styles.subTitle : styles.subtitleTablet, { marginTop: 5 }]}>Instructions</Text>
+          <Text
+            style={[!landscapeMode ? styles.subTitle : styles.subtitleTablet, { marginTop: 5 }]}>
+            Instructions
+          </Text>
           <View style={styles.instructionContainer}>
-            {recipeInstructions && recipeInstructions[0] ?
-              recipeInstructions[0].steps.map((value: { step: any, number: number }) => {
-                return (
-                  <View key={value.number} style={styles.instructionView}>
-                    <View style={styles.instructionIndex}>
-                      <Text style={!landscapeMode? styles.index : styles.indexTablet}>{value.number}</Text>
+            {recipeInstructions && recipeInstructions[0]
+              ? recipeInstructions[0].steps.map((value: { step: any; number: number }) => {
+                  return (
+                    <View key={value.number} style={styles.instructionView}>
+                      <View style={styles.instructionIndex}>
+                        <Text style={!landscapeMode ? styles.index : styles.indexTablet}>
+                          {value.number}
+                        </Text>
+                      </View>
+                      <Text style={!landscapeMode ? styles.instructions : styles.instructionTablet}>
+                        {value.step}
+                      </Text>
                     </View>
-                    <Text style={!landscapeMode ? styles.instructions : styles.instructionTablet}>{value.step}</Text>
-                  </View>
-                );
-              })
-
-              : false
-            }
+                  );
+                })
+              : false}
           </View>
-        </ScrollView>  
+        </ScrollView>
       </View>
     </View>
   );
@@ -139,7 +143,7 @@ const themedStyles = () => {
     container: {
       flex: 1,
       flexDirection: "column",
-      backgroundColor: colorScheme === "dark" ? "#000" : "#fff"
+      backgroundColor: colorScheme === "dark" ? "#000" : "#fff",
     },
     containerTablet: {
       flex: 1,
@@ -159,14 +163,14 @@ const themedStyles = () => {
       justifyContent: "center",
       backgroundColor: colorScheme === "dark" ? "#000" : "#fff",
       margin: 5,
-      marginLeft: 10
+      marginLeft: 10,
     },
     image: {
       height: undefined,
       width: "100%",
       borderRadius: 5,
       margin: 5,
-      resizeMode: "stretch",
+      resizeMode: "contain",
     },
     recipe: {
       flex: 4,
@@ -219,33 +223,33 @@ const themedStyles = () => {
       alignItems: "center",
     },
     tagItems: {
-      backgroundColor: colorScheme == "dark" ? "#222" : "#5000ca", 
-      margin: 5, 
-      padding: 10, 
-      borderRadius: 10 
+      backgroundColor: colorScheme == "dark" ? "#222" : "#5000ca",
+      margin: 5,
+      padding: 10,
+      borderRadius: 10,
     },
-    tagText: { 
-      alignSelf: "center", 
-      fontFamily: "lato-regular", 
+    tagText: {
+      alignSelf: "center",
+      fontFamily: "lato-regular",
       fontWeight: "bold",
       textTransform: "capitalize",
-      color: "#fff" 
+      color: "#fff",
     },
     tagTextTablet: {
-      alignSelf: "center", 
-      fontFamily: "lato-regular", 
+      alignSelf: "center",
+      fontFamily: "lato-regular",
       fontWeight: "bold",
       textTransform: "capitalize",
       color: "#fff",
       fontSize: 20,
     },
-    tagMeasure: { 
-      alignSelf: "center", 
+    tagMeasure: {
+      alignSelf: "center",
       fontFamily: "lato-regular",
-      color: "#fff"
+      color: "#fff",
     },
     tagMeasureTablet: {
-      alignSelf: "center", 
+      alignSelf: "center",
       fontFamily: "lato-regular",
       color: "#fff",
       fontSize: 20,
@@ -255,7 +259,7 @@ const themedStyles = () => {
       backgroundColor: colorScheme == "dark" ? "#111" : "#fec260",
       borderRadius: 5,
       margin: 5,
-      paddingRight: 10
+      paddingRight: 10,
     },
     instructionView: {
       flexDirection: "row",
@@ -263,15 +267,15 @@ const themedStyles = () => {
       flex: 1,
       marginTop: 3,
     },
-    instructionIndex: { 
-      justifyContent: "flex-start", 
+    instructionIndex: {
+      justifyContent: "flex-start",
       alignItems: "center",
       backgroundColor: colorScheme == "dark" ? "#111" : "#fec260",
       flex: 1,
       borderRadius: 5,
     },
     index: {
-      fontWeight: "bold", 
+      fontWeight: "bold",
       fontFamily: "lato-regular",
     },
     indexTablet: {
