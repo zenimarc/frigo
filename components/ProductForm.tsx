@@ -20,6 +20,7 @@ import { RootTabScreenProps } from "../types";
 
 import { formProps, StoredProductData, StoredProductsDictData } from "../helper_data_types";
 import useLandscapeMode from "../hooks/useLandscapeMode";
+import Colors from "../constants/Colors";
 
 const Form = ({
   setScanner,
@@ -165,18 +166,7 @@ const Form = ({
                     selectedIndicatorStyle={styles.selectedWheelItem}
                     visibleRest={1}
                   />
-                  {/* (
-                <TextInput
-                  style={styles.textInput2}
-                  placeholder="0"
-                  placeholderTextColor={"#aaa"}
-                  value={quantity}
-                  onChangeText={(n) => setQuantity(n)}
-                  keyboardType="number-pad"
-                />
-              )*/}
                 </View>
-                {/*<View style={{ flexDirection: "row", flex: 1 }} />*/}
                 <View style={styles.expWrapper}>
                   <Text style={styles.text}>Exp. Date</Text>
                   {Platform.OS !== "ios" && (
@@ -288,7 +278,7 @@ const Form = ({
                   />
                 </View>
 
-                <View style={styles.quantityAndExpWrapper}>
+                <View style={styles.quantityAndExpWrapperLandscape}>
                   <View style={styles.quantityWrapper}>
                     <Text style={[styles.text, { marginRight: 10 }]}>Quantity</Text>
                     <WheelPicker
@@ -299,16 +289,6 @@ const Form = ({
                       selectedIndicatorStyle={styles.selectedWheelItem}
                       visibleRest={1}
                     />
-                    {/* (
-                <TextInput
-                  style={styles.textInput2}
-                  placeholder="0"
-                  placeholderTextColor={"#aaa"}
-                  value={quantity}
-                  onChangeText={(n) => setQuantity(n)}
-                  keyboardType="number-pad"
-                />
-              )*/}
                   </View>
                   {/*<View style={{ flexDirection: "row", flex: 1 }} />*/}
                   <View style={styles.expWrapper}>
@@ -399,12 +379,12 @@ const themedStyles = () => {
   const colorScheme = useColorScheme();
   return StyleSheet.create({
     container: {
-      backgroundColor: colorScheme === "dark" ? "#000" : "#fff",
+      backgroundColor: Colors[colorScheme].background,
       flex: 1,
       flexDirection: "column",
     },
     scanContainer: {
-      backgroundColor: colorScheme === "dark" ? "#000" : "#fff",
+      backgroundColor: Colors[colorScheme].background,
       flexDirection: "column",
       margin: 40,
     },
@@ -414,42 +394,30 @@ const themedStyles = () => {
     },
     text: {
       fontSize: 16,
-      color: colorScheme === "dark" ? "#fff" : "#000",
+      color: Colors[colorScheme].text,
       marginVertical: 5,
       fontFamily: "lato-regular",
     },
     nameInputLabel: {
       fontSize: 16,
-      color: colorScheme === "dark" ? "#fff" : "#000",
+      color: Colors[colorScheme].text,
       marginVertical: 5,
       marginLeft: 5,
       fontFamily: "lato-regular",
     },
     nameTextInput: {
       fontSize: 16,
-      color: colorScheme === "dark" ? "#fff" : "#000",
+      color: Colors[colorScheme].text,
       borderColor: colorScheme === "dark" ? "#fff" : "#111",
       borderWidth: 1,
       padding: 10,
       borderRadius: 5,
       marginHorizontal: 5,
-      backgroundColor: colorScheme === "dark" ? "#111" : "#eee",
-      fontFamily: "lato-regular",
-    },
-    textInput2: {
-      fontSize: 14,
-      color: colorScheme === "dark" ? "#fff" : "#000",
-      borderColor: colorScheme === "dark" ? "#fff" : "#111",
-      borderRadius: 5,
-      marginHorizontal: 5,
-      backgroundColor: colorScheme === "dark" ? "#333" : "#eee",
-      paddingHorizontal: 15,
-      maxWidth: 100,
-      textAlign: "center",
+      backgroundColor: Colors[colorScheme].background2,
       fontFamily: "lato-regular",
     },
     formContainer: {
-      backgroundColor: colorScheme === "dark" ? "#111" : "#eee",
+      backgroundColor: colorScheme === "dark" ? "#111" : "#fec260",
       flex: 1,
       marginTop: 5,
       marginBottom: 20,
@@ -458,7 +426,7 @@ const themedStyles = () => {
       borderRadius: 20,
     },
     formContainerLandscape: {
-      backgroundColor: colorScheme === "dark" ? "#111" : "#eee",
+      backgroundColor: colorScheme === "dark" ? "#111" : "#fec260",
       flex: 1,
       flexDirection: "row",
       marginTop: 5,
@@ -467,12 +435,21 @@ const themedStyles = () => {
       padding: 15,
       borderRadius: 20,
     },
-    formWrapper: { flex: 1 },
+    formWrapper: {
+      flex: 1 
+    },
     quantityAndExpWrapper: {
       flexDirection: "row",
       justifyContent: "space-around",
       alignItems: "center",
       marginTop: 20,
+    },
+    quantityAndExpWrapperLandscape: {
+      flexDirection: "row",
+      justifyContent: "space-around",
+      alignItems: "center",
+      marginTop: 20,
+      flex: 1,
     },
     quantityWrapper: {
       flexDirection: "row",
@@ -484,7 +461,7 @@ const themedStyles = () => {
     },
     button: {
       height: 50,
-      backgroundColor: colorScheme === "dark" ? "#007AFF" : "#007AFF",
+      backgroundColor: Colors[colorScheme].buttonTint,
       alignItems: "center",
       justifyContent: "center",
       paddingVertical: 5,
@@ -492,12 +469,12 @@ const themedStyles = () => {
       borderRadius: 25,
     },
     buttonText: {
-      color: colorScheme === "dark" ? "#fff" : "#fff",
+      color: Colors[colorScheme].text2,
       fontSize: 14,
       fontFamily: "lato-regular",
     },
     pickerButtonText: {
-      color: colorScheme === "dark" ? "#fff" : "#000",
+      color: Colors[colorScheme].text,
       fontSize: 14,
       paddingVertical: 2,
     },
@@ -509,25 +486,30 @@ const themedStyles = () => {
       justifyContent: "center",
       alignSelf: "center",
       paddingHorizontal: 10,
-      paddingVertical: 5,
+      paddingVertical: 8,
     },
     datePicker: {
       width: 320,
       height: 260,
     },
-    buttonsWrapper: { flex: 1, justifyContent: "flex-end", marginBottom: 10, marginHorizontal: 10 },
+    buttonsWrapper: {
+      flex: 1,
+      justifyContent: "flex-end",
+      marginBottom: 10,
+      marginHorizontal: 10
+    },
     submitButton: {
       height: 50,
       minWidth: 100,
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: colorScheme === "dark" ? "#007AFF" : "#007AFF",
+      backgroundColor: Colors[colorScheme].buttonTint,
       paddingVertical: 5,
       borderRadius: 25,
       paddingHorizontal: 10,
     },
     wheelItemText: {
-      color: colorScheme === "dark" ? "#fff" : "#000",
+      color: Colors[colorScheme].text,
     },
     selectedWheelItem: {
       backgroundColor: colorScheme === "dark" ? "#333" : "#eee",
@@ -536,7 +518,7 @@ const themedStyles = () => {
       flex: 1,
       minHeight: 200,
       marginTop: 20,
-      backgroundColor: colorScheme == "dark" ? "#111" : "#eee",
+      backgroundColor: colorScheme == "dark" ? "#111" : "#fec260",
     },
     imageOverlay: {
       height: "100%",

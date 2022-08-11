@@ -4,7 +4,7 @@ import { RootStackScreenProps } from "../types";
 import { SpoonacularAPI } from "../apiCalls";
 import { StyleSheet, Image, Alert, FlatList, ScrollView } from "react-native";
 import useColorScheme from "../hooks/useColorScheme";
-import { Colors } from "react-native/Libraries/NewAppScreen";
+import Colors from "../constants/Colors";
 import useLandscapeMode from "../hooks/useLandscapeMode";
 
 export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"recipeModal">) {
@@ -50,7 +50,7 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
       setRecipeInstructions(analyzedInstructions);
       setRecipeDiets(diets ? diets : []);
       setRecipeSummary(
-        summary.concat("\n\nReady in " + readyInMinutes + "minutes\nServings: " + servings)
+        summary.concat("\n\nReady in " + readyInMinutes + " minutes\nServings: " + servings)
       );
       if (analyzedInstructions) {
         if (analyzedInstructions[0])
@@ -64,7 +64,7 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
   return (
     <View style={!landscapeMode ? styles.container : styles.containerTablet}>
       <View style={!landscapeMode ? styles.imageContainer : styles.imageContainerTablet}>
-        <Image source={{ uri: recipeImage }} style={styles.image} />
+        <Image source={{ uri: recipeImage }} style={!landscapeMode ? styles.image : styles.imageTablet} />
       </View>
       <View style={styles.recipe}>
         <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
@@ -143,39 +143,48 @@ const themedStyles = () => {
     container: {
       flex: 1,
       flexDirection: "column",
-      backgroundColor: colorScheme === "dark" ? "#000" : "#fff",
+      backgroundColor: Colors[colorScheme].background,
     },
     containerTablet: {
       flex: 1,
       flexDirection: "row",
-      backgroundColor: colorScheme === "dark" ? "#000" : "#fff",
+      backgroundColor: Colors[colorScheme].background,
     },
     imageContainer: {
       flex: 2,
       flexDirection: "row",
       justifyContent: "center",
-      backgroundColor: colorScheme === "dark" ? "#000" : "#fff",
+      backgroundColor: Colors[colorScheme].background,
       margin: 5,
     },
     imageContainerTablet: {
       flex: 2,
       flexDirection: "row",
       justifyContent: "center",
-      backgroundColor: colorScheme === "dark" ? "#000" : "#fff",
+      backgroundColor: Colors[colorScheme].background,
       margin: 5,
       marginLeft: 10,
+      padding: 5,
     },
     image: {
       height: undefined,
       width: "100%",
       borderRadius: 5,
       margin: 5,
-      resizeMode: "contain",
+      resizeMode: "cover",
+    },
+    imageTablet: {
+      height: undefined,
+      width: "100%",
+      borderRadius: 5,
+      margin: 5,
+      //aspectRatio: 1,
+      resizeMode: "cover",
     },
     recipe: {
       flex: 4,
       flexDirection: "column",
-      backgroundColor: colorScheme == "dark" ? "#000" : "#fff",
+      backgroundColor: Colors[colorScheme].background,
       borderRadius: 5,
       padding: 5,
     },
@@ -190,36 +199,36 @@ const themedStyles = () => {
       fontFamily: "lato-regular",
       textAlign: "justify",
       backgroundColor: colorScheme === "dark" ? "#111" : "#eeb",
-      borderRadius: 5,
+      borderRadius: 10,
       padding: 10,
     },
     summaryTablet: {
       fontWeight: "100",
-      alignSelf: "flex-start",
+      alignSelf: "center",
       fontSize: 30,
       fontFamily: "lato-regular",
       textAlign: "justify",
-      backgroundColor: colorScheme === "dark" ? "#111" : "#eee",
-      borderRadius: 5,
+      backgroundColor: colorScheme === "dark" ? "#111" : "#eeb",
+      borderRadius: 10,
       padding: 10,
     },
     subTitle: {
       fontWeight: "100",
       alignSelf: "center",
       fontSize: 20,
-      fontFamily: "lato-regular",
+      fontFamily: "roboto",
       marginVertical: 2,
     },
     subtitleTablet: {
       fontWeight: "100",
       alignSelf: "flex-start",
       fontSize: 40,
-      fontFamily: "lato-regular",
+      fontFamily: "roboto",
       marginVertical: 1,
     },
     tags: {
       flexDirection: "row",
-      backgroundColor: colorScheme == "dark" ? "#000" : "#fff",
+      backgroundColor: Colors[colorScheme].background,
       alignItems: "center",
     },
     tagItems: {
@@ -230,14 +239,14 @@ const themedStyles = () => {
     },
     tagText: {
       alignSelf: "center",
-      fontFamily: "lato-regular",
+      fontFamily: "roboto",
       fontWeight: "bold",
       textTransform: "capitalize",
       color: "#fff",
     },
     tagTextTablet: {
       alignSelf: "center",
-      fontFamily: "lato-regular",
+      fontFamily: "roboto",
       fontWeight: "bold",
       textTransform: "capitalize",
       color: "#fff",
@@ -260,6 +269,7 @@ const themedStyles = () => {
       borderRadius: 5,
       margin: 5,
       paddingRight: 10,
+      paddingBottom: 3,
     },
     instructionView: {
       flexDirection: "row",

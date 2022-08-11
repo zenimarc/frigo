@@ -61,7 +61,7 @@ export function AddButton(props: AddButtonProps) {
 
   return (
     <Pressable style={style} {...otherProps}>
-      <Ionicons name="add-circle" size={size} color={Colors[theme].tint} />
+      <Ionicons name="add-circle" size={size} color={Colors[theme].buttonTint} />
     </Pressable>
   );
 }

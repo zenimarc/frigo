@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext, useEffect } from "react";
 import { Alert, FlatList, Pressable, StyleSheet } from "react-native";
 import ProductCard, { ProductTile } from "../components/ProductCard";
@@ -102,9 +101,6 @@ const getRenderFunctionRows = (setItems: Function, navigate: Function) => {
 };
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<"TabOne">) {
-  /* da decidere: Magari dare la possibilità di avere 2 viste, 
-una tipo questa più semplice con magari pallini colorati per indicare in scadenza 
-e un'altra più dettagliata dove ogni elemento è una riga */
   const [items, setItems] = useContext(AppContext);
   useEffect(() => {
     (async () => {

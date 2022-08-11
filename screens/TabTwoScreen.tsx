@@ -9,6 +9,7 @@ import { AppContext } from "../context";
 import { ComplexSearchResultsEntity } from "../helper_data_types";
 import useColorScheme from "../hooks/useColorScheme";
 import { RootTabScreenProps } from "../types";
+import Colors from "../constants/Colors";
 
 export default function TabTwoScreen({ navigation }: RootTabScreenProps<"TabTwo">) {
   const [refreshing, setRefreshing] = React.useState(false);
@@ -79,7 +80,7 @@ const themedStyle = () => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: colorScheme === "dark" ? "#000" : "#fff",
+      backgroundColor: Colors[colorScheme].background,
       padding: 5,
       paddingTop: 10,
     },

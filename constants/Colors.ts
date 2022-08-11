@@ -1,33 +1,50 @@
 export const mainColor2 = "#007AFF";
-const tintColorDark = "#fff";
 export const mainColor1 = "#FFC90B";
+
+const darkColor = "#000";
+const lightColor = "#fff"
+const mainColor = "#5000ca";
 
 const themes = {
   light: {
-    text: "#000",
-    text2: "#fff",
-    textColorful: "#000",
+    
+    textColorful: darkColor,
     colorful: mainColor1,
-    background: "#fff",
     backgroundNeutral: "#ddd",
-    tint: mainColor2,
     tabIconDefault: "#ccc",
     tabIconSelected: mainColor2,
-    tabIconInactive: "grey",
-    header: "#5000ca",
+    
+    //Introduced by us
+    header: mainColor,
+    headerTextAndArrow : lightColor,
+    tabBarBackground: lightColor,
+    tabBarIconActiveTint: mainColor2,
+    tabBarIconInactiveTint: "grey",
+    buttonTint: mainColor,
+    background: "#fff",
+    background2: "#eee",
+    text: darkColor,
+    text2: lightColor,
   },
   dark: {
-    text: "#fff",
-    text2: "#000",
-    textColorful: "#fff",
+    
+    textColorful: lightColor,
     colorful: mainColor2,
-    background: "#000",
     backgroundNeutral: "#222",
-    tint: tintColorDark,
     tabIconDefault: "#ccc",
-    tabIconSelected: tintColorDark,
-    tabIconInactive: "grey",
-    header: "#5000ca",
+    tabIconSelected: lightColor,
+    
+    //Introduced by us
+    header: mainColor,
+    headerTextAndArrow : lightColor,
+    tabBarBackground: darkColor,
+    tabBarIconActiveTint: lightColor,
+    tabBarIconInactiveTint: "grey",
+    buttonTint: lightColor,
+    background: "#000",
+    background2: "#111",
+    text: lightColor,
+    text2: darkColor,
   },
 };
 

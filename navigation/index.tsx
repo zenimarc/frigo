@@ -4,7 +4,7 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 
-import { ColorSchemeName, Pressable, Image } from "react-native";
+import { ColorSchemeName, Image } from "react-native";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
@@ -32,6 +32,8 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  const colorScheme = useColorScheme();
+
   return (
     <Stack.Navigator>
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
@@ -40,8 +42,15 @@ function RootNavigator() {
         <Stack.Screen 
           name="addFoodModal" 
           component={ModalScreen} 
-          options={{ title: "Add Food", 
-          headerStyle: {backgroundColor: Colors[useColorScheme()].header }}} />
+          options={
+            { 
+            title: "Add Food", 
+            headerStyle: {backgroundColor: Colors[useColorScheme()].header},
+            headerTitleStyle: {color: Colors[colorScheme].headerTextAndArrow},
+            headerTintColor: Colors[colorScheme].headerTextAndArrow,
+            }
+          }
+        />
         <Stack.Screen
           name="cameraModal"
           component={CameraModalScreen}
@@ -53,10 +62,12 @@ function RootNavigator() {
         component={RecipeModalScreen} 
         options={
           { 
-            headerStyle: {backgroundColor: Colors[useColorScheme()].header},
-            headerTitleStyle: {color: "white"}
+            headerStyle: {backgroundColor: Colors[colorScheme].header},
+            headerTitleStyle: {color: Colors[colorScheme].headerTextAndArrow},
+            headerTintColor: Colors[colorScheme].headerTextAndArrow,
           }
-        }/>
+        }
+      />
     </Stack.Navigator>
   );
 }
@@ -72,11 +83,11 @@ function BottomTabNavigator() {
       initialRouteName="TabOne"
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: Colors[colorScheme].background,
+          backgroundColor: Colors[colorScheme].tabBarBackground,
           ...(landScapeMode && { display: "none" }),
         },
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-        tabBarInactiveTintColor: Colors[colorScheme].tabIconInactive,
+        tabBarActiveTintColor: Colors[colorScheme].tabBarIconActiveTint,
+        tabBarInactiveTintColor: Colors[colorScheme].tabBarIconInactiveTint,
         headerStyle: {
           backgroundColor: Colors[colorScheme].header,
         },
@@ -91,7 +102,7 @@ function BottomTabNavigator() {
             fontWeight: "600",
             fontStyle: "normal",
             fontSize: 30,
-            color: "white",
+            color: Colors[colorScheme].headerTextAndArrow,
             display: "flex",
             justifyContent: "center",
           },
@@ -101,20 +112,6 @@ function BottomTabNavigator() {
               source={require("../assets/images/refrigerator-icon.png")}
               style={{ width: 20, height: 35, tintColor: color }}
             />
-          ),
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate("addFoodModal")}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
           ),
         })}
       />
@@ -126,7 +123,7 @@ function BottomTabNavigator() {
             fontWeight: "600",
             fontStyle: "normal",
             fontSize: 30,
-            color: "white",
+            color: Colors[colorScheme].headerTextAndArrow,
             display: "flex",
             justifyContent: "center",
           },

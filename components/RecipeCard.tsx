@@ -82,7 +82,7 @@ const themedStyles = () => {
       fontSize: 16,
       fontWeight: "bold",
       fontFamily: "lato-regular",
-      color: colorScheme === "dark" ? "#fff" : "#fff",
+      color: "#fff"
     },
     contentBody: {
       flex: 1,
@@ -93,7 +93,7 @@ const themedStyles = () => {
       flex: 1.5,
       minHeight: 100,
       borderRadius: 5,
-      resizeMode: "stretch",
+      resizeMode: "cover",
     },
     recipeInfo: {
       marginLeft: 10,
@@ -108,7 +108,7 @@ const themedStyles = () => {
       fontSize: 15,
       fontWeight: "normal",
       fontFamily: "lato-regular",
-      color: colorScheme === "dark" ? "#fff" : "#fff",
+      color: "#fff",
     },
   });
 };

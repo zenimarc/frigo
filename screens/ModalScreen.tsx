@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Platform, Alert } from "react-native";
+import { Alert } from "react-native";
 import ScannerBarCode from "../components/ScannerBarCode";
 import { RootTabScreenProps } from "../types";
 import Form from "../components/ProductForm";

@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useContext } from "react";
 import { AppContext } from "./context";
+import { ProductDataToBeStored } from "./helper_data_types";
 import {
   convertObjToArray,
   daysBetweenTwoDates,
@@ -73,7 +74,7 @@ describe("helper functions", () => {
 
   test("if dates are truncated correctly (remove time)", () => {
     expect(removeTimeFromDate(new Date("2022-07-23T01:58:06.155Z")).toString()).toEqual(
-      "Sat Jul 23 2022 00:00:00 GMT+0200 (Ora legale dell’Europa centrale)"
+      "Sat Jul 23 2022 00:00:00 GMT+0200 (Central European Summer Time)"
     );
   });
 
@@ -83,9 +84,11 @@ describe("helper functions", () => {
     expect(daysBetweenTwoDates(startDate, expDate)).toBe(2);
   });
 
-  test("Removal of ingredients from list"),
+  /*test("Removal of ingredients from list",
     async () => {
-      const [items, setItems] = useContext(AppContext);
+      var items : ProductDataToBeStored[] = [];
+      const setItems = (v: ProductDataToBeStored[]) => {items = v}
+
       const storedItems = {
         "8002670008746": {
           expDate: "2022-07-23T01:52:58.387Z",
@@ -119,6 +122,16 @@ describe("helper functions", () => {
 
       expect(items).toEqual([
         {
+          expDate: new Date("2022-07-23T01:52:58.387Z"),
+          addedDate: new Date("2022-06-23T01:52:58.387Z"),
+          productBarCode: "8002670008746",
+          productImage:
+            "https://images.openfoodfacts.org/images/products/800/267/000/8746/front_it.3.400.jpg",
+          productName: "Mozzarella",
+          productNameEng: "Mozzarella",
+          quantity: 1,
+        },
+        {
           expDate: new Date("2022-07-23T01:58:06.155Z"),
           addedDate: new Date("2022-06-23T01:52:58.387Z"),
           productBarCode: "8002330064600",
@@ -130,7 +143,18 @@ describe("helper functions", () => {
         },
       ]);
 
-      expect(getStoredItems()).toEqual({
+      const resultItems = await getStoredItems();
+      expect(resultItems).toEqual({
+        "8002670008746": {
+          expDate: "2022-07-23T01:52:58.387Z",
+          addedDate: "2022-06-23T01:52:58.387Z",
+          productBarCode: "8002670008746",
+          productImage:
+            "https://images.openfoodfacts.org/images/products/800/267/000/8746/front_it.3.400.jpg",
+          productName: "Mozzarella",
+          productNameEng: "Mozzarella",
+          quantity: 1,
+        },
         "8002330064600": {
           expDate: "2022-07-23T01:58:06.155Z",
           addedDate: "2022-06-23T01:52:58.387Z",
@@ -140,7 +164,8 @@ describe("helper functions", () => {
           productName: "Esselunga crescenza bio",
           productNameEng: "Esselunga crescenza bio",
           quantity: 1,
-        },
+        }
       });
-    };
+    }
+  );*/
 });
