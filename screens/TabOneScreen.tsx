@@ -4,7 +4,12 @@ import { Alert, FlatList, Pressable, StyleSheet } from "react-native";
 import ProductCard, { ProductTile } from "../components/ProductCard";
 import { AddButton, View } from "../components/Themed";
 import { AppContext } from "../context";
-import { computeProductKey, convertObjToArray, getStoredItems, RemoveFood } from "../helper_functions";
+import {
+  computeProductKey,
+  convertObjToArray,
+  getStoredItems,
+  RemoveFood,
+} from "../helper_functions";
 import { RootTabScreenProps } from "../types";
 import { ProductDataToBeStored } from "../helper_data_types";
 
@@ -113,7 +118,7 @@ e un'altra più dettagliata dove ogni elemento è una riga */
   return (
     <View lightColor="white" darkColor="black" style={styles.container}>
       <FlatList
-        data={items}
+        data={items.sort((a, b) => a.expDate.getTime() - b.expDate.getTime())}
         renderItem={
           getRenderFunctionRows(
             setItems,
