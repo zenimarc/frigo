@@ -26,7 +26,7 @@ const RecipeCard = ({
   missedIngredientCount,
   usedIngredientCount,
   navigateToRecipe,
-  readyInMinutes, 
+  readyInMinutes,
   servings,
 }: RecipeGivenIngredients) => {
   const styles = themedStyles();
@@ -43,13 +43,13 @@ const RecipeCard = ({
 
           <View style={styles.contentBody}>
             <Image source={{ uri: image }} style={styles.image} />
-            
-            {landscapeMode &&
-            <View style={styles.recipeInfo}>
-              <Text style={styles.text}>Ready in {readyInMinutes} minutes</Text>
-              <Text style={styles.text}>Servings: {servings}</Text>
-            </View>
-            } 
+
+            {landscapeMode && (
+              <View style={styles.recipeInfo}>
+                <Text style={styles.text}>Ready in {readyInMinutes} minutes</Text>
+                <Text style={styles.text}>Servings: {servings}</Text>
+              </View>
+            )}
             <View style={styles.details}>
               <Text style={styles.text}>Owned ingredients: {usedIngredientCount}</Text>
               <Text style={styles.text}>Missing ingredients: {missedIngredientCount}</Text>
@@ -82,7 +82,7 @@ const themedStyles = () => {
       fontSize: 16,
       fontWeight: "bold",
       fontFamily: "lato-regular",
-      color: colorScheme === "dark" ? "#fff" : "#fff"
+      color: colorScheme === "dark" ? "#fff" : "#fff",
     },
     contentBody: {
       flex: 1,
@@ -93,7 +93,7 @@ const themedStyles = () => {
       flex: 1.5,
       minHeight: 100,
       borderRadius: 5,
-      resizeMode: "stretch"
+      resizeMode: "stretch",
     },
     recipeInfo: {
       marginLeft: 10,
@@ -108,7 +108,7 @@ const themedStyles = () => {
       fontSize: 15,
       fontWeight: "normal",
       fontFamily: "lato-regular",
-      color: colorScheme === "dark" ? "#fff" : "#fff"
+      color: colorScheme === "dark" ? "#fff" : "#fff",
     },
   });
 };

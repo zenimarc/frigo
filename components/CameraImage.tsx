@@ -1,6 +1,8 @@
 import { Camera, CameraCapturedPicture, CameraType } from "expo-camera";
 import React, { useEffect, useState } from "react";
 import { ImageBackground, StyleSheet, TouchableOpacity } from "react-native";
+import Colors from "../constants/Colors";
+import useColorScheme from "../hooks/useColorScheme";
 import { View, Text } from "./Themed";
 
 export default function CameraImage({
@@ -10,6 +12,7 @@ export default function CameraImage({
   onSuccess: (image: CameraCapturedPicture) => any;
   onFail: () => any;
 }) {
+  const colorScheme = useColorScheme();
   const [hasCameraPermission, setHasCameraPermission] = useState<null | boolean>(null);
   let camera: Camera | null;
 
@@ -50,7 +53,7 @@ export default function CameraImage({
               height: 70,
               bottom: 0,
               borderRadius: 50,
-              backgroundColor: "#fff",
+              backgroundColor: Colors[colorScheme].textColorful,
             }}
           />
         </View>
