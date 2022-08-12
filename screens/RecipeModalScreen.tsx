@@ -205,7 +205,7 @@ const themedStyles = () => {
     summaryTablet: {
       fontWeight: "100",
       alignSelf: "center",
-      fontSize: 30,
+      fontSize: 25,
       fontFamily: "lato-regular",
       textAlign: "justify",
       backgroundColor: colorScheme === "dark" ? "#111" : "#eeb",
@@ -305,7 +305,7 @@ const themedStyles = () => {
       textAlign: "justify",
       alignSelf: "center",
       fontFamily: "lato-regular",
-      fontSize: 20,
+      fontSize: 25,
       flex: 20,
     },
   });
