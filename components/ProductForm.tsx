@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useNavigation } from "@react-navigation/native";
-import { CameraCapturedPicture } from "expo-camera";
 import React, { useContext, useState } from "react";
 import { Platform, Pressable, StyleSheet, TextInput, View, Text, Alert, Image } from "react-native";
 import WheelPicker from "react-native-wheely";
@@ -13,11 +12,9 @@ import {
   getStoredItems,
   removeTimeFromDate,
   RemoveFood,
+  saveData,
 } from "../helper_functions";
 import useColorScheme from "../hooks/useColorScheme";
-import Navigation from "../navigation";
-import { RootTabScreenProps } from "../types";
-
 import { formProps, StoredProductData, StoredProductsDictData } from "../helper_data_types";
 import useLandscapeMode from "../hooks/useLandscapeMode";
 import Colors from "../constants/Colors";
@@ -102,10 +99,11 @@ const Form = ({
       if (!val || isEditing) {
         console.log("Value: " + val);
         storedItems[key] = newItem;
-        await AsyncStorage.setItem("@storedItems", JSON.stringify(storedItems));
+        /*await AsyncStorage.setItem("@storedItems", JSON.stringify(storedItems));
         console.log("fatto asyncstorage");
         setItems(convertObjToArray(storedItems));
-        console.log("fatto setItems del context");
+        console.log("fatto setItems del context");*/
+        saveData({storedItems, setItems});
 
         if (originalExpDate != expDate) {
           const item = newItem;

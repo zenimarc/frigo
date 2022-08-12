@@ -45,14 +45,24 @@ export const RemoveFood = async ({
   key: string
   setItems: Function;
 }) => {
-  //const key = computeProductKey(item);
-
   try {
     let storedItems = await getStoredItems();
     delete storedItems[key];
-    await AsyncStorage.setItem("@storedItems", JSON.stringify(storedItems));
-    setItems(convertObjToArray(storedItems));
+    /*await AsyncStorage.setItem("@storedItems", JSON.stringify(storedItems));
+    setItems(convertObjToArray(storedItems));*/
+    saveData({storedItems, setItems});
   } catch {
     console.log("Error getting data:" + key);
   }
+};
+
+export const saveData = async ({
+  storedItems, 
+  setItems,
+} : {
+  storedItems: StoredProductsDictData;
+  setItems: Function,
+}) => {
+  await AsyncStorage.setItem("@storedItems", JSON.stringify(storedItems));
+  setItems(convertObjToArray(storedItems));
 };
