@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Alert, FlatList, Pressable, StyleSheet } from "react-native";
+import { Alert, FlatList, Pressable, StyleSheet, Text, Image } from "react-native";
 import ProductCard, { ProductTile } from "../components/ProductCard";
 import { AddButton, View } from "../components/Themed";
 import { AppContext } from "../context";
@@ -11,6 +11,8 @@ import {
 } from "../helper_functions";
 import { RootTabScreenProps } from "../types";
 import { ProductDataToBeStored } from "../helper_data_types";
+import Colors from "../constants/Colors"
+import useColorScheme from "../hooks/useColorScheme";
 
 const getRenderItemFuncGivenLayoutColumns = ({ columns }: { columns: number }) => {
   return ({ item }: { item: ProductDataToBeStored }) => {
@@ -53,7 +55,7 @@ const getRenderFunctionRows = (setItems: Function, navigate: Function) => {
 
     return (
       <Pressable
-        onLongPress={() =>
+        onPress={() =>
           Alert.alert(
             productName,
             "Quantity: " + quantity + "\nExpiration date: " + expDate.toDateString(),
@@ -81,7 +83,10 @@ const getRenderFunctionRows = (setItems: Function, navigate: Function) => {
                   });
                 },
               },
-            ]
+            ], 
+            {
+              cancelable: true,
+            }
           )
         }>
         <View lightColor="white" darkColor="black">
@@ -110,9 +115,11 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<"TabOne"
     })();
   }, []);
 
+  const colorScheme = useColorScheme();
   const layoutColumns = 2;
   return (
     <View lightColor="white" darkColor="black" style={styles.container}>
+      {items.length > 0 &&
       <FlatList
         data={items.sort((a, b) => a.expDate.getTime() - b.expDate.getTime())}
         renderItem={
@@ -130,6 +137,25 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<"TabOne"
         horizontal={false}
         showsVerticalScrollIndicator={false}
       />
+      }
+
+      {items.length === 0 && 
+        <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+          <Image
+            source={
+              colorScheme === "dark" ? require("../assets/images/dish-white.png") :
+              require("../assets/images/dish.png")
+            }
+            style={styles.image}
+          />
+          <Text style={{
+            color: Colors[colorScheme].text,
+            opacity: 0.2,
+            }}>
+            No ingredient inserted yet. Add one below.
+          </Text>
+        </View>  
+      }
       <AddButton
         size={80}
         style={styles.buttonAdd}
@@ -173,5 +199,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 20,
     right: 20,
+  },
+  image: {
+    opacity: 0.2,
+    maxHeight: "30%",
+    maxWidth: "50%",
+    resizeMode: "center",
   },
 });

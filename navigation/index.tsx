@@ -106,6 +106,7 @@ function BottomTabNavigator() {
             display: "flex",
             justifyContent: "center",
           },
+          tabBarActiveTintColor: Colors[colorScheme].tabBarIconActiveTint,
           title: "frigo",
           tabBarIcon: ({ color }) => (
             <Image
@@ -127,6 +128,7 @@ function BottomTabNavigator() {
             display: "flex",
             justifyContent: "center",
           },
+          tabBarActiveTintColor: Colors[colorScheme].tabBarIconActiveTint2,
           title: "recipes",
           tabBarIcon: ({ color }) => (
             <Image

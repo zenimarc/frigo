@@ -1,9 +1,8 @@
 {
   "expo": {
-    "name": "frigo",
-    "slug": "frigo",
+    "name": "Frigo",
+    "slug": "Frigo",
     "version": "1.0.0",
-
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
@@ -15,7 +14,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "requireFullScreen": true
@@ -24,12 +25,13 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.frigo"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
     },
     "sdkVersion": "45.0.0"
   },
-  "name": "frigo"
+  "name": "Frigo"
 }

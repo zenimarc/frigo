@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Button, Pressable, Image } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import useColorScheme from "../hooks/useColorScheme";
 import { ColorfulText, View as ThemedView, Text as ThemedText } from "./Themed";
-import { mainColor1, mainColor2 } from "../constants/Colors";
+import Colors, { mainColor1, mainColor2 } from "../constants/Colors";
 
 export default function ScannerBarCode({
   onSuccess,
@@ -28,6 +28,8 @@ export default function ScannerBarCode({
     console.log(`Bar code with type ${type} and data ${data} has been scanned!`);
   };
 
+  const colorScheme = useColorScheme();
+
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
   }
@@ -46,14 +48,12 @@ export default function ScannerBarCode({
       {!scanned && (
         <View style={styles.manualDataButton}>
           <Pressable onPress={() => onFail()}>
-            <ThemedView
-              lightColor={mainColor1}
-              darkColor={mainColor2}
-              style={{ padding: 15, borderRadius: 15 }}>
-              <ColorfulText style={{ fontFamily: "lato-regular" }}>
+            <View
+              style={{ padding: 15, borderRadius: 15, backgroundColor: Colors[colorScheme].buttonTint, }}>
+              <Text style={{ fontFamily: "lato-regular", color: Colors[colorScheme].text2, }}>
                 Insert data manually
-              </ColorfulText>
-            </ThemedView>
+              </Text>
+            </View>
           </Pressable>
         </View>
       )}
