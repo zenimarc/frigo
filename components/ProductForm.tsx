@@ -44,6 +44,7 @@ const Form = ({
   const [originalExpDate, setOriginalExpDate] = useState<Date>(
     productExpDate || removeTimeFromDate(new Date())
   );
+  const originalName = productName || "";
 
   const navigation = useNavigation();
 
@@ -93,23 +94,26 @@ const Form = ({
       quantity,
     };
     const key = computeProductKey(newItem);
+    console.log("NewItem: " + key);
     try {
       const storedItems = await getStoredItems();
       const val = storedItems[key];
       if (!val || isEditing) {
         console.log("Value: " + val);
         storedItems[key] = newItem;
-        /*await AsyncStorage.setItem("@storedItems", JSON.stringify(storedItems));
+        await AsyncStorage.setItem("@storedItems", JSON.stringify(storedItems));
         console.log("fatto asyncstorage");
         setItems(convertObjToArray(storedItems));
-        console.log("fatto setItems del context");*/
-        saveData({storedItems, setItems});
+        console.log("fatto setItems del context");
+        //saveData({storedItems, setItems});
 
-        if (originalExpDate != expDate) {
+        if (isEditing) {
           const item = newItem;
           item.expDate = originalExpDate.toISOString();
-          const key = computeProductKey(item);
-          RemoveFood({ key, setItems });
+          item.productName = originalName;
+          const key2 = computeProductKey(item);
+          console.log("OldItem: " + key2);
+          RemoveFood({ key: key2, setItems: setItems });
         }
 
         Alert.alert("Insert", "Product inserted succesfully", [{ text: "OK" }]);

@@ -142,15 +142,12 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<"TabOne"
       {items.length === 0 && 
         <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
           <Image
-            source={
-              colorScheme === "dark" ? require("../assets/images/dish-white.png") :
-              require("../assets/images/dish.png")
-            }
+            source={require("../assets/images/dish.png")}
             style={styles.image}
           />
           <Text style={{
             color: Colors[colorScheme].text,
-            opacity: 0.2,
+            opacity: 0.5,
             }}>
             No ingredient inserted yet. Add one below.
           </Text>
@@ -201,7 +198,7 @@ const styles = StyleSheet.create({
     right: 20,
   },
   image: {
-    opacity: 0.2,
+    opacity: 0.5,
     maxHeight: "30%",
     maxWidth: "50%",
     resizeMode: "center",

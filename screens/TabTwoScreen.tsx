@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FlatList, RefreshControl, StyleSheet } from "react-native";
+import { FlatList, RefreshControl, StyleSheet, Image } from "react-native";
 import { SpoonacularAPI } from "../apiCalls";
 
 import EditScreenInfo from "../components/EditScreenInfo";
@@ -10,6 +10,7 @@ import { ComplexSearchResultsEntity } from "../helper_data_types";
 import useColorScheme from "../hooks/useColorScheme";
 import { RootTabScreenProps } from "../types";
 import Colors from "../constants/Colors";
+import { daysBetweenTwoDates, removeTimeFromDate } from "../helper_functions";
 
 export default function TabTwoScreen({ navigation }: RootTabScreenProps<"TabTwo">) {
   const [refreshing, setRefreshing] = React.useState(false);
@@ -26,9 +27,14 @@ export default function TabTwoScreen({ navigation }: RootTabScreenProps<"TabTwo"
 
   const recipeApiCall = async () => {
     try {
-      const recipesData = await RecipeApi.searchRecipesGivenIngredientsIncludeDetails(
-        items.map((x) => x.productNameEng)
-      );
+      let ingredients = items.filter((value) => daysBetweenTwoDates(removeTimeFromDate(new Date()), value.expDate) <= 5).map((x) => x.productNameEng);
+
+      if(ingredients.length > 0){
+        ingredients = items.map((x) => x.productNameEng);
+      }
+
+      const recipesData = await RecipeApi.searchRecipesGivenIngredientsIncludeDetails(ingredients);
+
       setRecipes(recipesData);
     } catch (e) {
       console.log(e);
@@ -65,12 +71,21 @@ export default function TabTwoScreen({ navigation }: RootTabScreenProps<"TabTwo"
   return (
     <View style={styles.container}>
       {firstLoading && <Text>Loading...</Text>}
-      <FlatList
-        data={recipes}
-        renderItem={renderRecipeFun}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
-        showsVerticalScrollIndicator={false}
-      />
+      
+      {items.length == 0 && 
+        <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+          <Image source={require("../assets/images/recipe.png")} style={styles.image}/>
+          <Text style={styles.initialText}>Add an ingredient to start seeing some recipes</Text>
+        </View>
+      }
+      {items.length > 0 &&
+        <FlatList
+          data={recipes}
+          renderItem={renderRecipeFun}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
+          showsVerticalScrollIndicator={false}
+        />
+      }
     </View>
   );
 }
@@ -93,5 +108,14 @@ const themedStyle = () => {
       height: 1,
       width: "80%",
     },
+    image: {
+      opacity: 0.5,
+      resizeMode: "center",
+      maxHeight: "30%",
+    },
+    initialText: {
+      color: Colors[colorScheme].text,
+      opacity: 0.5
+    }
   });
 }
