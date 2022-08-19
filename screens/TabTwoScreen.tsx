@@ -29,7 +29,7 @@ export default function TabTwoScreen({ navigation }: RootTabScreenProps<"TabTwo"
     try {
       let ingredients = items.filter((value) => daysBetweenTwoDates(removeTimeFromDate(new Date()), value.expDate) <= 5).map((x) => x.productNameEng);
 
-      if(ingredients.length > 0){
+      if(ingredients.length == 0){
         ingredients = items.map((x) => x.productNameEng);
       }
 
@@ -47,7 +47,7 @@ export default function TabTwoScreen({ navigation }: RootTabScreenProps<"TabTwo"
       await recipeApiCall();
       setFirstLoading(false);
     })();
-  }, []);
+  }, [items]);
 
   //console.log(recipes); //log all recipes
 
