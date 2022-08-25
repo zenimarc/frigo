@@ -34,7 +34,7 @@ export const getProductDataFromApi = async (code: string): Promise<ProductDataRe
       };
     } else {
       const pName = product.product.product_name || product.product.product_name_it;
-      const pNameEng = product.product.product_name_en;
+      const pNameEng = product.product.generic_name_en;
       const imageUrl = product.product.image_url;
       const imageUrlSmall = product.product.image_url_small;
       //console.log(product);
