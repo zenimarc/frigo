@@ -520,6 +520,7 @@ const themedStyles = () => {
       flex: 1,
       minHeight: 200,
       marginTop: 20,
+      marginBottom: 5,
       backgroundColor: colorScheme == "dark" ? "#111" : "#fec260",
     },
     imageOverlay: {

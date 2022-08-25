@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FlatList, RefreshControl, StyleSheet, Image } from "react-native";
+import { FlatList, RefreshControl, StyleSheet, Image, ActivityIndicator } from "react-native";
 import { SpoonacularAPI } from "../apiCalls";
 
 import EditScreenInfo from "../components/EditScreenInfo";
@@ -19,6 +19,7 @@ export default function TabTwoScreen({ navigation }: RootTabScreenProps<"TabTwo"
   const [recipes, setRecipes] = useState<ComplexSearchResultsEntity[]>([]);
   const RecipeApi = SpoonacularAPI();
   const styles = themedStyle();
+  const colorScheme = useColorScheme();
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -70,20 +71,37 @@ export default function TabTwoScreen({ navigation }: RootTabScreenProps<"TabTwo"
 
   return (
     <View style={styles.container}>
-      {firstLoading && <Text>Loading...</Text>}
+      {firstLoading && 
+        <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+          <ActivityIndicator 
+            animating={firstLoading} 
+            color= {Colors[colorScheme].buttonTint}
+            size="large"
+            />
+          <Text style={{
+            color: Colors[colorScheme].buttonTint,
+            fontSize: 20,
+            fontWeight: "bold",
+            fontFamily: "lato-regular"
+            }}>
+              Loading
+          </Text>
+        </View>
+      }
       
-      {items.length == 0 && 
+      {items.length == 0 && !firstLoading &&
         <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
           <Image source={require("../assets/images/recipe.png")} style={styles.image}/>
           <Text style={styles.initialText}>Add an ingredient to start seeing some recipes</Text>
         </View>
       }
-      {items.length > 0 &&
+      {items.length > 0 && !firstLoading &&
         <FlatList
           data={recipes}
           renderItem={renderRecipeFun}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
           showsVerticalScrollIndicator={false}
+          keyExtractor={(item, index) => String(index)}
         />
       }
     </View>

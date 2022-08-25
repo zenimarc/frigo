@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Alert } from "react-native";
+import { ActivityIndicator, Alert, View, Text } from "react-native";
 import ScannerBarCode from "../components/ScannerBarCode";
 import { RootTabScreenProps } from "../types";
 import Form from "../components/ProductForm";
 import { getProductDataFromApi } from "../apiCalls";
 import { CameraCapturedPicture } from "expo-camera";
 import { getStoredItems, removeTimeFromDate } from "../helper_functions";
+import Colors from "../constants/Colors";
+import useColorScheme from "../hooks/useColorScheme";
 
 export default function ModalScreen({ route, navigation }: RootTabScreenProps<"TabOne">) {
   const [showScanner, setShowScanner] = useState(true);
@@ -15,6 +17,8 @@ export default function ModalScreen({ route, navigation }: RootTabScreenProps<"T
   const [productBarCode, setProductBarCode] = useState<string | undefined>();
   const [productExpDate, setProductExpDate] = useState<Date>(removeTimeFromDate(new Date()));
   const [productQuantity, setProductQuantity] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const colorScheme = useColorScheme();
 
   const params = useMemo(
     () => route.params || { photo: undefined, key: undefined, scanner: false, editing: false },
@@ -63,16 +67,36 @@ export default function ModalScreen({ route, navigation }: RootTabScreenProps<"T
 
   return (
     <>
-      {showScanner && (
+      {showScanner && !isLoading && (
         <ScannerBarCode
           onSuccess={async (code: string) => {
             setShowScanner(false);
-            await getProduct(code);
+            setIsLoading(true);
+            await getProduct(code).then(
+              () => setIsLoading(false)
+            );
           }}
           onFail={() => setShowScanner(false)}
         />
       )}
-      {!showScanner && (
+      {!showScanner && isLoading && 
+        <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+          <ActivityIndicator 
+            animating={isLoading} 
+            color= {Colors[colorScheme].buttonTint}
+            size="large"
+            />
+          <Text style={{
+            color: Colors[colorScheme].buttonTint,
+            fontSize: 20,
+            fontWeight: "bold",
+            fontFamily: "lato-regular"
+            }}>
+              Loading
+          </Text>
+        </View>
+      }
+      {!showScanner && !isLoading && (
         <Form
           productBarCode={productBarCode}
           productName={productName}

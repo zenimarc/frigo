@@ -78,7 +78,7 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
               data={recipeCuisines.concat(recipeDishTypes).concat(recipeDiets ? recipeDiets : [])}
               renderItem={({ item }) => {
                 return (
-                  <View style={styles.tagItems}>
+                  <View style={styles.tagItems} key={recipeTitle + item}>
                     <Text style={!landscapeMode ? styles.tagText : styles.tagTextTablet}>
                       {item}
                     </Text>
@@ -87,6 +87,7 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
               }}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
+              keyExtractor={(item, index) => String(recipeTitle? recipeTitle + index: index)}
             />
           </View>
           <Text style={!landscapeMode ? styles.subTitle : styles.subtitleTablet}>Ingredients</Text>
@@ -95,7 +96,7 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
               data={recipeIngredients}
               renderItem={({ item }) => {
                 return (
-                  <View style={styles.tagItems}>
+                  <View style={styles.tagItems} key={recipeTitle + item.name}>
                     <Text style={!landscapeMode ? styles.tagText : styles.tagTextTablet}>
                       {item.name}
                     </Text>
@@ -107,6 +108,7 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
               }}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
+              keyExtractor={(item, index) => String(recipeTitle? recipeTitle + index: index)}
             />
           </View>
           <Text
