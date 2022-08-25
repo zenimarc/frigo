@@ -57,7 +57,7 @@ export interface ComplexSearchResultsEntity {
   license?: string | null;
   sourceName?: string | null;
   pricePerServing: number;
-  extendedIngredients?: ExtendedIngredientsEntity[] | null;
+  extendedIngredients: ExtendedIngredientsEntity[];
   id: number;
   title: string;
   readyInMinutes: number;
@@ -68,15 +68,15 @@ export interface ComplexSearchResultsEntity {
   summary: string;
   cuisines?: string[];
   dishTypes?: string[];
-  diets?: (string)[] | null;
+  diets?: string[] | null;
   occasions?: (string | null)[] | null;
   analyzedInstructions?: (AnalyzedInstructionsEntity | null)[] | null;
   spoonacularSourceUrl: string;
   usedIngredientCount: number;
   missedIngredientCount: number;
   likes: number;
-  missedIngredients?: MissedIngredientsEntityOrUsedIngredientsEntity[] | null;
-  usedIngredients?: MissedIngredientsEntityOrUsedIngredientsEntity[] | null;
+  missedIngredients: MissedIngredientsEntityOrUsedIngredientsEntity[];
+  usedIngredients: MissedIngredientsEntityOrUsedIngredientsEntity[];
   unusedIngredients?:
     | UnusedIngredientsEntityOrMissedIngredientsEntityOrUsedIngredientsEntity[]
     | null;

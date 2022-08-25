@@ -6,10 +6,20 @@ import { StyleSheet, Image, Alert, FlatList, ScrollView } from "react-native";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import useLandscapeMode from "../hooks/useLandscapeMode";
+import {
+  ExtendedIngredientsEntity,
+  MissedIngredientsEntityOrUsedIngredientsEntity,
+} from "../helper_data_types";
 
 export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"recipeModal">) {
   const [recipeId, setRecipeId] = useState<string>(route.params.recipeData.id.toString());
-  const [recipeIngredients, setRecipeIngredients] = useState<any>();
+  const [recipeIngredients, setRecipeIngredients] = useState<ExtendedIngredientsEntity[]>();
+  const [usedIngredients, setUsedIngredients] = useState<
+    MissedIngredientsEntityOrUsedIngredientsEntity[]
+  >([]);
+  const [missedIngredients, setMissedIngredients] = useState<
+    MissedIngredientsEntityOrUsedIngredientsEntity[]
+  >([]);
   const [recipeTitle, setRecipeTitle] = useState<string>();
   const [recipeImage, setRecipeImage] = useState<string>();
   const [recipeCuisines, setRecipeCuisines] = useState<string[]>([]);
@@ -32,6 +42,8 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
       const resp = route.params.recipeData;
       const {
         extendedIngredients,
+        usedIngredients,
+        missedIngredients,
         title,
         image,
         cuisines,
@@ -42,6 +54,9 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
         readyInMinutes,
         servings,
       } = resp;
+      setRecipeIngredients(extendedIngredients);
+      setUsedIngredients(usedIngredients);
+      setMissedIngredients(missedIngredients);
       setRecipeIngredients(extendedIngredients);
       setRecipeTitle(title);
       setRecipeImage(image);
@@ -64,7 +79,10 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
   return (
     <View style={!landscapeMode ? styles.container : styles.containerTablet}>
       <View style={!landscapeMode ? styles.imageContainer : styles.imageContainerTablet}>
-        <Image source={{ uri: recipeImage }} style={!landscapeMode ? styles.image : styles.imageTablet} />
+        <Image
+          source={{ uri: recipeImage }}
+          style={!landscapeMode ? styles.image : styles.imageTablet}
+        />
       </View>
       <View style={styles.recipe}>
         <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
@@ -87,7 +105,7 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
               }}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
-              keyExtractor={(item, index) => String(recipeTitle? recipeTitle + index: index)}
+              keyExtractor={(item, index) => String(recipeTitle ? recipeTitle + index : index)}
             />
           </View>
           <Text style={!landscapeMode ? styles.subTitle : styles.subtitleTablet}>Ingredients</Text>
@@ -95,8 +113,12 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
             <FlatList
               data={recipeIngredients}
               renderItem={({ item }) => {
+                const isAvailable = usedIngredients.some((ingredient) => ingredient.id === item.id);
+
                 return (
-                  <View style={styles.tagItems} key={recipeTitle + item.name}>
+                  <View
+                    style={[styles.tagItems, isAvailable && { backgroundColor: "green" }]}
+                    key={recipeTitle + item.name}>
                     <Text style={!landscapeMode ? styles.tagText : styles.tagTextTablet}>
                       {item.name}
                     </Text>
@@ -108,7 +130,7 @@ export function RecipeModalScreen({ navigation, route }: RootStackScreenProps<"r
               }}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
-              keyExtractor={(item, index) => String(recipeTitle? recipeTitle + index: index)}
+              keyExtractor={(item, index) => String(recipeTitle ? recipeTitle + index : index)}
             />
           </View>
           <Text

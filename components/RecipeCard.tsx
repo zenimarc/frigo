@@ -82,7 +82,7 @@ const themedStyles = () => {
       fontSize: 16,
       fontWeight: "bold",
       fontFamily: "lato-regular",
-      color: "#fff"
+      color: "#fff",
     },
     contentBody: {
       flex: 1,

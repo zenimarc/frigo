@@ -2,6 +2,7 @@ import { Platform } from "react-native";
 import mockedSearchByIngredientsResp from "./mocked-responses/searchByIngredients.json";
 import mockedGetRecipeInfosResp from "./mocked-responses/getRecipeInformations.json";
 import mockedSearchByIngredientsIncludeDetailsResp from "./mocked-responses/complexSearch.json";
+import { ComplexSearchResultsEntity } from "./helper_data_types";
 
 type ProductDataResp = {
   status: 0 | 1;
@@ -74,7 +75,9 @@ export const SpoonacularAPI = () => {
   // it might be a good idea to use it
   const complexRecipeSearch = async (ingredients: string[]) => {};
 
-  const searchRecipesGivenIngredientsIncludeDetails = async (ingredients: string[]) => {
+  const searchRecipesGivenIngredientsIncludeDetails = async (
+    ingredients: string[]
+  ): Promise<ComplexSearchResultsEntity[]> => {
     const _apiMethod = "/recipes/complexSearch?";
     const params = {
       includeIngredients: ingredients.join(","),
@@ -92,7 +95,7 @@ export const SpoonacularAPI = () => {
     const queryString = new URLSearchParams(params).toString();
     const url = _baseUrl + _apiMethod + queryString;
     console.log(url);
-    return (await _doGetRequest(url)).results;
+    return (await _doGetRequest(url)).results || [];
     //await new Promise((resolve) => setTimeout(resolve, 2000));
     //return mockedSearchByIngredientsIncludeDetailsResp.results;
   };
