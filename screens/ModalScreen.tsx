@@ -72,30 +72,29 @@ export default function ModalScreen({ route, navigation }: RootTabScreenProps<"T
           onSuccess={async (code: string) => {
             setShowScanner(false);
             setIsLoading(true);
-            await getProduct(code).then(
-              () => setIsLoading(false)
-            );
+            await getProduct(code).then(() => setIsLoading(false));
           }}
           onFail={() => setShowScanner(false)}
         />
       )}
-      {!showScanner && isLoading && 
-        <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-          <ActivityIndicator 
-            animating={isLoading} 
-            color= {Colors[colorScheme].buttonTint}
+      {!showScanner && isLoading && (
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          <ActivityIndicator
+            animating={isLoading}
+            color={Colors[colorScheme].buttonTint}
             size="large"
-            />
-          <Text style={{
-            color: Colors[colorScheme].buttonTint,
-            fontSize: 20,
-            fontWeight: "bold",
-            fontFamily: "lato-regular"
+          />
+          <Text
+            style={{
+              color: Colors[colorScheme].buttonTint,
+              fontSize: 20,
+              fontWeight: "bold",
+              fontFamily: "lato-regular",
             }}>
-              Loading
+            Loading
           </Text>
         </View>
-      }
+      )}
       {!showScanner && !isLoading && (
         <Form
           productBarCode={productBarCode}

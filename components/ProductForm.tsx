@@ -113,7 +113,9 @@ const Form = ({
           item.productName = originalName;
           const key2 = computeProductKey(item);
           console.log("OldItem: " + key2);
-          RemoveFood({ key: key2, setItems: setItems });
+          if (key2 !== key) {
+            RemoveFood({ key: key2, setItems: setItems });
+          }
         }
 
         Alert.alert("Insert", "Product inserted succesfully", [{ text: "OK" }]);
@@ -438,7 +440,7 @@ const themedStyles = () => {
       borderRadius: 20,
     },
     formWrapper: {
-      flex: 1 
+      flex: 1,
     },
     quantityAndExpWrapper: {
       flexDirection: "row",
@@ -498,7 +500,7 @@ const themedStyles = () => {
       flex: 1,
       justifyContent: "flex-end",
       marginBottom: 10,
-      marginHorizontal: 10
+      marginHorizontal: 10,
     },
     submitButton: {
       height: 50,

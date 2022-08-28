@@ -11,7 +11,7 @@ import {
 } from "../helper_functions";
 import { RootTabScreenProps } from "../types";
 import { ProductDataToBeStored } from "../helper_data_types";
-import Colors from "../constants/Colors"
+import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 
 const getRenderItemFuncGivenLayoutColumns = ({ columns }: { columns: number }) => {
@@ -77,13 +77,13 @@ const getRenderFunctionRows = (setItems: Function, navigate: Function) => {
                   const key = computeProductKey(item);
                   navigate("addFoodModal", {
                     photo: undefined,
-                    key: key,
+                    key,
                     scanner: false,
                     editing: true,
                   });
                 },
               },
-            ], 
+            ],
             {
               cancelable: true,
             }
@@ -119,40 +119,38 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<"TabOne"
   const layoutColumns = 2;
   return (
     <View lightColor="white" darkColor="black" style={styles.container}>
-      {items.length > 0 &&
-      <FlatList
-        data={items.sort((a, b) => a.expDate.getTime() - b.expDate.getTime())}
-        renderItem={
-          getRenderFunctionRows(
-            setItems,
-            navigation.navigate
-          ) /*|| getRenderItemFuncGivenLayoutColumns({ columns: layoutColumns })*/
-        }
-        keyExtractor={(item) =>
-          item.productBarCode
-            ? String(item.productBarCode) + item.expDate
-            : String(item.productName + item.expDate)
-        }
-        numColumns={1}
-        horizontal={false}
-        showsVerticalScrollIndicator={false}
-      />
-      }
+      {items.length > 0 && (
+        <FlatList
+          data={items.sort((a, b) => a.expDate.getTime() - b.expDate.getTime())}
+          renderItem={
+            getRenderFunctionRows(
+              setItems,
+              navigation.navigate
+            ) /*|| getRenderItemFuncGivenLayoutColumns({ columns: layoutColumns })*/
+          }
+          keyExtractor={(item) =>
+            item.productBarCode
+              ? String(item.productBarCode) + item.expDate
+              : String(item.productName + item.expDate)
+          }
+          numColumns={1}
+          horizontal={false}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
 
-      {items.length === 0 && 
-        <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-          <Image
-            source={require("../assets/images/dish.png")}
-            style={styles.image}
-          />
-          <Text style={{
-            color: Colors[colorScheme].text,
-            opacity: 0.5,
+      {items.length === 0 && (
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          <Image source={require("../assets/images/dish.png")} style={styles.image} />
+          <Text
+            style={{
+              color: Colors[colorScheme].text,
+              opacity: 0.5,
             }}>
             No ingredient inserted yet. Add one below.
           </Text>
-        </View>  
-      }
+        </View>
+      )}
       <AddButton
         size={80}
         style={styles.buttonAdd}
