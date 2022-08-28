@@ -94,7 +94,7 @@ describe("helper functions", () => {
     const addedDate = new Date().toISOString();
     const quantity = 1;
 
-    const items : ProductDataToBeStored[] = [];
+    let items : ProductDataToBeStored[] = [];
     const setItems = (v: ProductDataToBeStored[]) => {items = v};
 
     const newItem: StoredProductData = {
