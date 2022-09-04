@@ -59,6 +59,7 @@ export const getProductDataFromApi = async (code: string): Promise<ProductDataRe
 
 export const SpoonacularAPI = () => {
   const _baseUrl = "https://api.spoonacular.com";
+  // just for prototyping we put api key here, later we'll put it in the backend
   const _apiKey = "817efa11d7b94cdb9fa258c57ca90ba9";
 
   const _doGetRequest = async (url: string) => {
